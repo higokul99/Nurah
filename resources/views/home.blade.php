@@ -432,7 +432,7 @@
     </div>
 
     <!-- Blog -->
-    <section class="section">
+    <!-- <section class="section">
         <div class="section-header">
             <h2 class="section-title">From the <em>Journal</em></h2>
         </div>
@@ -464,7 +464,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- Features -->
     <div class="features">

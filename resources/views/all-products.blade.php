@@ -735,12 +735,12 @@
     <!-- Filter Bar -->
     <div class="filter-bar">
         <button class="filter-btn" onclick="openFilters()">
-            <span>🎚️</span>
+            <span><i class="fas fa-sliders-h"></i></span>
             <span>Filter</span>
             <span class="filter-count" id="filterCount" style="display: none;">0</span>
         </button>
         <button class="sort-btn" onclick="openSort()">
-            <span>⇅</span>
+            <span><i class="fas fa-sort"></i></span>
             <span>Sort</span>
         </button>
     </div>
@@ -760,9 +760,10 @@
     <div class="products-container">
         <div class="product-grid" id="productGrid">
             <!-- Product 1 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 1 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="The Legend" data-price="929" data-date="1" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/the_legend_b941e444-0b65-48f4-8f1c-85f520434ef9.webp?v=1752146445&width=1080" alt="The Legend" class="product-image">
                 </div>
                 <div class="product-info">
@@ -773,9 +774,10 @@
             </div>
 
             <!-- Product 2 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 2 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Inglorious" data-price="929" data-date="2" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" alt="Inglorious" class="product-image">
                 </div>
                 <div class="product-info">
@@ -786,9 +788,9 @@
             </div>
 
             <!-- Product 3 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Guilt for Men" data-price="1129" data-date="3" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/guilt_for_men_db653709-2ed6-419e-b778-2c42f97a9525.webp?v=1752146489&width=1080" alt="Guilt for Men" class="product-image">
                 </div>
                 <div class="product-info">
@@ -799,9 +801,10 @@
             </div>
 
             <!-- Product 4 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 4 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="The Valentine" data-price="1129" data-date="4" data-stock="1" data-gender="unisex">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/the_valentine_93fbeb79-eb84-4246-af91-508494f5bd13.jpg?v=1752146452&width=2000" alt="The Valentine" class="product-image">
                 </div>
                 <div class="product-info">
@@ -812,9 +815,10 @@
             </div>
 
             <!-- Product 5 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 5 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Aqua Game" data-price="929" data-date="5" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/aqua_game_5e7d7c66-a6ef-4b99-8304-ddcb9e7b9f31.webp?v=1752146361&width=1080" alt="Aqua Game" class="product-image">
                 </div>
                 <div class="product-info">
@@ -825,10 +829,11 @@
             </div>
 
             <!-- Product 6 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 6 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Ibiza" data-price="1279" data-date="6" data-stock="1" data-gender="unisex">
                 <div class="product-image-wrapper">
                     <span class="product-badge">Popular</span>
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/ibiza.webp?v=1752146335&width=1080" alt="Ibiza" class="product-image">
                 </div>
                 <div class="product-info">
@@ -839,9 +844,10 @@
             </div>
 
             <!-- Product 7 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 7 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Aqua Marine" data-price="929" data-date="7" data-stock="1" data-gender="unisex">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/aqua_marine_17199988-9404-4ac0-87df-cb50ec619aa8.webp?v=1752146497&width=1080" alt="Aqua Marine" class="product-image">
                 </div>
                 <div class="product-info">
@@ -852,9 +858,10 @@
             </div>
 
             <!-- Product 8 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 8 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Blue" data-price="929" data-date="8" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/Blue_61fa9b7f-ee12-4b11-86e1-5c2cd73efaa0.webp?v=1752146472&width=4096" alt="Blue" class="product-image">
                 </div>
                 <div class="product-info">
@@ -865,10 +872,11 @@
             </div>
 
             <!-- Product 9 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 9 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Ocean Bliss" data-price="929" data-date="9" data-stock="1" data-gender="unisex">
                 <div class="product-image-wrapper">
                     <span class="product-badge">New</span>
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/Frame_1.webp?v=1764337765&width=4320" alt="Ocean Bliss" class="product-image">
                 </div>
                 <div class="product-info">
@@ -879,9 +887,10 @@
             </div>
 
             <!-- Product 10 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 10 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Afterparty" data-price="1129" data-date="10" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/afterparty.webp?v=1752146181&width=1080" alt="Afterparty" class="product-image">
                 </div>
                 <div class="product-info">
@@ -892,9 +901,10 @@
             </div>
 
             <!-- Product 11 -->
-            <div onclick="window.location.href='/product'" class="product-card">
+            <!-- Product 11 -->
+            <div onclick="window.location.href='/product'" class="product-card" data-name="Nightfall" data-price="929" data-date="11" data-stock="1" data-gender="him">
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)">♡</button>
+                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
                     <img src="https://myop.in/cdn/shop/files/nightfall.webp?v=1752146242&width=1080" alt="Nightfall" class="product-image">
                 </div>
                 <div class="product-info">
@@ -1026,23 +1036,23 @@
         </div>
         <div class="sheet-content">
             <div class="sort-options">
-                <div class="sort-option active" onclick="selectSort(this)">
+                <div class="sort-option active" onclick="selectSort(this, 'best-selling')">
                     <span>Best Selling</span>
-                    <span class="sort-check">✓</span>
+                    <span class="sort-check"><i class="fas fa-check"></i></span>
                 </div>
-                <div class="sort-option" onclick="selectSort(this)">
+                <div class="sort-option" onclick="selectSort(this, 'featured')">
                     <span>Featured</span>
                 </div>
-                <div class="sort-option" onclick="selectSort(this)">
+                <div class="sort-option" onclick="selectSort(this, 'price-asc')">
                     <span>Price: Low to High</span>
                 </div>
-                <div class="sort-option" onclick="selectSort(this)">
+                <div class="sort-option" onclick="selectSort(this, 'price-desc')">
                     <span>Price: High to Low</span>
                 </div>
-                <div class="sort-option" onclick="selectSort(this)">
+                <div class="sort-option" onclick="selectSort(this, 'alpha-asc')">
                     <span>Alphabetically: A-Z</span>
                 </div>
-                <div class="sort-option" onclick="selectSort(this)">
+                <div class="sort-option" onclick="selectSort(this, 'alpha-desc')">
                     <span>Alphabetically: Z-A</span>
                 </div>
                 <div class="sort-option" onclick="selectSort(this)">
@@ -1115,7 +1125,16 @@
         event.preventDefault();
         event.stopPropagation();
         btn.classList.toggle('active');
-        btn.textContent = btn.classList.contains('active') ? '♥' : '♡';
+        const icon = btn.querySelector('i');
+        if (btn.classList.contains('active')) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            icon.style.color = '#ff3b30';
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            icon.style.color = '';
+        }
         
         // Haptic feedback
         if (navigator.vibrate) {
@@ -1160,13 +1179,57 @@
         document.querySelectorAll('.filter-option input').forEach(input => {
             input.checked = false;
         });
+        document.querySelectorAll('.price-input').forEach((input, index) => {
+            input.value = index === 0 ? '' : '';
+        });
         updateFilterCount();
+        // Reset to show all
+        document.querySelectorAll('.product-card').forEach(card => card.style.display = '');
+        closeSheets();
     }
 
     function applyFilters() {
+        const minPrice = parseInt(document.querySelector('.price-input[placeholder="Min ₹"]').value) || 0;
+        const maxPrice = parseInt(document.querySelector('.price-input[placeholder="Max ₹"]').value) || 100000;
+        
+        // Get selected checkboxes
+        const stockFilters = [];
+        const genderFilters = [];
+        
+        // Note: This relies on specific structure. Ideally we'd give inputs IDs or specific data attrs.
+        // Assuming order: Stock (In, Out), Gender (Him, Her, Unisex)
+        const checkboxes = document.querySelectorAll('.filter-option input');
+        
+        // Availability
+        if(checkboxes[0].checked) stockFilters.push('1'); // In Stock
+        if(checkboxes[1].checked) stockFilters.push('0'); // Out of Stock
+        
+        // Gender
+        if(checkboxes[2].checked) genderFilters.push('him');
+        if(checkboxes[3].checked) genderFilters.push('her');
+        if(checkboxes[4].checked) genderFilters.push('unisex');
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            const price = parseInt(card.dataset.price);
+            const stock = card.dataset.stock;
+            const gender = card.dataset.gender;
+            
+            let visible = true;
+            
+            // Price Check
+            if (price < minPrice || price > maxPrice) visible = false;
+            
+            // Stock Check (if any selected)
+            if (stockFilters.length > 0 && !stockFilters.includes(stock)) visible = false;
+            
+            // Gender Check (if any selected)
+            if (genderFilters.length > 0 && !genderFilters.includes(gender)) visible = false;
+            
+            card.style.display = visible ? '' : 'none';
+        });
+
         updateFilterCount();
         closeSheets();
-        // Filter logic here
     }
 
     function updateFilterCount() {
@@ -1181,7 +1244,7 @@
     }
 
     // Sort Selection
-    function selectSort(option) {
+    function selectSort(option, type) {
         document.querySelectorAll('.sort-option').forEach(opt => {
             opt.classList.remove('active');
             opt.querySelector('.sort-check')?.remove();
@@ -1190,10 +1253,35 @@
         option.classList.add('active');
         const check = document.createElement('span');
         check.className = 'sort-check';
-        check.textContent = '✓';
+        check.innerHTML = '<i class="fas fa-check"></i>';
         option.appendChild(check);
         
+        sortGrid(type);
         setTimeout(() => closeSheets(), 300);
+    }
+    
+    function sortGrid(type) {
+        const grid = document.getElementById('productGrid');
+        const cards = Array.from(grid.children);
+        
+        cards.sort((a, b) => {
+            switch(type) {
+                case 'price-asc':
+                    return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+                case 'price-desc':
+                    return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+                case 'alpha-asc':
+                    return a.dataset.name.localeCompare(b.dataset.name);
+                case 'alpha-desc':
+                    return b.dataset.name.localeCompare(a.dataset.name);
+                case 'best-selling':
+                default:
+                    // Use date/index as proxy for default/best-selling for now
+                    return parseInt(a.dataset.date) - parseInt(b.dataset.date);
+            }
+        });
+        
+        cards.forEach(card => grid.appendChild(card));
     }
 
     // Checkbox Toggle
@@ -1201,15 +1289,30 @@
         const checkbox = option.querySelector('input');
         const visual = option.querySelector('.filter-checkbox');
         
-        option.addEventListener('click', () => {
+        option.addEventListener('click', (e) => {
+            if (e.target.tagName === 'INPUT') return; // let default handle it
+            e.preventDefault();
             checkbox.checked = !checkbox.checked;
-            if (checkbox.checked) {
-                visual.textContent = '✓';
-            } else {
-                visual.textContent = '';
-            }
+            updateCheckboxVisual(checkbox, visual);
         });
+        
+        // Initial state
+        updateCheckboxVisual(checkbox, visual);
     });
+    
+    function updateCheckboxVisual(checkbox, visual) {
+        if (checkbox.checked) {
+            visual.innerHTML = '<i class="fas fa-check" style="font-size:10px;"></i>';
+            visual.style.background = 'var(--black)';
+            visual.style.borderColor = 'var(--black)';
+            visual.style.color = 'var(--white)';
+        } else {
+            visual.innerHTML = '';
+            visual.style.background = '';
+            visual.style.borderColor = '';
+            visual.style.color = '';
+        }
+    }
 
     // Prevent body scroll when sheet is open
     const sheets = document.querySelectorAll('.bottom-sheet');
