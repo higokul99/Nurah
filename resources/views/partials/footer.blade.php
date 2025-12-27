@@ -29,22 +29,21 @@
         <div class="footer-col">
             <h3 class="footer-heading">Support</h3>
             <ul class="footer-links">
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="{{ route('about') }}">About Us</a></li>
+                <li><a href="{{ route('contact') }}">Contact Us</a></li>
                 <li><a href="#">Store Locator</a></li>
                 <li><a href="#">Shipping Policy</a></li>
                 <li><a href="#">Returns & Exchanges</a></li>
             </ul>
         </div>
 
-        <!-- Newsletter Column -->
+        <!-- Chat Support Column -->
         <div class="footer-col">
-            <h3 class="footer-heading">Newsletter</h3>
-            <p class="newsletter-text">Subscribe to receive updates, access to exclusive deals, and more.</p>
-            <form class="footer-form">
-                <input type="email" placeholder="Enter your email" class="footer-input">
-                <button type="submit" class="footer-btn">Join</button>
-            </form>
+            <h3 class="footer-heading">Need Assistance?</h3>
+            <p class="newsletter-text">Have questions concerning our products? Chat with our support team for instant assistance.</p>
+            <!-- <a href="https://wa.me/917306900600" target="_blank" class="footer-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 12px 25px; margin-top: 10px; background-color: #25D366; color: white; border: none;">
+                <i class="fab fa-whatsapp" style="font-size: 20px;"></i> WhatsApp
+            </a> -->
         </div>
     </div>
 

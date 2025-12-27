@@ -250,11 +250,11 @@
     <!-- Store Section -->
     <div class="store-section" id="stores">
         <div class="store-count">60</div>
-        <h2 class="store-title">Stores Across India</h2>
+        <h2 class="store-title">Stores Near You</h2>
         <p class="store-subtitle">Find a store near you</p>
         <a href="/stores" class="store-btn">Locate Stores</a>
         <p class="store-description">
-            Make Your Own Perfume (MYOP) is India's pioneering perfume bar offering top-notch, value for money fragrances with exceptional expertise in the art & science of perfumery.
+            Nurah Perfumes is India's pioneering perfume brand offering top-notch, value for money fragrances with exceptional expertise in the art & science of perfumery.
         </p>
     </div>
 
@@ -382,27 +382,27 @@
         </div>
         <div class="testimonial-slider">
             <div class="testimonial-card">
-                <p class="testimonial-text">Their perfumes are really good as well as their service. Hats off to the team, they are very knowledgeable and friendly. <em>It was a great experience!</em></p>
-                <p class="testimonial-author">— Dilsha Amina</p>
-                <p class="testimonial-location">MYOP Store | Hilite Mall Calicut</p>
+                <p class="testimonial-text">The fragrance is absolutely mesmerizing and stays with you all day. Truly a <em>premium experience</em> that stands out.</p>
+                <p class="testimonial-author">— Ananya Iyer</p>
+                <p class="testimonial-location">Mumbai</p>
             </div>
 
             <div class="testimonial-card">
-                <p class="testimonial-text">Educated me with their <em>vast varieties of perfumes</em> and how they make them. Altogether, good perfume and great purchase.</p>
-                <p class="testimonial-author">— Shama Ahmed</p>
-                <p class="testimonial-location">MYOP Store | Fiza by Nexus Mangalore</p>
+                <p class="testimonial-text">I was looking for a unique gift, and Nurah was the perfect choice. The <em>packaging is as exquisite</em> as the scent itself.</p>
+                <p class="testimonial-author">— Rahul Menon</p>
+                <p class="testimonial-location">Kochi</p>
             </div>
 
             <div class="testimonial-card">
-                <p class="testimonial-text">The MYOP perfume really has a good fragrance and long lasting. <em>Trust me, perfume lasts long properly for 5-6 hrs.</em></p>
-                <p class="testimonial-author">— Swapnil Parab</p>
-                <p class="testimonial-location">MYOP Store | Viviana Mall Thane</p>
+                <p class="testimonial-text">Finally found a perfume that matches my personality. Bold, distinct, and <em>incredibly long-lasting</em>. Highly recommended!</p>
+                <p class="testimonial-author">— Priya Sharma</p>
+                <p class="testimonial-location">Bangalore</p>
             </div>
 
             <div class="testimonial-card">
-                <p class="testimonial-text">Got party flavor. <em>Nice smell for a good price.</em> will try their leather also.</p>
-                <p class="testimonial-author">— Marshal Jose</p>
-                <p class="testimonial-location">MYOP Store | Lulu Mall Kochi</p>
+                <p class="testimonial-text">The quality is comparable to top international luxury brands but at a <em>much better price point</em>. My new go-to for fragrances.</p>
+                <p class="testimonial-author">— Arjun Das</p>
+                <p class="testimonial-location">Chennai</p>
             </div>
         </div>
     </div>
@@ -425,8 +425,8 @@
         </div>
         <div>
             <h2 class="about-title"><em>Why We Do,</em> What We Do</h2>
-            <p class="about-text">Make Your Own Perfume, MYOP is India's first perfume bar known for <strong>high-quality, long-lasting</strong> fragrances with unparalleled expertise in the art and science of perfumery.</p>
-            <p class="about-text">MYOP perfumes, reformulated with <strong>50% fragrance oil concentration</strong> last longer in tropical weather conditions.</p>
+            <p class="about-text">Nurah Perfumes is India's first perfume brand known for <strong>high-quality, long-lasting</strong> fragrances with unparalleled expertise in the art and science of perfumery.</p>
+            <p class="about-text">Nurah perfumes, reformulated with <strong>50% fragrance oil concentration</strong> last longer in tropical weather conditions.</p>
             <a href="/about" class="about-btn">Learn More</a>
         </div>
     </div>
