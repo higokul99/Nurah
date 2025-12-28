@@ -57,3 +57,4 @@ Route::get('/admin/customers/{id}', function ($id) {
 
 Route::view('/admin/analytics', 'admin.analytics')->name('admin.analytics');
 Route::view('/admin/discounts', 'admin.discounts')->name('admin.discounts');
+Route::view('/admin/discounts/create', 'admin.discounts.create')->name('admin.discounts.create');

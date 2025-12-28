@@ -191,7 +191,13 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Collections</label>
-                        <input type="text" value="Best Sellers, New Arrivals" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                            <option value="">Select a collection</option>
+                            <option value="best_sellers" selected>Best Sellers</option>
+                            <option value="new_arrivals">New Arrivals</option>
+                            <option value="perfume">Perfumes</option>
+                            <option value="gift_sets">Gift Sets</option>
+                        </select>
                     </div>
                 </div>
             </div>
