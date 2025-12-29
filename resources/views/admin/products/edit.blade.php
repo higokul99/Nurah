@@ -142,6 +142,9 @@
                 }
             </script>
 
+
+
+
             <!-- Variants -->
             <div class="card bg-white rounded-lg border border-gray-200 shadow-sm p-4">
                 <h2 class="font-semibold text-gray-700 text-sm mb-4">Product Variants (Sizes)</h2>
@@ -316,6 +319,36 @@
                             <option value="her">For Her</option>
                             <option value="unisex">Unisex</option>
                         </select>
+                    </div>
+            </div>
+            </div>
+
+            <!-- Fragrance Profile (New Location) -->
+            <div class="card bg-white rounded-lg border border-gray-200 shadow-sm p-4">
+                <h2 class="font-semibold text-gray-700 text-sm mb-4">Fragrance Profile</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Olfactory Family</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                            <option value="">Select a family</option>
+                            <option value="floral">Floral</option>
+                            <option value="woody" selected>Woody</option>
+                            <option value="oriental">Oriental</option>
+                            <option value="fresh">Fresh</option>
+                            <option value="citrus">Citrus</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Top Notes</label>
+                        <input type="text" value="Saffron, Rose" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="e.g. Lemon, Bergamot">
+                    </div>
+                     <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Heart Notes</label>
+                        <input type="text" value="Amberwood" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="e.g. Rose, Jasmine">
+                    </div>
+                     <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Base Notes</label>
+                        <input type="text" value="Oud, Musk" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" placeholder="e.g. Oud, Amber">
                     </div>
                 </div>
             </div>

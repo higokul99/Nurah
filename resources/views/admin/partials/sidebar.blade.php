@@ -28,6 +28,12 @@
                     <span>Collections</span>
                 </a>
             </li>
+             <li>
+                <a href="{{ route('admin.attributes') }}" class="sidebar-item {{ request()->routeIs('admin.attributes*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                    <i class="fas fa-wind w-5 text-center"></i>
+                    <span>Attributes</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ route('admin.products') }}" class="sidebar-item {{ request()->routeIs('admin.products*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
                     <i class="fas fa-tag w-5 text-center"></i>
@@ -40,6 +46,7 @@
                     <span>Reviews</span>
                 </a>
             </li>
+
             <li>
                 <a href="{{ route('admin.bundles') }}" class="sidebar-item {{ request()->routeIs('admin.bundles*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
                     <i class="fas fa-cubes w-5 text-center"></i>

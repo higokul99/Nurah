@@ -55,6 +55,7 @@ Route::get('/admin/products/{id}/edit', function ($id) {
 })->name('admin.products.edit');
 
 Route::view('/admin/reviews', 'admin.reviews.index')->name('admin.reviews');
+Route::view('/admin/attributes', 'admin.attributes.index')->name('admin.attributes');
 
 Route::view('/admin/customers', 'admin.customers')->name('admin.customers');
 Route::view('/admin/customers/create', 'admin.customers.create')->name('admin.customers.create');
