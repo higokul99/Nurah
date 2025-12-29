@@ -35,6 +35,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.bundles') }}" class="sidebar-item {{ request()->routeIs('admin.bundles*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                    <i class="fas fa-cubes w-5 text-center"></i>
+                    <span>Bundles</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.customers') }}" class="sidebar-item {{ request()->routeIs('admin.customers') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
                     <i class="fas fa-users w-5 text-center"></i>
                     <span>Customers</span>
