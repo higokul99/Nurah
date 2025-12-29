@@ -66,6 +66,10 @@
                     <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
                     <span class="text-sm text-gray-700">Manage Hero Section</span>
                 </label>
+                 <label class="flex items-center gap-2">
+                    <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                    <span class="text-sm text-gray-700">Manage Reviews</span>
+                </label>
             </div>
         </div>
 
