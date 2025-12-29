@@ -57,22 +57,34 @@
     </div>
 
     <!-- Conversion Rate -->
-    <div class="card bg-white rounded-lg p-6 border border-gray-200">
+    <div class="card bg-white rounded-lg p-6 border border-gray-200 relative overflow-hidden group">
         <div class="flex justify-between items-start mb-2">
             <h3 class="text-xs font-semibold uppercase text-gray-500">Returning Customer Rate</h3>
             <span class="text-xs text-blue-600 hover:text-blue-800 cursor-pointer">View Report</span>
         </div>
-        <div class="text-2xl font-bold text-gray-900 mb-1">15.45%</div>
-        <div class="text-sm text-green-600 font-medium">
-             <i class="fas fa-arrow-up mr-1"></i> 5%
-             <span class="text-gray-400 font-normal ml-1">vs previous period</span>
+        
+        <!-- Blurred Content -->
+        <div class="blur-sm select-none opacity-50 transition-all duration-300">
+             <div class="text-2xl font-bold text-gray-900 mb-1">15.45%</div>
+            <div class="text-sm text-green-600 font-medium">
+                 <i class="fas fa-arrow-up mr-1"></i> 5%
+                 <span class="text-gray-400 font-normal ml-1">vs previous period</span>
+            </div>
+            <div class="h-12 mt-4 flex items-end gap-1">
+                 @foreach([20, 25, 20, 30, 35, 30, 40, 45, 40, 50, 55, 60] as $h)
+                 <div class="flex-1 bg-gray-50 h-full flex items-end rounded-sm">
+                     <div class="w-full bg-teal-400 rounded-sm" style="height: {{ $h }}%"></div>
+                 </div>
+                 @endforeach
+            </div>
         </div>
-        <div class="h-12 mt-4 flex items-end gap-1">
-             @foreach([20, 25, 20, 30, 35, 30, 40, 45, 40, 50, 55, 60] as $h)
-             <div class="flex-1 bg-gray-50 hover:bg-gray-100 transition-colors h-full flex items-end rounded-sm">
-                 <div class="w-full bg-teal-400 rounded-sm" style="height: {{ $h }}%"></div>
-             </div>
-             @endforeach
+
+        <!-- Lock Overlay -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center z-10 mt-6">
+            <div class="bg-white p-3 rounded-full shadow-md border border-gray-100 flex items-center justify-center w-12 h-12">
+                <i class="fas fa-lock text-yellow-500 text-lg"></i>
+            </div>
+            <span class="mt-2 text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded">Available in Pro Plan</span>
         </div>
     </div>
 </div>
@@ -138,29 +150,41 @@
     </div>
 
     <!-- Sessions by Device -->
-     <div class="card bg-white rounded-lg border border-gray-200 shadow-sm p-4">
+     <div class="card bg-white rounded-lg border border-gray-200 shadow-sm p-4 relative overflow-hidden">
         <h3 class="font-semibold text-gray-700 text-sm mb-4">Sessions by Device</h3>
-        <div class="flex items-center justify-center h-48 relative">
-            <!-- Simple CSS Donut Chart -->
-            <div class="w-32 h-32 rounded-full border-[12px] border-blue-500 relative" style="border-right-color: #3b82f6; border-top-color: #ef4444; border-bottom-color: #3b82f6; border-left-color: #10b981; transform: rotate(45deg);"></div>
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-2xl font-bold text-gray-900">10.2k</span>
-                <span class="text-xs text-gray-500">Total</span>
+        
+        <!-- Blurred Content -->
+        <div class="blur-md select-none opacity-40">
+            <div class="flex items-center justify-center h-48 relative">
+                <!-- Simple CSS Donut Chart -->
+                <div class="w-32 h-32 rounded-full border-[12px] border-blue-500 relative" style="border-right-color: #3b82f6; border-top-color: #ef4444; border-bottom-color: #3b82f6; border-left-color: #10b981; transform: rotate(45deg);"></div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span class="text-2xl font-bold text-gray-900">10.2k</span>
+                    <span class="text-xs text-gray-500">Total</span>
+                </div>
+            </div>
+            <div class="flex justify-center gap-6 mt-4">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                    <span class="text-sm text-gray-600">Mobile (65%)</span>
+                </div>
+                 <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                    <span class="text-sm text-gray-600">Desktop (25%)</span>
+                </div>
+                 <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    <span class="text-sm text-gray-600">Tablet (10%)</span>
+                </div>
             </div>
         </div>
-        <div class="flex justify-center gap-6 mt-4">
-            <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-blue-500"></span>
-                <span class="text-sm text-gray-600">Mobile (65%)</span>
+
+        <!-- Lock Overlay -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center z-10 mt-6">
+            <div class="bg-white p-3 rounded-full shadow-md border border-gray-100 flex items-center justify-center w-12 h-12">
+                <i class="fas fa-lock text-yellow-500 text-lg"></i>
             </div>
-             <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                <span class="text-sm text-gray-600">Desktop (25%)</span>
-            </div>
-             <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                <span class="text-sm text-gray-600">Tablet (10%)</span>
-            </div>
+            <span class="mt-2 text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded">Available in Pro Plan</span>
         </div>
     </div>
 
