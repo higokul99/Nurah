@@ -61,8 +61,10 @@
                         0
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.discounts.edit', 1) }}" class="text-blue-600 hover:text-blue-900 text-xs font-medium mr-2">Edit</a>
-                         <button class="text-red-600 hover:text-red-900 text-xs font-medium">Delete</button>
+                        <div class="flex justify-end gap-2">
+                             <a href="{{ route('admin.discounts.edit', 1) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                             <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
                  <tr class="hover:bg-gray-50 transition-colors">
@@ -86,8 +88,10 @@
                         12
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.discounts.edit', 2) }}" class="text-blue-600 hover:text-blue-900 text-xs font-medium mr-2">Edit</a>
-                         <button class="text-red-600 hover:text-red-900 text-xs font-medium">Delete</button>
+                        <div class="flex justify-end gap-2">
+                             <a href="{{ route('admin.discounts.edit', 2) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                             <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
