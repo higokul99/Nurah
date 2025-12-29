@@ -13,14 +13,14 @@
                 </a>
                 <h1 class="text-xl font-bold text-gray-900">Order #{{ $id }}</h1>
                 <span class="px-2 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-bold uppercase tracking-wide">Pending</span>
-                <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs font-bold uppercase tracking-wide">Unfulfilled</span>
+                <span id="fulfillmentBadge" class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-xs font-bold uppercase tracking-wide">Ordered</span>
             </div>
             <p class="text-sm text-gray-500 mt-1 ml-7">December 28, 2025 at 10:21 am from Online Store</p>
         </div>
         <div class="flex gap-3">
             <button class="bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded shadow-sm text-sm font-medium hover:bg-gray-50">Print</button>
             <!-- <button class="bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded shadow-sm text-sm font-medium hover:bg-gray-50">Refund</button> -->
-            <button onclick="markAsFulfilled()" id="fulfillBtn" class="bg-green-700 text-white px-3 py-2 rounded shadow-sm text-sm font-medium hover:bg-green-800 transition-colors">Mark as Fulfilled</button>
+            <button onclick="advanceAction()" id="fulfillBtn" class="bg-yellow-500 text-white px-3 py-2 rounded shadow-sm text-sm font-medium hover:bg-yellow-600 transition-colors">Mark as Processing</button>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
             <!-- Products Card -->
             <div class="card bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
                 <div class="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
-                    <h2 class="font-semibold text-gray-700 text-sm">Unfulfilled (2)</h2>
+                    <h2 class="font-semibold text-gray-700 text-sm">Order Items (2)</h2>
                     <span class="text-xs text-gray-500">Location: Warehouse A</span>
                 </div>
                 <div class="divide-y divide-gray-100">
@@ -168,30 +168,63 @@
     </div>
 </div>
 
-<script>
-    function markAsFulfilled() {
-        const btn = document.getElementById('fulfillBtn');
-        const badge = document.querySelector('.bg-gray-100.text-gray-600'); // Unfulfilled badge
-        
-        // Simulating Backend Call
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-        
-        setTimeout(() => {
-            // Update Button
-            btn.innerHTML = 'Fulfilled';
-            btn.classList.remove('bg-green-700', 'hover:bg-green-800');
-            btn.classList.add('bg-gray-300', 'cursor-not-allowed');
+    <script>
+        let orderStatus = 'ordered'; // Initial state
+
+        function advanceAction() {
+            const btn = document.getElementById('fulfillBtn');
+            const badge = document.getElementById('fulfillmentBadge');
+            
+            // Simulating Backend Call
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
             btn.disabled = true;
             
-            // Update Badge
-            if(badge) {
-                badge.className = 'px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-bold uppercase tracking-wide';
-                badge.innerText = 'Fulfilled';
-            }
-            
-            // Show alert or toast
-            alert('Order marked as Sended/Fulfilled!');
-        }, 800);
-    }
-</script>
+            setTimeout(() => {
+                if (orderStatus === 'ordered') {
+                    // Transition to Processing
+                    orderStatus = 'processing';
+                    
+                    // Update Badge
+                    badge.className = 'px-2 py-1 rounded bg-yellow-100 text-yellow-800 text-xs font-bold uppercase tracking-wide';
+                    badge.innerText = 'Processing';
+                    
+                    // Update Button
+                    btn.innerHTML = 'Mark as Shipped';
+                    btn.disabled = false;
+                    btn.className = 'bg-blue-600 text-white px-3 py-2 rounded shadow-sm text-sm font-medium hover:bg-blue-700 transition-colors';
+                    
+                    alert('Order marked as Processing!');
+                
+                } else if (orderStatus === 'processing') {
+                    // Transition to Shipped
+                    orderStatus = 'shipped';
+                    
+                    // Update Badge
+                    badge.className = 'px-2 py-1 rounded bg-purple-100 text-purple-800 text-xs font-bold uppercase tracking-wide';
+                    badge.innerText = 'Shipped';
+                    
+                    // Update Button
+                    btn.innerHTML = 'Mark as Delivered';
+                    btn.disabled = false;
+                    btn.className = 'bg-indigo-600 text-white px-3 py-2 rounded shadow-sm text-sm font-medium hover:bg-indigo-700 transition-colors';
+                    
+                    alert('Order marked as Shipped!');
+
+                } else if (orderStatus === 'shipped') {
+                    // Transition to Delivered
+                    orderStatus = 'delivered';
+                    
+                    // Update Badge
+                    badge.className = 'px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-bold uppercase tracking-wide';
+                    badge.innerText = 'Delivered';
+                    
+                    // Update Button
+                    btn.innerHTML = 'Completed';
+                    btn.className = 'bg-gray-300 text-gray-500 px-3 py-2 rounded shadow-sm text-sm font-medium cursor-not-allowed';
+                    
+                    alert('Order marked as Delivered!');
+                }
+            }, 800);
+        }
+    </script>
 @endsection

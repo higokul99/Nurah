@@ -40,7 +40,7 @@
                     <td class="px-6 py-4">Sarah Jenkins</td>
                     <td class="px-6 py-4 text-gray-800">₹8,400.00</td>
                     <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Paid</span></td>
-                    <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Fulfilled</span></td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Delivered</span></td>
                     <td class="px-6 py-4 text-right">3</td>
                 </tr>
                  <!-- Dummy Row 3 -->
@@ -50,7 +50,7 @@
                     <td class="px-6 py-4">Michael Ross</td>
                     <td class="px-6 py-4 text-gray-800">₹2,100.00</td>
                     <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Paid</span></td>
-                    <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Fulfilled</span></td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Delivered</span></td>
                     <td class="px-6 py-4 text-right">1</td>
                 </tr>
             </tbody>
