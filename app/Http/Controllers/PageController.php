@@ -8,7 +8,7 @@ class PageController extends Controller
 {
     public function home()
     {
-        return view('home');
+        return view('nurah.home');
     }
 
     public function collection(Request $request)
@@ -27,21 +27,21 @@ class PageController extends Controller
             elseif ($gender == 'unisex') $title = 'Unisex Collection';
         }
 
-        return view('collection', ['title' => $title]);
+        return view('nurah.collection', ['title' => $title]);
     }
 
     public function allProducts()
     {
-        return view('all-products', ['title' => 'All Products']);
+        return view('nurah.all-products', ['title' => 'All Products']);
     }
 
     public function cosmopolitan()
     {
-        return view('collection', ['title' => 'Cosmopolitan Collection']);
+        return view('nurah.collection', ['title' => 'Cosmopolitan Collection']);
     }
 
     public function product()
     {
-        return view('product-main');
+        return view('nurah.product-main');
     }
 }

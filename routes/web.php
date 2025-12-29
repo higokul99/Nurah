@@ -9,8 +9,8 @@ Route::get('/products', [PageController::class, 'collection'])->name('products')
 Route::get('/all-products', [PageController::class, 'allProducts'])->name('all-products');
 Route::get('/cosmopolitan', [PageController::class, 'cosmopolitan'])->name('cosmopolitan');
 Route::get('/product', [PageController::class, 'product'])->name('product');
-Route::view('/about', 'about')->name('about');
-Route::view('/contact', 'contact')->name('contact');
+Route::view('/about', 'nurah.about')->name('about');
+Route::view('/contact', 'nurah.contact')->name('contact');
 
 // Admin Routes (Auth Disabled for now)
 // Route::prefix('admin')->name('admin.')->group(function () {

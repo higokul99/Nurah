@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('nurah.layouts.app')
 
 @section('title', 'India\'s First Perfume Bar')
 

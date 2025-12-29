@@ -106,13 +106,13 @@
     @stack('styles')
 </head>
 <body>
-    @include('partials.header')
+    @include('nurah.partials.header')
 
     <main>
         @yield('content')
     </main>
 
-    @include('partials.footer')
+    @include('nurah.partials.footer')
 
     <script>
         // Smooth Scroll
