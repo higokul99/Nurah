@@ -18,10 +18,10 @@
 
     <!-- Slides List (Draggable Style) -->
     <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-        <div class="divide-y divide-gray-200">
+        <div class="divide-y divide-gray-200" id="sortable-slides">
             
             <!-- Slide Item 1 -->
-            <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors group">
+            <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors group draggable-item" draggable="true">
                 <!-- Drag Handle -->
                 <div class="cursor-move text-gray-400 group-hover:text-gray-600 px-2">
                     <i class="fas fa-grip-vertical"></i>
@@ -58,7 +58,7 @@
             </div>
 
             <!-- Slide Item 2 -->
-            <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors group">
+            <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors group draggable-item" draggable="true">
                 <!-- Drag Handle -->
                 <div class="cursor-move text-gray-400 group-hover:text-gray-600 px-2">
                     <i class="fas fa-grip-vertical"></i>
@@ -98,3 +98,55 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('sortable-slides');
+        let draggables = document.querySelectorAll('.draggable-item');
+
+        function initDraggables() {
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => {
+                    draggable.classList.add('dragging');
+                    draggable.classList.add('bg-gray-50'); // Keep hover style
+                    draggable.style.opacity = '0.5';
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggable.classList.remove('dragging');
+                    draggable.classList.remove('bg-gray-50');
+                    draggable.style.opacity = '1';
+                });
+            });
+        }
+
+        initDraggables();
+
+        container.addEventListener('dragover', e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(container, e.clientY);
+            const draggable = document.querySelector('.dragging');
+            if (afterElement == null) {
+                container.appendChild(draggable);
+            } else {
+                container.insertBefore(draggable, afterElement);
+            }
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    });
+</script>
+@endpush
