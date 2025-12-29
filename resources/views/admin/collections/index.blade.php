@@ -3,9 +3,9 @@
 @section('title', 'Collections')
 
 @section('content')
-<div class="flex justify-between items-center mb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
     <h1 class="text-xl font-semibold text-gray-800">Collections</h1>
-    <a href="{{ route('admin.collections.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition-colors shadow-sm">Create collection</a>
+    <a href="{{ route('admin.collections.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition-colors shadow-sm w-fit">Create collection</a>
 </div>
 
 <div class="card bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -35,9 +35,10 @@
                     <td class="px-6 py-4">12 products</td>
                     <td class="px-6 py-4">Manual</td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.collections.show', 1) }}" class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="event.stopPropagation()">
-                            <i class="fas fa-pen"></i>
-                        </a>
+                        <div class="flex justify-end gap-2" onclick="event.stopPropagation()">
+                            <a href="{{ route('admin.collections.show', 1) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                            <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
                  <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="window.location='{{ route('admin.collections.show', 2) }}'">
@@ -53,9 +54,10 @@
                     <td class="px-6 py-4">8 products</td>
                     <td class="px-6 py-4">Automated</td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.collections.show', 2) }}" class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="event.stopPropagation()">
-                            <i class="fas fa-pen"></i>
-                        </a>
+                        <div class="flex justify-end gap-2" onclick="event.stopPropagation()">
+                            <a href="{{ route('admin.collections.show', 2) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                            <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
