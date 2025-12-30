@@ -48,7 +48,10 @@
     </div>
 
     <div class="footer-bottom">
-        <div class="copyright">© 2025 Nurah Perfumes. All rights reserved.</div>
+        <div class="copyright">
+            © 2025 Nurah Perfumes. All rights reserved. 
+            <span style="opacity: 0.7; margin-left: 5px;">Developed by <a href="https://metora.in/" target="_blank" style="color: var(--gold); text-decoration: none; font-weight: bold;">Metora</a></span>
+        </div>
         <div class="payment-icons">
             <i class="fab fa-cc-visa"></i>
             <i class="fab fa-cc-mastercard"></i>
