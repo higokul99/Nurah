@@ -260,7 +260,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-sandal.webp') }}" alt="Midnight Jasmine" class="product-image">
+                    <img src="{{ asset('Images/g-jasmine.webp') }}" alt="Midnight Jasmine" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Midnight Jasmine</h3>
@@ -270,7 +270,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-marshmallow.webp') }}" alt="Amber Elixir" class="product-image">
+                    <img src="{{ asset('Images/g-amber.webp') }}" alt="Amber Elixir" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Amber Elixir</h3>
