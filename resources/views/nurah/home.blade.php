@@ -160,19 +160,19 @@
     <div class="hero-slider">
         <div class="slide active">
             <picture>
-                <source media="(max-width: 768px)" srcset="https://myop.in/cdn/shop/files/b2g1_phone.webp?v=1740730153&width=1000">
+                <source media="(max-width: 768px)" srcset="{{ asset('Images/bm1.webp') }}">
                 <img src="{{ asset('Images/bd1.webp') }}" alt="Buy 2 Get 1">
             </picture>
         </div>
         <div class="slide">
             <picture>
-                <source media="(max-width: 768px)" srcset="https://myop.in/cdn/shop/files/Banner_elante_chandigarh_phone_copy_1.webp?v=1764662226&width=1000">
+                <source media="(max-width: 768px)" srcset="{{ asset('Images/bm2.webp') }}">
                 <img src="{{ asset('Images/bd2.webp') }}" alt="New Store">
             </picture>
         </div>
         <div class="slide">
             <picture>
-                 <source media="(max-width: 768px)" srcset="https://myop.in/cdn/shop/files/banner_phone.webp?v=1763701093&width=1000">
+                 <source media="(max-width: 768px)" srcset="{{ asset('Images/bm3.webp') }}">
                 <img src="{{ asset('Images/bd3.webp') }}" alt="Featured">
             </picture>
         </div>
