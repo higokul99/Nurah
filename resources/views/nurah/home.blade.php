@@ -199,7 +199,7 @@
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
                     <span class="product-badge">New</span>
-                    <img src="https://myop.in/cdn/shop/files/Sandal_Veer_Product_Thumbnail.webp?v=1764918274&width=1080" alt="Sandal Veer" class="product-image">
+                    <img src="{{ asset('Images/g-sandal.webp') }}" alt="Sandal Veer" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Sandal Veer</h3>
@@ -210,7 +210,7 @@
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
                     <span class="product-badge">New</span>
-                    <img src="https://myop.in/cdn/shop/files/marshamallow_fluff_thumbnail.webp?v=1753800557&width=1080" alt="Marshmallow Fluff" class="product-image">
+                    <img src="{{ asset('Images/g-marshmallow.webp') }}" alt="Marshmallow Fluff" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Marshmallow Fluff</h3>
@@ -220,7 +220,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/purple_mystique_157c687d-d1f0-4b6a-bce9-aa8db40162b8.webp?v=1752146267&width=1080" alt="Purple Mystique" class="product-image">
+                    <img src="{{ asset('Images/g-purple.webp') }}" alt="Purple Mystique" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Purple Mystique</h3>
@@ -230,7 +230,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/bangalore_bloom.webp?v=1752146312&width=1080" alt="Bangalore Bloom" class="product-image">
+                    <img src="{{ asset('Images/g-banglore.webp') }}" alt="Bangalore Bloom" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Bangalore Bloom</h3>
@@ -240,7 +240,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/fruit_punch_e6f7349a-384a-4764-ac3b-354b8aec8894.webp?v=1752146412&width=1080" alt="Fruit Punch" class="product-image">
+                    <img src="{{ asset('Images/g-fruit.webp') }}" alt="Fruit Punch" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Fruit Punch</h3>
@@ -250,10 +250,30 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/one_of_a_kind_9c41c1b7-c0fb-459a-b874-26f064cee7d6.webp?v=1752146251&width=1080" alt="One of a Kind" class="product-image">
+                    <img src="{{ asset('Images/g-one.webp') }}" alt="One of a Kind" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">One of a Kind</h3>
+                    <p class="product-price"><span>From</span> ₹1,129</p>
+                </div>
+            </a>
+
+            <a href="{{ route('product') }}" class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="{{ asset('Images/g-sandal.webp') }}" alt="Midnight Jasmine" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Midnight Jasmine</h3>
+                    <p class="product-price"><span>From</span> ₹1,129</p>
+                </div>
+            </a>
+
+            <a href="{{ route('product') }}" class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="{{ asset('Images/g-marshmallow.webp') }}" alt="Amber Elixir" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Amber Elixir</h3>
                     <p class="product-price"><span>From</span> ₹1,129</p>
                 </div>
             </a>
