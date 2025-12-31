@@ -339,7 +339,7 @@
         <div class="product-grid">
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/oud_de_beirut_e46c1f48-205a-4534-bdb7-4a2b35e8ba0a.webp?v=1752146209&width=1080" alt="Oud De Beirut" class="product-image">
+                    <img src="{{ asset('Images/g-oud.webp') }}" alt="Oud De Beirut" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Oud De Beirut</h3>
@@ -349,7 +349,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/california.webp?v=1752146216&width=1080" alt="California Sunshine" class="product-image">
+                    <img src="{{ asset('Images/g-california.webp') }}" alt="California Sunshine" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">California Sunshine</h3>
@@ -359,7 +359,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/MOROCCAN_ROSE.webp?v=1752146213&width=1080" alt="Moroccan Rose" class="product-image">
+                    <img src="{{ asset('Images/g-moroccan.webp') }}" alt="Moroccan Rose" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Moroccan Rose</h3>
@@ -369,7 +369,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="https://myop.in/cdn/shop/files/oud_de_beirut_e46c1f48-205a-4534-bdb7-4a2b35e8ba0a.webp?v=1752146209&width=1080" alt="Parisian Night" class="product-image">
+                    <img src="{{ asset('Images/g-perisian.webp') }}" alt="Parisian Night" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Parisian Night</h3>
