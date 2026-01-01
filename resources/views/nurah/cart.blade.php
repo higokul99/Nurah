@@ -323,7 +323,7 @@
                 <span>Total</span>
                 <span>₹3,700</span>
             </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
+            <a href="{{ route('checkout') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">Proceed to Checkout</a>
             <a href="{{ route('collection') }}" class="continue-shopping">Continue Shopping</a>
         </div>
     </div>

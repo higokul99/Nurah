@@ -12,6 +12,7 @@ Route::get('/product', [PageController::class, 'product'])->name('product');
 Route::view('/about', 'nurah.about')->name('about');
 Route::view('/contact', 'nurah.contact')->name('contact');
 Route::view('/cart', 'nurah.cart')->name('cart');
+Route::view('/checkout', 'nurah.checkout')->name('checkout');
 
 // Admin Routes (Auth Disabled for now)
 // Route::prefix('admin')->name('admin.')->group(function () {

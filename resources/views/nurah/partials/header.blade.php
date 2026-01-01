@@ -61,9 +61,41 @@
             <button type="submit" class="login-btn">Sign In</button>
         </form>
         
+        <div class="divider"><span>OR</span></div>
+        <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+        
         <div class="login-footer">
             <a href="#" class="forgot-link">Forgot Password?</a>
-            <p class="signup-text">Don't have an account? <a href="#">Create one</a></p>
+            <p class="signup-text">Don't have an account? <a href="javascript:void(0)" onclick="openRegister()">Create one</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="login-modal" id="registerModal">
+    <div class="login-content">
+        <button class="login-close" onclick="closeRegister()"><i class="fas fa-times"></i></button>
+        <h2 class="login-title">Create Account</h2>
+        <p class="login-subtitle">Join us for exclusive offers & updates</p>
+        
+        <form class="login-form" onsubmit="event.preventDefault(); alert('Registration functionality coming soon!');">
+            <div class="form-group">
+                <input type="text" class="form-input" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-input" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" placeholder="Password" required>
+            </div>
+            <button type="submit" class="login-btn">Create Account</button>
+        </form>
+        
+        <div class="divider"><span>OR</span></div>
+        <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+        
+        <div class="login-footer">
+            <p class="signup-text">Already have an account? <a href="javascript:void(0)" onclick="openLogin()">Sign in</a></p>
         </div>
     </div>
 </div>
@@ -241,6 +273,50 @@
         font-weight: 700;
         text-decoration: underline;
     }
+    
+    /* Social Login */
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 20px 0;
+        color: #ccc;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+    
+    .divider span {
+        padding: 0 10px;
+    }
+    
+    .google-btn {
+        width: 100%;
+        padding: 12px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-weight: 600;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+    
+    .google-btn:hover {
+        background: #f8f8f8;
+        border-color: #ccc;
+    }
 </style>
 
 <script>
@@ -270,6 +346,7 @@
     }
     
     function openLogin() {
+        closeRegister(); // Ensure register is closed
         const modal = document.getElementById('loginModal');
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -280,11 +357,23 @@
         modal.classList.remove('active');
         document.body.style.overflow = '';
     }
+
+    function openRegister() {
+        closeLogin(); // Ensure login is closed
+        const modal = document.getElementById('registerModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeRegister() {
+        const modal = document.getElementById('registerModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
     
     // Close modal on outside click
-    document.getElementById('loginModal')?.addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeLogin();
-        }
+    window.addEventListener('click', function(e) {
+        if (e.target.id === 'loginModal') closeLogin();
+        if (e.target.id === 'registerModal') closeRegister();
     });
 </script>
