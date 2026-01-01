@@ -10,7 +10,7 @@
         <a href="{{ route('home') }}" class="logo">Nurah Perfumes</a>
         <div class="header-icons">
             <button class="icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-            <a href="#" class="icon-btn" style="color: inherit;"><i class="fas fa-user"></i></a>
+            <a href="javascript:void(0)" onclick="openLogin()" class="icon-btn" style="color: inherit;"><i class="fas fa-user"></i></a>
             <a href="{{ route('cart') }}" class="icon-btn" style="color: inherit;">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
@@ -43,6 +43,30 @@
     </ul>
 </div>
 <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<!-- Login Modal -->
+<div class="login-modal" id="loginModal">
+    <div class="login-content">
+        <button class="login-close" onclick="closeLogin()"><i class="fas fa-times"></i></button>
+        <h2 class="login-title">Welcome Back</h2>
+        <p class="login-subtitle">Sign in to access your account</p>
+        
+        <form class="login-form" onsubmit="event.preventDefault(); alert('Login functionality coming soon!');">
+            <div class="form-group">
+                <input type="email" class="form-input" placeholder="Email Address" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-input" placeholder="Password" required>
+            </div>
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+        
+        <div class="login-footer">
+            <a href="#" class="forgot-link">Forgot Password?</a>
+            <p class="signup-text">Don't have an account? <a href="#">Create one</a></p>
+        </div>
+    </div>
+</div>
 
 <style>
     /* Inline Search Styles */
@@ -95,6 +119,128 @@
         cursor: pointer;
         padding: 5px;
     }
+
+    /* Login Modal Styles */
+    .login-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 3000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        padding: 20px;
+    }
+    
+    .login-modal.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    .login-content {
+        background: var(--white);
+        width: 100%;
+        max-width: 400px;
+        border-radius: 16px;
+        padding: 40px 30px;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    
+    .login-modal.active .login-content {
+        transform: translateY(0);
+    }
+    
+    .login-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #999;
+        cursor: pointer;
+    }
+    
+    .login-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 5px;
+        color: var(--black);
+    }
+    
+    .login-subtitle {
+        text-align: center;
+        color: var(--text-light);
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: border 0.3s;
+    }
+    
+    .form-input:focus {
+        border-color: var(--black);
+    }
+    
+    .login-btn {
+        width: 100%;
+        padding: 14px;
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 14px;
+        cursor: pointer;
+        margin-top: 10px;
+        letter-spacing: 1px;
+    }
+    
+    .login-footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 13px;
+    }
+    
+    .forgot-link {
+        display: block;
+        color: var(--text-light);
+        text-decoration: none;
+        margin-bottom: 15px;
+    }
+    
+    .signup-text {
+        color: var(--text);
+    }
+    
+    .signup-text a {
+        color: var(--black);
+        font-weight: 700;
+        text-decoration: underline;
+    }
 </style>
 
 <script>
@@ -122,4 +268,23 @@
         const header = document.querySelector('.mobile-header');
         header.classList.remove('search-active');
     }
+    
+    function openLogin() {
+        const modal = document.getElementById('loginModal');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLogin() {
+        const modal = document.getElementById('loginModal');
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // Close modal on outside click
+    document.getElementById('loginModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLogin();
+        }
+    });
 </script>
