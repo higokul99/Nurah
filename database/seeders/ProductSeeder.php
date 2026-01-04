@@ -117,13 +117,41 @@ class ProductSeeder extends Seeder
                 'intensity' => collect(['Light', 'Moderate', 'Strong'])->random(),
             ]);
 
-            // Add Image
+            // Define available extra images pool
+            $extraImages = [
+                'images/product-amber-elixir.webp',
+                'images/product-bangalore-bloom.webp',
+                'images/product-california-sunshine.webp',
+                'images/product-fruit-punch.webp',
+                'images/product-marshmallow-fluff.webp',
+                'images/product-midnight-jasmine.webp',
+                'images/product-moroccan-rose.webp',
+                'images/product-one-of-a-kind.webp',
+                'images/product-oud-de-beirut.webp',
+                'images/product-parisian-night.webp',
+                'images/product-purple-mystique.webp',
+                'images/product-sandal-veer.webp',
+            ];
+
+            // Add Main Image
             ProductImage::create([
                 'product_id' => $product->id,
-                'path' => $data['image'], // Using the path relative to public/storage linking
+                'path' => $data['image'],
                 'type' => 'main',
                 'order' => 1,
             ]);
+
+            // Add 3-6 Additional Images
+            $additionalImagesCount = rand(3, 6);
+            for ($i = 0; $i < $additionalImagesCount; $i++) {
+                $randomImage = $extraImages[array_rand($extraImages)];
+                ProductImage::create([
+                    'product_id' => $product->id,
+                    'path' => $randomImage,
+                    'type' => 'gallery',
+                    'order' => $i + 2,
+                ]);
+            }
 
             // Add Variants (Example: Sizes)
             $sizes = ['50ml', '100ml'];

@@ -30,6 +30,26 @@ class BundleSeeder extends Seeder
                 'title' => 'Summer Vibes Pack',
                 'discount_percentage' => 10,
             ],
+            [
+                'title' => 'Date Night Essentials',
+                'discount_percentage' => 25,
+            ],
+            [
+                'title' => 'Office Wear Edit',
+                'discount_percentage' => 10,
+            ],
+            [
+                'title' => 'Weekend Getaway Kit',
+                'discount_percentage' => 15,
+            ],
+            [
+                'title' => 'Oud Lovers Collection',
+                'discount_percentage' => 30,
+            ],
+            [
+                'title' => 'Floral Fantasy Box',
+                'discount_percentage' => 18,
+            ],
         ];
 
         foreach ($bundles as $data) {
