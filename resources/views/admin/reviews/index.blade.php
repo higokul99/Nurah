@@ -31,7 +31,7 @@
                 <div class="d-flex gap-3 align-items-start">
                     <!-- Product Image -->
                     <div class="bg-light border rounded flex-shrink-0 overflow-hidden" style="width: 48px; height: 48px;">
-                        <img src="https://myop.in/cdn/shop/files/White_Oud_copy_2.png?v=1728469796&width=300" class="w-100 h-100 object-fit-cover">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSltgN6yAexGTP-YJYfecKvEyy3hX_5Ge0riQ&s" class="w-100 h-100 object-fit-cover">
                     </div>
                     
                     <div class="flex-grow-1">
@@ -80,7 +80,7 @@
                 <div class="d-flex gap-3 align-items-start">
                     <!-- Product Image -->
                    <div class="bg-light border rounded flex-shrink-0 overflow-hidden" style="width: 48px; height: 48px;">
-                         <img src="https://myop.in/cdn/shop/files/sea_breeze.webp?v=1723701659&width=300" class="w-100 h-100 object-fit-cover">
+                         <img src="https://photodpshare.com/wp-content/uploads/2025/10/whatsapp-dp-photo-hd.jpg" class="w-100 h-100 object-fit-cover">
                     </div>
                     
                     <div class="flex-grow-1">
@@ -135,7 +135,7 @@
                 <div class="d-flex gap-3 align-items-start">
                     <!-- Product Image -->
                     <div class="bg-light border rounded flex-shrink-0 overflow-hidden" style="width: 48px; height: 48px;">
-                       <img src="https://myop.in/cdn/shop/files/Oud_Al_Arab_2.png?v=1731580214&width=300" class="w-100 h-100 object-fit-cover">
+                       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREwA43h1BQGkzeXDIUKNwg-IZep7fBxR9PHQ&s" class="w-100 h-100 object-fit-cover">
                     </div>
                     
                     <div class="flex-grow-1">

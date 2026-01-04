@@ -93,11 +93,12 @@ Route::get('/admin/analytics/{type}', function ($type) {
 
     return view('admin.analytics.report', $data);
 })->name('admin.analytics.show');
-Route::view('/admin/discounts', 'admin.discounts')->name('admin.discounts');
-Route::view('/admin/discounts/create', 'admin.discounts.create')->name('admin.discounts.create');
-Route::get('/admin/discounts/{id}/edit', function ($id) {
-    return view('admin.discounts.edit', ['id' => $id]);
-})->name('admin.discounts.edit');
+Route::get('/admin/discounts', [App\Http\Controllers\Admin\DiscountController::class, 'index'])->name('admin.discounts');
+Route::get('/admin/discounts/create', [App\Http\Controllers\Admin\DiscountController::class, 'create'])->name('admin.discounts.create');
+Route::post('/admin/discounts', [App\Http\Controllers\Admin\DiscountController::class, 'store'])->name('admin.discounts.store');
+Route::get('/admin/discounts/{id}/edit', [App\Http\Controllers\Admin\DiscountController::class, 'edit'])->name('admin.discounts.edit');
+Route::put('/admin/discounts/{id}', [App\Http\Controllers\Admin\DiscountController::class, 'update'])->name('admin.discounts.update');
+Route::delete('/admin/discounts/{id}', [App\Http\Controllers\Admin\DiscountController::class, 'destroy'])->name('admin.discounts.destroy');
 
 Route::get('/admin/settings/slider', [App\Http\Controllers\Admin\SliderController::class, 'index'])->name('admin.settings.slider');
 Route::get('/admin/settings/slider/create', [App\Http\Controllers\Admin\SliderController::class, 'create'])->name('admin.settings.slider.create');
