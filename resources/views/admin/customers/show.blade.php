@@ -12,14 +12,15 @@
         </a>
         <div class="flex-grow-1">
             <h1 class="h3 mb-1 text-dark d-flex align-items-center gap-2">
-                Sarah Jenkins 
-                <span class="badge bg-success bg-opacity-10 text-success fw-bold text-uppercase small tracking-wide" style="letter-spacing: 0.05em;">Subscribed</span>
+                {{ $customer->name }}
+                @if($customer->email_verified_at)
+                    <span class="badge bg-success bg-opacity-10 text-success fw-bold text-uppercase small tracking-wide" style="letter-spacing: 0.05em;">Verified</span>
+                @else
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary fw-bold text-uppercase small tracking-wide" style="letter-spacing: 0.05em;">Unverified</span>
+                @endif
             </h1>
-            <p class="small text-muted mb-0">Mumbai, India • Customer for 2 years</p>
+            <p class="small text-muted mb-0">Customer since {{ $customer->created_at->format('M d, Y') }}</p>
         </div>
-        <button class="btn btn-link text-secondary text-decoration-none small fw-medium">Prev</button>
-        <span class="text-muted">|</span>
-        <button class="btn btn-link text-secondary text-decoration-none small fw-medium">Next</button>
     </div>
 
     <div class="row g-4">
@@ -32,7 +33,7 @@
                  <div class="card border shadow-sm overflow-hidden">
                      <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center p-3">
                         <h2 class="h6 fw-bold text-secondary mb-0">Orders</h2>
-                        <span class="small text-muted">Total spent: ₹12,400.00</span>
+                        <span class="small text-muted">Total spent: ₹0.00</span>
                      </div>
                      
                      <div class="table-responsive">
@@ -47,50 +48,12 @@
                             </thead>
                             <tbody class="divide-y">
                                 <tr>
-                                    <td class="px-3 py-2 fw-medium text-dark">
-                                        <a href="#" class="text-decoration-none">#1024</a>
+                                    <td colspan="4" class="text-center py-4 text-muted">
+                                        No orders found for this customer.
                                     </td>
-                                    <td class="px-3 py-2 text-secondary">Dec 20, 2024</td>
-                                    <td class="px-3 py-2"><span class="badge bg-warning bg-opacity-10 text-warning text-dark-warning rounded fw-semibold">Unfulfilled</span></td>
-                                    <td class="px-3 py-2 text-end text-secondary">₹4,200.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-3 py-2 fw-medium text-dark">
-                                        <a href="#" class="text-decoration-none">#1018</a>
-                                    </td>
-                                    <td class="px-3 py-2 text-secondary">Dec 10, 2024</td>
-                                    <td class="px-3 py-2"><span class="badge bg-success bg-opacity-10 text-success rounded fw-semibold">Fulfilled</span></td>
-                                    <td class="px-3 py-2 text-end text-secondary">₹3,500.00</td>
-                                </tr>
-                                 <tr>
-                                    <td class="px-3 py-2 fw-medium text-dark">
-                                        <a href="#" class="text-decoration-none">#1012</a>
-                                    </td>
-                                    <td class="px-3 py-2 text-secondary">Nov 25, 2024</td>
-                                    <td class="px-3 py-2"><span class="badge bg-success bg-opacity-10 text-success rounded fw-semibold">Fulfilled</span></td>
-                                    <td class="px-3 py-2 text-end text-secondary">₹1,200.00</td>
-                                </tr>
-                                 <tr>
-                                    <td class="px-3 py-2 fw-medium text-dark">
-                                        <a href="#" class="text-decoration-none">#1005</a>
-                                    </td>
-                                    <td class="px-3 py-2 text-secondary">Nov 01, 2024</td>
-                                    <td class="px-3 py-2"><span class="badge bg-secondary bg-opacity-10 text-secondary rounded fw-semibold">Archived</span></td>
-                                    <td class="px-3 py-2 text-end text-secondary">₹2,800.00</td>
-                                </tr>
-                                 <tr>
-                                    <td class="px-3 py-2 fw-medium text-dark">
-                                        <a href="#" class="text-decoration-none">#1001</a>
-                                    </td>
-                                    <td class="px-3 py-2 text-secondary">Oct 15, 2024</td>
-                                    <td class="px-3 py-2"><span class="badge bg-secondary bg-opacity-10 text-secondary rounded fw-semibold">Archived</span></td>
-                                    <td class="px-3 py-2 text-end text-secondary">₹700.00</td>
                                 </tr>
                             </tbody>
                          </table>
-                         <div class="p-3 border-top text-center bg-white">
-                             <a href="#" class="small fw-medium text-secondary text-decoration-none hover-text-dark">View all orders</a>
-                         </div>
                      </div>
                 </div>
 
@@ -100,7 +63,7 @@
                          <h2 class="h6 fw-bold text-secondary mb-0">Notes</h2>
                          <button class="btn btn-link btn-sm p-0 text-decoration-none">Edit</button>
                      </div>
-                     <p class="small text-secondary fst-italic mb-0">"Preferrs delivery on weekends. Called to confirm address twice."</p>
+                     <p class="small text-secondary fst-italic mb-0">No notes available.</p>
                 </div>
                 
             </div>
@@ -116,13 +79,16 @@
                     <h2 class="h6 fw-bold text-secondary mb-3">Customer Contact</h2>
                     <div class="vstack gap-3">
                         <div class="d-flex align-items-center gap-3">
-                             <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle fw-bold small" style="width: 32px; height: 32px;">SJ</div>
-                             <a href="mailto:sarah@example.com" class="text-primary text-decoration-none small">sarah@example.com</a>
+                             @php
+                                $initials = collect(explode(' ', $customer->name))->map(fn($s) => strtoupper(substr($s, 0, 1)))->take(2)->implode('');
+                             @endphp
+                             <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle fw-bold small" style="width: 32px; height: 32px;">{{ $initials }}</div>
+                             <a href="mailto:{{ $customer->email }}" class="text-primary text-decoration-none small">{{ $customer->email }}</a>
                              <button class="btn btn-link btn-sm p-0 text-secondary hover-text-dark"><i class="far fa-copy"></i></button>
                         </div>
                          <div class="d-flex align-items-center gap-3">
                              <div class="text-center text-secondary small" style="width: 32px;"><i class="fas fa-phone"></i></div>
-                             <span class="small text-dark">+91 98765 43210</span>
+                             <span class="small text-dark">{{ $customer->phone ?? 'No phone number' }}</span>
                         </div>
                     </div>
                 </div>
@@ -132,16 +98,14 @@
                     <button class="btn btn-link btn-sm p-0 position-absolute top-0 end-0 mt-3 me-3 text-decoration-none opacity-0 hover-opacity-100 transition-opacity show-on-hover">Manage</button>
                     <h2 class="h6 fw-bold text-secondary mb-3">Default Address</h2>
                     <div class="small text-secondary lh-sm">
-                        <p class="fw-medium text-dark mb-1">Sarah Jenkins</p>
-                        <p class="mb-1">123, Orchid Towers, Bandra West</p>
-                        <p class="mb-1">Mumbai, Maharashtra 400050</p>
-                        <p class="mb-0">India</p>
+                        <p class="mb-0 text-muted">No address information available.</p>
                     </div>
                 </div>
 
                 
                 <div class="pt-3 border-top">
-                    <button class="btn btn-link text-danger text-decoration-none fw-medium w-100 text-start border-0 p-0 small hover-text-danger-dark">Delete customer</button>
+                    <!-- Delete button can be implemented later -->
+                    <button class="btn btn-link text-danger text-decoration-none fw-medium w-100 text-start border-0 p-0 small hover-text-danger-dark" onclick="alert('Delete functionality coming soon')">Delete customer</button>
                 </div>
 
             </div>
@@ -154,5 +118,4 @@
     .card-hover-actions:hover .show-on-hover { opacity: 1 !important; }
     .hover-text-danger-dark:hover { color: #bd2130 !important; }
 </style>
-@endsection
 @endsection

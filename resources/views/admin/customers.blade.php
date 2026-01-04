@@ -14,18 +14,40 @@
     <div class="card-header bg-light border-bottom p-3 d-flex gap-3">
         <div class="flex-grow-1">
              <form action="{{ route('admin.customers') }}" method="GET">
+                 @foreach(request()->except(['search', 'page']) as $key => $value)
+                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                 @endforeach
                  <div class="input-group shadow-sm">
                      <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
                      <input type="text" name="search" value="{{ request('search') }}" placeholder="Search customers" class="form-control border-start-0 ps-0 shadow-none">
                  </div>
              </form>
         </div>
-        <button class="btn btn-white border btn-sm shadow-sm text-secondary">
-            <i class="fas fa-filter me-2"></i> Filter
-        </button>
-        <button class="btn btn-white border btn-sm shadow-sm text-secondary">
-            <i class="fas fa-sort me-2"></i> Sort
-        </button>
+        <!-- Status Filter -->
+        <!-- <div class="dropdown">
+            <button class="btn btn-white border shadow-sm text-secondary bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-filter me-2"></i> {{ request('status') ? ucfirst(request('status')) : 'All Status' }}
+            </button>
+            <ul class="dropdown-menu shadow-sm border-0">
+                <li><a class="dropdown-item small {{ !request('status') ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['status' => null, 'page' => 1])) }}">All Status</a></li>
+                <li><a class="dropdown-item small {{ request('status') == 'verified' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['status' => 'verified', 'page' => 1])) }}">Verified</a></li>
+                <li><a class="dropdown-item small {{ request('status') == 'unverified' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['status' => 'unverified', 'page' => 1])) }}">Unverified</a></li>
+            </ul>
+        </div> -->
+
+        <!-- Sort Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-white border shadow-sm text-secondary bg-white dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-sort me-2"></i> Sort
+            </button>
+            <ul class="dropdown-menu shadow-sm border-0 dropdown-menu-end">
+                <li><a class="dropdown-item small {{ !request('sort') || request('sort') == 'newest' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['sort' => 'newest', 'page' => 1])) }}">Newest First</a></li>
+                <li><a class="dropdown-item small {{ request('sort') == 'oldest' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['sort' => 'oldest', 'page' => 1])) }}">Oldest First</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item small {{ request('sort') == 'name_asc' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['sort' => 'name_asc', 'page' => 1])) }}">Name (A-Z)</a></li>
+                <li><a class="dropdown-item small {{ request('sort') == 'name_desc' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.customers', array_merge(request()->query(), ['sort' => 'name_desc', 'page' => 1])) }}">Name (Z-A)</a></li>
+            </ul>
+        </div>
     </div>
 
     <!-- Placeholder Content -->
