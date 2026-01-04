@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Best Sellers')
+@section('title', $collection->name)
 
 @section('content')
 <div class="container pb-5">
@@ -10,9 +10,12 @@
              <a href="{{ route('admin.collections') }}" class="text-secondary hover-text-dark">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <h1 class="h3 mb-0 text-dark">Best Sellers</h1>
+            <h1 class="h3 mb-0 text-dark">{{ $collection->name }}</h1>
         </div>
-        <a href="{{ route('admin.products') }}" class="btn btn-white border shadow-sm text-secondary hover-bg-light fw-medium">Browse products</a>
+        <div class="d-flex gap-2">
+             <a href="{{ route('admin.collections.edit', $collection->id) }}" class="btn btn-white border shadow-sm text-secondary hover-bg-light fw-medium">Edit Collection</a>
+             <a href="{{ route('admin.products.create') }}" class="btn btn-dark shadow-sm fw-medium">Add Product</a>
+        </div>
     </div>
 
     <div class="row g-4">
@@ -22,57 +25,39 @@
                 <!-- Products List -->
                 <div class="card border shadow-sm overflow-hidden">
                     <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center p-3">
-                        <h2 class="h6 fw-bold text-secondary mb-0">Products</h2>
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-white text-secondary border fw-normal">Sorted by: Best Selling</span>
-                        </div>
+                        <h2 class="h6 fw-bold text-secondary mb-0">Products ({{ $collection->products->count() }})</h2>
                     </div>
                     
                     <div class="list-group list-group-flush">
-                        <!-- Product 1 -->
+                        @forelse($collection->products as $product)
                         <div class="list-group-item p-3 d-flex gap-3 align-items-center hover-bg-light transition-colors">
-                            <div class="d-flex align-items-center justify-content-center bg-light rounded border flex-shrink-0" style="width: 40px; height: 40px;">
-                                <i class="fas fa-image text-secondary opacity-50"></i>
+                            <div class="d-flex align-items-center justify-content-center bg-light rounded border flex-shrink-0 overflow-hidden" style="width: 40px; height: 40px;">
+                                @if($product->images->isNotEmpty())
+                                    <img src="{{ Storage::url($product->images->sortBy('order')->first()->path) }}" class="w-100 h-100 object-fit-cover">
+                                @else
+                                    <i class="fas fa-image text-secondary opacity-50"></i>
+                                @endif
                             </div>
                             <div class="flex-grow-1">
-                                <a href="#" class="d-block text-dark fw-medium text-decoration-none text-decoration-underline-hover small">Midnight Oud 50ml</a>
-                                <p class="small text-muted mb-0">Active • 25 in stock</p>
+                                <a href="{{ route('admin.products.edit', $product->id) }}" class="d-block text-dark fw-medium text-decoration-none text-decoration-underline-hover small">{{ $product->title }}</a>
+                                <p class="small text-muted mb-0">
+                                    {{ ucfirst($product->status) }} • 
+                                    {{ $product->variants->sum('stock') }} in stock
+                                    @if($product->variants->isNotEmpty())
+                                        • {{ $product->variants->count() }} variants
+                                    @endif
+                                </p>
                             </div>
-                             <button class="btn btn-link btn-sm text-secondary hover-text-danger p-0">
-                                 <i class="fas fa-times"></i>
-                             </button>
+                             <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-link btn-sm text-secondary hover-text-primary p-0">
+                                 <i class="fas fa-edit"></i>
+                             </a>
                         </div>
-                        <!-- Product 2 -->
-                        <div class="list-group-item p-3 d-flex gap-3 align-items-center hover-bg-light transition-colors">
-                            <div class="d-flex align-items-center justify-content-center bg-light rounded border flex-shrink-0" style="width: 40px; height: 40px;">
-                                <i class="fas fa-image text-secondary opacity-50"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <a href="#" class="d-block text-dark fw-medium text-decoration-none text-decoration-underline-hover small">Rose & Amber Gift Set</a>
-                                <p class="small text-muted mb-0">Draft • 0 in stock</p>
-                            </div>
-                            <button class="btn btn-link btn-sm text-secondary hover-text-danger p-0">
-                                 <i class="fas fa-times"></i>
-                             </button>
+                        @empty
+                        <div class="list-group-item p-5 text-center text-muted">
+                            <p class="mb-0">No products in this collection yet.</p>
                         </div>
-                         <!-- Product 3 -->
-                        <div class="list-group-item p-3 d-flex gap-3 align-items-center hover-bg-light transition-colors">
-                            <div class="d-flex align-items-center justify-content-center bg-light rounded border flex-shrink-0" style="width: 40px; height: 40px;">
-                                <i class="fas fa-image text-secondary opacity-50"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <a href="#" class="d-block text-dark fw-medium text-decoration-none text-decoration-underline-hover small">Jasmine Musk Oil</a>
-                                <p class="small text-muted mb-0">Active • 10 in stock</p>
-                            </div>
-                            <button class="btn btn-link btn-sm text-secondary hover-text-danger p-0">
-                                 <i class="fas fa-times"></i>
-                             </button>
-                        </div>
+                        @endforelse
                     </div>
-                    
-                     <div class="p-3 border-top bg-light">
-                         <p class="small text-center text-muted mb-0">Showing 3 of 12 products</p>
-                     </div>
                 </div>
             
             </div>
@@ -83,12 +68,29 @@
                 <!-- Image Card -->
                 <div class="card border shadow-sm p-4">
                     <h2 class="h6 fw-bold text-secondary mb-3">Collection Image</h2>
-                    <div class="ratio ratio-1x1 bg-light rounded border d-flex align-items-center justify-content-center mb-3">
-                        <i class="fas fa-image text-secondary opacity-25 display-4"></i>
+                    <div class="ratio ratio-1x1 bg-light rounded border d-flex align-items-center justify-content-center overflow-hidden mb-3">
+                        @if($collection->image)
+                            <img src="{{ Storage::url($collection->image) }}" class="w-100 h-100 object-fit-cover">
+                        @else
+                            <i class="fas fa-image text-secondary opacity-25 display-4"></i>
+                        @endif
                     </div>
-                    <button class="btn btn-link w-100 text-decoration-none small">Change image</button>
+                    <a href="{{ route('admin.collections.edit', $collection->id) }}" class="btn btn-link w-100 text-decoration-none small">Change image</a>
                 </div>
                 
+                <!-- Status Card -->
+                <div class="card border shadow-sm p-4">
+                    <h2 class="h6 fw-bold text-secondary mb-3">Status</h2>
+                    <div class="d-flex align-items-center justify-content-between">
+                         <span class="badge {{ $collection->status ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">
+                            {{ $collection->status ? 'Active' : 'Draft' }}
+                        </span>
+                        <span class="text-muted small">
+                             {{ $collection->status ? 'Visible on store' : 'Hidden from store' }}
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -97,6 +99,6 @@
     .hover-text-dark:hover { color: #343a40 !important; }
     .hover-bg-light:hover { background-color: var(--bs-light) !important; }
     .text-decoration-underline-hover:hover { text-decoration: underline !important; }
-    .hover-text-danger:hover { color: var(--bs-danger) !important; }
+    .hover-text-primary:hover { color: var(--bs-primary) !important; }
 </style>
 @endsection

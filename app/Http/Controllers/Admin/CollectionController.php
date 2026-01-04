@@ -15,7 +15,7 @@ class CollectionController extends Controller
      */
     public function index()
     {
-        $collections = Collection::latest()->paginate(10);
+        $collections = Collection::withCount('products')->latest()->paginate(10);
         return view('admin.collections.index', compact('collections'));
     }
 
@@ -68,7 +68,7 @@ class CollectionController extends Controller
      */
     public function show($id)
     {
-        $collection = Collection::findOrFail($id);
+        $collection = Collection::with(['products.images', 'products.variants'])->findOrFail($id);
         return view('admin.collections.show', compact('collection'));
     }
 
