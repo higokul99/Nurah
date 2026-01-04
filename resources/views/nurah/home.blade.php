@@ -158,36 +158,29 @@
 
     <!-- Hero Slider -->
     <div class="hero-slider">
+        @forelse($sliders as $key => $slider)
+        <div class="slide {{ $key == 0 ? 'active' : '' }}">
+            <picture>
+                <source media="(max-width: 768px)" srcset="{{ Storage::url($slider->image_mobile) }}">
+                <img src="{{ Storage::url($slider->image_desktop) }}" alt="{{ $slider->title ?? 'Nurah Perfumes' }}">
+            </picture>
+        </div>
+        @empty
         <div class="slide active">
             <picture>
                 <source media="(max-width: 768px)" srcset="{{ asset('Images/hero-mobile-1.webp') }}">
-                <img src="{{ asset('Images/hero-desktop-1.webp') }}" alt="Buy 2 Get 1">
+                <img src="{{ asset('Images/hero-desktop-1.webp') }}" alt="Default Slider">
             </picture>
         </div>
-        <div class="slide">
-            <picture>
-                <source media="(max-width: 768px)" srcset="{{ asset('Images/hero-mobile-2.webp') }}">
-                <img src="{{ asset('Images/hero-desktop-2.webp') }}" alt="New Store">
-            </picture>
-        </div>
-        <div class="slide">
-            <picture>
-                 <source media="(max-width: 768px)" srcset="{{ asset('Images/hero-mobile-3.webp') }}">
-                <img src="{{ asset('Images/hero-desktop-3.webp') }}" alt="Featured">
-            </picture>
-        </div>
-        <div class="slide">
-            <picture>
-                <source media="(max-width: 768px)" srcset="https://myop.in/cdn/shop/files/marshamallow_phone.webp?v=1753949875&width=1000">
-                <img src="{{ asset('Images/hero-desktop-4.webp') }}" alt="Marshmallow">
-            </picture>
-        </div>
+        @endforelse
+        
+        @if($sliders->count() > 1)
         <div class="slider-dots">
-            <div class="dot active" data-slide="0"></div>
-            <div class="dot" data-slide="1"></div>
-            <div class="dot" data-slide="2"></div>
-            <div class="dot" data-slide="3"></div>
+            @foreach($sliders as $key => $slider)
+            <div class="dot {{ $key == 0 ? 'active' : '' }}" data-slide="{{ $key }}"></div>
+            @endforeach
         </div>
+        @endif
     </div>
 
     <!-- Bestsellers -->
@@ -196,87 +189,53 @@
             <h2 class="section-title">Discover <em>Our Bestsellers</em></h2>
         </div>
         <div class="product-grid">
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <span class="product-badge">New</span>
-                    <img src="{{ asset('Images/product-sandal-veer.webp') }}" alt="Sandal Veer" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Sandal Veer</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <span class="product-badge">New</span>
-                    <img src="{{ asset('Images/product-marshmallow-fluff.webp') }}" alt="Marshmallow Fluff" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Marshmallow Fluff</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-purple-mystique.webp') }}" alt="Purple Mystique" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Purple Mystique</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-bangalore-bloom.webp') }}" alt="Bangalore Bloom" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Bangalore Bloom</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-fruit-punch.webp') }}" alt="Fruit Punch" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Fruit Punch</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-one-of-a-kind.webp') }}" alt="One of a Kind" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">One of a Kind</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-midnight-jasmine.webp') }}" alt="Midnight Jasmine" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Midnight Jasmine</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-amber-elixir.webp') }}" alt="Amber Elixir" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Amber Elixir</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                </div>
-            </a>
+            @forelse($bestsellers as $item)
+                @if($item->product)
+                <a href="{{ route('product', ['id' => $item->product->id]) }}" class="product-card">
+                    <div class="product-image-wrapper">
+                        <!-- Create a fresh/new badge logic if needed, for now static or based on timestamps -->
+                        @if($item->product->created_at->diffInDays(now()) < 30)
+                            <span class="product-badge">New</span>
+                        @endif
+                        
+                        @if($item->product->main_image_url)
+                            <img src="{{ $item->product->main_image_url }}" alt="{{ $item->product->title }}" class="product-image">
+                        @else
+                            <div class="d-flex align-items-center justify-content-center h-100 bg-light text-secondary">
+                                <i class="fas fa-image fa-2x opacity-25"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ $item->product->title }}</h3>
+                        <p class="product-price"><span>From</span> ₹{{ number_format($item->product->starting_price, 0) }}</p>
+                    </div>
+                </a>
+                @endif
+            @empty
+                <!-- Fallback Static Content if DB is empty -->
+                <a href="{{ route('product') }}" class="product-card">
+                    <div class="product-image-wrapper">
+                        <span class="product-badge">New</span>
+                        <img src="{{ asset('Images/product-sandal-veer.webp') }}" alt="Sandal Veer" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sandal Veer</h3>
+                        <p class="product-price"><span>From</span> ₹1,129</p>
+                    </div>
+                </a>
+                <!-- ... (keep one or two static items as fallback if desired, or just show nothing) ... -->
+                 <a href="{{ route('product') }}" class="product-card">
+                    <div class="product-image-wrapper">
+                        <span class="product-badge">New</span>
+                         <img src="{{ asset('Images/product-marshmallow-fluff.webp') }}" alt="Sandal Veer" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Marshmallow Fluff</h3>
+                        <p class="product-price"><span>From</span> ₹1,129</p>
+                    </div>
+                </a>
+            @endforelse
         </div>
         <a href="/all-products" class="view-all-btn">View All Products</a>
     </section>

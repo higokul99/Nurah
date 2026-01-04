@@ -56,4 +56,15 @@ class Product extends Model
     {
         return $this->belongsTo(Collection::class);
     }
+
+    public function getStartingPriceAttribute()
+    {
+        return $this->variants->min('price');
+    }
+
+    public function getMainImageUrlAttribute()
+    {
+        $image = $this->images->first();
+        return $image ? \Illuminate\Support\Facades\Storage::url($image->path) : null;
+    }
 }

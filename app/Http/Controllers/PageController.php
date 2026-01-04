@@ -8,7 +8,15 @@ class PageController extends Controller
 {
     public function home()
     {
-        return view('nurah.home');
+        $sliders = \App\Models\Slider::where('status', true)
+            ->orderBy('order', 'asc')
+            ->get();
+
+        $bestsellers = \App\Models\HomeProduct::with(['product.variants', 'product.images'])
+            ->orderBy('sort_order', 'asc')
+            ->get();
+            
+        return view('nurah.home', compact('sliders', 'bestsellers'));
     }
 
     public function collection(Request $request)
@@ -32,7 +40,15 @@ class PageController extends Controller
 
     public function allProducts()
     {
-        return view('nurah.all-products', ['title' => 'All Products']);
+        $products = \App\Models\Product::where('status', 'active')
+            ->with(['variants', 'images'])
+            ->latest()
+            ->paginate(12);
+
+        return view('nurah.all-products', [
+            'title' => 'All Products',
+            'products' => $products
+        ]);
     }
 
     public function cosmopolitan()
