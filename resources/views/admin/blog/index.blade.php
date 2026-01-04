@@ -60,7 +60,7 @@
                         <td class="px-4 py-3">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-light rounded overflow-hidden flex-shrink-0" style="width: 48px; height: 48px;">
-                                    <img src="https://images.unsplash.com/photo-1595425235483-360e2ceb002c?w=150&q=80" class="w-100 h-100 object-fit-cover">
+                                    <img src="https://i.ytimg.com/vi/_2NfDSPAwVo/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDVmdYRqpPdYDZYwqQKDmEr3Bw7DQ" class="w-100 h-100 object-fit-cover">
                                 </div>
                                 <div>
                                     <h3 class="h6 fw-semibold text-dark mb-1">Top 5 Winter Fragrances for 2024</h3>
