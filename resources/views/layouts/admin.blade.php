@@ -24,6 +24,18 @@
         .sidebar { width: 260px; flex-shrink: 0; overflow-y: auto; background: white; border-right: 1px solid #dee2e6; }
         .main-content { flex: 1; display: flex; flex-direction: column; min-width: 0; }
         .content-scroll { flex: 1; overflow-y: auto; padding: 1.5rem; }
+        
+        @media (max-width: 767.98px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 1050;
+                width: 280px;
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            }
+        }
     </style>
 </head>
 <body class="text-secondary">

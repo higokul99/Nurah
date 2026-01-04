@@ -4,7 +4,7 @@
             <div class="d-flex align-items-center justify-content-center rounded bg-dark text-white fw-bold" style="width: 32px; height: 32px; font-size: 14px;">N</div>
             <span class="fw-semibold text-secondary">Nurah Admin</span>
         </div>
-        <button class="btn btn-link text-secondary p-0 text-decoration-none"><i class="fas fa-chevron-left small"></i></button>
+        <button class="btn btn-link text-secondary p-0 text-decoration-none d-md-none" onclick="toggleSidebar()"><i class="fas fa-chevron-left small"></i></button>
     </div>
 
     <nav class="flex-grow-1 overflow-auto py-2">
