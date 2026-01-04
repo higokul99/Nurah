@@ -67,6 +67,10 @@ class DiscountController extends Controller
 
         $discounts = $query->paginate(10);
         
+        if ($request->ajax()) {
+            return view('admin.discounts.partials.table', compact('discounts'))->render();
+        }
+
         $total = Discount::count();
         $active = Discount::where('status', 'active')
             ->where('starts_at', '<=', now())
