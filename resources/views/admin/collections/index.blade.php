@@ -23,49 +23,45 @@
                  </tr>
             </thead>
             <tbody class="divide-y">
-                <tr class="cursor-pointer group" onclick="window.location='{{ route('admin.collections.show', 1) }}'">
+                @forelse($collections as $collection)
+                <tr class="cursor-pointer group">
                     <td class="px-4 py-3" onclick="event.stopPropagation()">
-                        <input class="form-check-input" type="checkbox">
+                        <input class="form-check-input" type="checkbox" value="{{ $collection->id }}">
                     </td>
                     <td class="px-4 py-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="d-flex align-items-center justify-content-center bg-light rounded border flex-shrink-0 overflow-hidden" style="width: 40px; height: 40px;">
-                                <!-- Placeholder Image -->
-                                <i class="fas fa-image text-secondary opacity-50"></i>
+                                @if($collection->image)
+                                    <img src="{{ Storage::url($collection->image) }}" alt="{{ $collection->name }}" class="w-100 h-100 object-fit-cover">
+                                @else
+                                    <i class="fas fa-image text-secondary opacity-50"></i>
+                                @endif
                             </div>
-                            <span class="fw-medium text-dark text-decoration-underline-hover">Best Sellers</span>
+                            <a href="{{ route('admin.collections.edit', $collection->id) }}" class="fw-medium text-dark text-decoration-underline-hover">{{ $collection->name }}</a>
                         </div>
                     </td>
-                    <td class="px-4 py-3 text-secondary">12 products</td>
-                    <td class="px-4 py-3 text-secondary">Manual</td>
-                    <td class="px-4 py-3 text-end">
-                        <div class="d-flex justify-content-end gap-2" onclick="event.stopPropagation()">
-                            <a href="{{ route('admin.collections.show', 1) }}" class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-primary"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-danger"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                 <tr class="cursor-pointer group" onclick="window.location='{{ route('admin.collections.show', 2) }}'">
-                    <td class="px-4 py-3" onclick="event.stopPropagation()">
-                        <input class="form-check-input" type="checkbox">
-                    </td>
+                    <td class="px-4 py-3 text-secondary">0 products</td> {{-- Update when product relation exists --}}
                     <td class="px-4 py-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex align-items-center justify-content-center bg-light rounded border flex-shrink-0 overflow-hidden" style="width: 40px; height: 40px;">
-                                <i class="fas fa-image text-secondary opacity-50"></i>
-                            </div>
-                            <span class="fw-medium text-dark text-decoration-underline-hover">New Arrivals</span>
-                        </div>
+                        <span class="badge {{ $collection->status ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }}">
+                            {{ $collection->status ? 'Active' : 'Draft' }}
+                        </span>
                     </td>
-                    <td class="px-4 py-3 text-secondary">8 products</td>
-                    <td class="px-4 py-3 text-secondary">Automated</td>
                     <td class="px-4 py-3 text-end">
                         <div class="d-flex justify-content-end gap-2" onclick="event.stopPropagation()">
-                            <a href="{{ route('admin.collections.show', 2) }}" class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-primary"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-danger"><i class="fas fa-trash"></i></button>
+                            <a href="{{ route('admin.collections.edit', $collection->id) }}" class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-primary"><i class="fas fa-edit"></i></a>
+                            <form action="{{ route('admin.collections.destroy', $collection->id) }}" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-danger"><i class="fas fa-trash"></i></button>
+                            </form>
                         </div>
                     </td>
                 </tr>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center py-5 text-muted">No collections found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

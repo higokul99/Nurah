@@ -38,11 +38,12 @@ Route::get('/admin/orders/{id}', function ($id) {
     return view('admin.orders.show', ['id' => $id]);
 })->name('admin.orders.show');
 
-Route::view('/admin/collections', 'admin.collections.index')->name('admin.collections');
-Route::view('/admin/collections/create', 'admin.collections.create')->name('admin.collections.create');
-Route::get('/admin/collections/{id}', function ($id) {
-    return view('admin.collections.show', ['id' => $id]);
-})->name('admin.collections.show');
+Route::get('/admin/collections', [App\Http\Controllers\Admin\CollectionController::class, 'index'])->name('admin.collections');
+Route::get('/admin/collections/create', [App\Http\Controllers\Admin\CollectionController::class, 'create'])->name('admin.collections.create');
+Route::post('/admin/collections', [App\Http\Controllers\Admin\CollectionController::class, 'store'])->name('admin.collections.store');
+Route::get('/admin/collections/{id}/edit', [App\Http\Controllers\Admin\CollectionController::class, 'edit'])->name('admin.collections.edit');
+Route::put('/admin/collections/{id}', [App\Http\Controllers\Admin\CollectionController::class, 'update'])->name('admin.collections.update');
+Route::delete('/admin/collections/{id}', [App\Http\Controllers\Admin\CollectionController::class, 'destroy'])->name('admin.collections.destroy');
 
 Route::view('/admin/bundles', 'admin.bundles.index')->name('admin.bundles');
 Route::view('/admin/bundles/create', 'admin.bundles.create')->name('admin.bundles.create');
