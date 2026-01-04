@@ -20,8 +20,8 @@
     <div class="card border shadow-sm">
         <div class="list-group list-group-flush" id="sortable-slides">
             
-            <!-- Slide Item 1 -->
-            <div class="list-group-item p-3 d-flex flex-column flex-sm-row align-items-sm-center gap-3 hover-bg-light transition-colors draggable-item" draggable="true">
+            @forelse($sliders as $slider)
+            <div class="list-group-item p-3 d-flex flex-column flex-sm-row align-items-sm-center gap-3 hover-bg-light transition-colors draggable-item" draggable="true" data-id="{{ $slider->id }}">
                 
                 <!-- Visuals Row -->
                 <div class="d-flex align-items-center gap-3">
@@ -32,80 +32,46 @@
 
                     <!-- Desktop Thumb -->
                     <div class="position-relative bg-light border rounded overflow-hidden flex-shrink-0" style="width: 120px; height: 50px;">
-                        <img src="https://myop.in/cdn/shop/files/b2g1_6e47992a-e85f-4019-89d5-179ac74e931d.webp?v=1740730153&width=5760" class="w-100 h-100 object-fit-cover">
+                        <img src="{{ Storage::url($slider->image_desktop) }}" class="w-100 h-100 object-fit-cover">
                         <span class="position-absolute bottom-0 end-0 bg-dark bg-opacity-50 text-white px-1 small" style="font-size: 10px;">Desktop</span>
                     </div>
 
                     <!-- Mobile Thumb -->
                     <div class="position-relative bg-light border rounded overflow-hidden flex-shrink-0" style="width: 32px; height: 50px;">
-                        <img src="https://myop.in/cdn/shop/files/b2g1_phone.webp?v=1740730153&width=1000" class="w-100 h-100 object-fit-cover">
+                        <img src="{{ Storage::url($slider->image_mobile) }}" class="w-100 h-100 object-fit-cover">
                         <span class="position-absolute bottom-0 end-0 bg-dark bg-opacity-50 text-white px-1 small" style="font-size: 10px;">Mob</span>
                     </div>
                 </div>
 
                 <!-- Info -->
                 <div class="flex-grow-1 min-w-0">
-                    <h3 class="h6 fw-bold text-dark mb-0 text-truncate">Buy 2 Get 1</h3>
+                    <h3 class="h6 fw-bold text-dark mb-0 text-truncate">{{ $slider->title ?? 'Untitled Slide' }}</h3>
                 </div>
 
                 <!-- Meta Row (Status + Actions) -->
                 <div class="d-flex align-items-center justify-content-between justify-content-sm-end gap-3 w-100 w-sm-auto border-top border-sm-0 pt-2 pt-sm-0 mt-2 mt-sm-0">
                     <!-- Status -->
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill fw-normal">
-                        Active
+                    <span class="badge {{ $slider->status ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary' }} rounded-pill fw-normal">
+                        {{ $slider->status ? 'Active' : 'Hidden' }}
                     </span>
 
                     <!-- Actions -->
                     <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-link btn-sm p-2 text-secondary hover-text-danger" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <form action="{{ route('admin.settings.slider.destroy', $slider->id) }}" method="POST" onsubmit="return confirm('Delete this slide?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-link btn-sm p-2 text-secondary hover-text-danger" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-
-            <!-- Slide Item 2 -->
-            <div class="list-group-item p-3 d-flex flex-column flex-sm-row align-items-sm-center gap-3 hover-bg-light transition-colors draggable-item" draggable="true">
-                 <!-- Visuals Row -->
-                <div class="d-flex align-items-center gap-3">
-                    <!-- Drag Handle -->
-                    <div class="cursor-move text-secondary px-2 handle">
-                        <i class="fas fa-grip-vertical"></i>
-                    </div>
-
-                    <!-- Desktop Thumb -->
-                    <div class="position-relative bg-light border rounded overflow-hidden flex-shrink-0" style="width: 120px; height: 50px;">
-                        <img src="https://myop.in/cdn/shop/files/banner_elante_chandigarh_copy.webp?v=1764662226&width=5760" class="w-100 h-100 object-fit-cover">
-                         <span class="position-absolute bottom-0 end-0 bg-dark bg-opacity-50 text-white px-1 small" style="font-size: 10px;">Desktop</span>
-                    </div>
-
-                    <!-- Mobile Thumb -->
-                    <div class="position-relative bg-light border rounded overflow-hidden flex-shrink-0" style="width: 32px; height: 50px;">
-                        <img src="https://myop.in/cdn/shop/files/Banner_elante_chandigarh_phone_copy_1.webp?v=1764662226&width=1000" class="w-100 h-100 object-fit-cover">
-                        <span class="position-absolute bottom-0 end-0 bg-dark bg-opacity-50 text-white px-1 small" style="font-size: 10px;">Mob</span>
-                    </div>
-                </div>
-
-                <!-- Info -->
-                <div class="flex-grow-1 min-w-0">
-                    <h3 class="h6 fw-bold text-dark mb-0 text-truncate">New Store - Chandigarh</h3>
-                </div>
-
-                <!-- Meta Row (Status + Actions) -->
-                 <div class="d-flex align-items-center justify-content-between justify-content-sm-end gap-3 w-100 w-sm-auto border-top border-sm-0 pt-2 pt-sm-0 mt-2 mt-sm-0">
-                    <!-- Status -->
-                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill fw-normal">
-                        Active
-                    </span>
-
-                    <!-- Actions -->
-                    <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-link btn-sm p-2 text-secondary hover-text-danger" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
+            @empty
+            <div class="list-group-item p-5 text-center text-muted">
+                No slides found. Click "Add New Slide" to get started.
             </div>
+            @endforelse
 
         </div>
     </div>

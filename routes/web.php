@@ -96,8 +96,11 @@ Route::get('/admin/discounts/{id}/edit', function ($id) {
     return view('admin.discounts.edit', ['id' => $id]);
 })->name('admin.discounts.edit');
 
-Route::view('/admin/settings/slider', 'admin.settings.slider')->name('admin.settings.slider');
-Route::view('/admin/settings/slider/create', 'admin.settings.slider_create')->name('admin.settings.slider.create');
+Route::get('/admin/settings/slider', [App\Http\Controllers\Admin\SliderController::class, 'index'])->name('admin.settings.slider');
+Route::get('/admin/settings/slider/create', [App\Http\Controllers\Admin\SliderController::class, 'create'])->name('admin.settings.slider.create');
+Route::post('/admin/settings/slider', [App\Http\Controllers\Admin\SliderController::class, 'store'])->name('admin.settings.slider.store');
+Route::post('/admin/settings/slider/reorder', [App\Http\Controllers\Admin\SliderController::class, 'reorder'])->name('admin.settings.slider.reorder');
+Route::delete('/admin/settings/slider/{id}', [App\Http\Controllers\Admin\SliderController::class, 'destroy'])->name('admin.settings.slider.destroy');
 
 Route::view('/admin/settings/managers', 'admin.settings.managers.index')->name('admin.settings.managers');
 Route::view('/admin/settings/managers/create', 'admin.settings.managers.create')->name('admin.settings.managers.create');
