@@ -1154,7 +1154,7 @@
 
     <!-- Related Products -->
     <div class="related-products-section">
-        <h2 class="reviews-title" style="margin: 0 0 20px 20px; font-size: 20px;">Recently viewed</h2>
+        <h2 class="reviews-title" style="margin: 0 0 20px 20px; font-size: 20px;">Recently Viewed</h2>
         <div class="related-scroll-container">
             @forelse($relatedProducts as $related)
             <div class="product-card" onclick="window.location.href='{{ route('product', ['id' => $related->id]) }}'">
