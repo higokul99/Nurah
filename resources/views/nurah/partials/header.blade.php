@@ -11,10 +11,7 @@
         <div class="header-icons">
             <button class="icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
             @auth
-                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="icon-btn" style="color: inherit;" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
+                <a href="{{ route('account.index') }}" class="icon-btn" style="color: inherit;" title="My Account"><i class="fas fa-user"></i></a>
             @else
                 <a href="javascript:void(0)" onclick="openLogin()" class="icon-btn" style="color: inherit;"><i class="fas fa-user"></i></a>
             @endauth

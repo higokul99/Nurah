@@ -75,7 +75,7 @@
             
                 <!-- Customer Contact -->
                 <div class="card border shadow-sm p-4 position-relative card-hover-actions">
-                    <button class="btn btn-link btn-sm p-0 position-absolute top-0 end-0 mt-3 me-3 text-decoration-none opacity-0 hover-opacity-100 transition-opacity show-on-hover">Edit</button>
+                    <!-- <button class="btn btn-link btn-sm p-0 position-absolute top-0 end-0 mt-3 me-3 text-decoration-none opacity-0 hover-opacity-100 transition-opacity show-on-hover">Edit</button> -->
                     <h2 class="h6 fw-bold text-secondary mb-3">Customer Contact</h2>
                     <div class="vstack gap-3">
                         <div class="d-flex align-items-center gap-3">
@@ -83,22 +83,34 @@
                                 $initials = collect(explode(' ', $customer->name))->map(fn($s) => strtoupper(substr($s, 0, 1)))->take(2)->implode('');
                              @endphp
                              <div class="d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle fw-bold small" style="width: 32px; height: 32px;">{{ $initials }}</div>
-                             <a href="mailto:{{ $customer->email }}" class="text-primary text-decoration-none small">{{ $customer->email }}</a>
-                             <button class="btn btn-link btn-sm p-0 text-secondary hover-text-dark"><i class="far fa-copy"></i></button>
+                             <a href="mailto:{{ $customer->email }}" class="text-primary text-decoration-none small" id="copy-email-text">{{ $customer->email }}</a>
+                             <button class="btn btn-link btn-sm p-0 text-secondary hover-text-dark" onclick="copyToClipboard('{{ $customer->email }}', this)"><i class="far fa-copy"></i></button>
                         </div>
                          <div class="d-flex align-items-center gap-3">
                              <div class="text-center text-secondary small" style="width: 32px;"><i class="fas fa-phone"></i></div>
-                             <span class="small text-dark">{{ $customer->phone ?? 'No phone number' }}</span>
+                             <span class="small text-dark" id="copy-phone-text">{{ $customer->phone ?? 'No phone number' }}</span>
+                             @if($customer->phone)
+                                <button class="btn btn-link btn-sm p-0 text-secondary hover-text-dark" onclick="copyToClipboard('{{ $customer->phone }}', this)"><i class="far fa-copy"></i></button>
+                             @endif
                         </div>
                     </div>
                 </div>
 
                 <!-- Default Address -->
                 <div class="card border shadow-sm p-4 position-relative card-hover-actions">
-                    <button class="btn btn-link btn-sm p-0 position-absolute top-0 end-0 mt-3 me-3 text-decoration-none opacity-0 hover-opacity-100 transition-opacity show-on-hover">Manage</button>
+                    <!-- <button class="btn btn-link btn-sm p-0 position-absolute top-0 end-0 mt-3 me-3 text-decoration-none opacity-0 hover-opacity-100 transition-opacity show-on-hover">Manage</button> -->
                     <h2 class="h6 fw-bold text-secondary mb-3">Default Address</h2>
                     <div class="small text-secondary lh-sm">
-                        <p class="mb-0 text-muted">No address information available.</p>
+                        @if($customer->defaultAddress)
+                            <p class="mb-1 text-dark fw-medium">{{ $customer->defaultAddress->address_line1 }}</p>
+                            @if($customer->defaultAddress->address_line2)
+                                <p class="mb-1 text-secondary">{{ $customer->defaultAddress->address_line2 }}</p>
+                            @endif
+                            <p class="mb-1 text-secondary">{{ $customer->defaultAddress->city }}, {{ $customer->defaultAddress->state }} {{ $customer->defaultAddress->zip }}</p>
+                            <p class="mb-0 text-secondary">{{ $customer->defaultAddress->country }}</p>
+                        @else
+                            <p class="mb-0 text-muted">No address information available.</p>
+                        @endif
                     </div>
                 </div>
 
@@ -118,4 +130,23 @@
     .card-hover-actions:hover .show-on-hover { opacity: 1 !important; }
     .hover-text-danger-dark:hover { color: #bd2130 !important; }
 </style>
+<script>
+    function copyToClipboard(text, btn) {
+        if (!text) return;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const icon = btn.querySelector('i');
+            const originalClass = icon.className;
+            
+            icon.className = 'fas fa-check text-success';
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            alert('Failed to copy to clipboard');
+        });
+    }
+</script>
 @endsection

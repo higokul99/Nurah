@@ -19,6 +19,11 @@ Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
+// Protected User Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index');
+    Route::post('/account/address', [App\Http\Controllers\AccountController::class, 'updateAddress'])->name('account.address.update');
+});
 
 // Admin Routes (Auth Disabled for now)
 // Route::prefix('admin')->name('admin.')->group(function () {
