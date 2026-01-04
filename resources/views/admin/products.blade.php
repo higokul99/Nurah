@@ -89,5 +89,8 @@
             </tbody>
         </table>
     </div>
+    <div class="card-footer bg-white border-top p-3">
+        {{ $products->links() }}
+    </div>
 </div>
 @endsection

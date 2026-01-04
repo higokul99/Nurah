@@ -24,7 +24,8 @@ class ProductController extends Controller
     {
         $collections = Collection::all();
         $families = Attribute::where('type', 'family')->get();
-        return view('admin.products.create', compact('collections', 'families'));
+        $notes = Attribute::where('type', 'note')->get();
+        return view('admin.products.create', compact('collections', 'families', 'notes'));
     }
 
     public function store(Request $request)
@@ -33,12 +34,13 @@ class ProductController extends Controller
             'title' => 'required|string|max:255',
             'status' => 'required|in:active,draft',
             'variants' => 'array',
+            'media.*' => 'mimes:webp',
         ]);
 
         $product = Product::create($request->only([
             'title', 'description', 'status', 'type', 'vendor', 
             'collection_id', 'gender', 'olfactory_family', 
-            'intensity', 'notes_top', 'notes_heart', 'notes_base'
+            'intensity', 'oil_concentration', 'notes_top', 'notes_heart', 'notes_base'
         ]));
 
         // Handle Variants
@@ -77,32 +79,51 @@ class ProductController extends Controller
         $product = Product::with(['variants', 'images'])->findOrFail($id);
         $collections = Collection::all();
         $families = Attribute::where('type', 'family')->get();
-        return view('admin.products.edit', compact('product', 'collections', 'families'));
+        $notes = Attribute::where('type', 'note')->get();
+        return view('admin.products.edit', compact('product', 'collections', 'families', 'notes'));
     }
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+             'media.*' => 'mimes:webp',
+        ]);
+
         $product = Product::findOrFail($id);
         
         $product->update($request->only([
             'title', 'description', 'status', 'type', 'vendor', 
             'collection_id', 'gender', 'olfactory_family', 
-            'intensity', 'notes_top', 'notes_heart', 'notes_base'
+            'intensity', 'oil_concentration', 'notes_top', 'notes_heart', 'notes_base'
         ]));
 
-        // Sync Variants: Delete old and re-create, or update?
-        // Simpler for this specific UI (fixed sizes) is to delete and recreate based on what's checked.
-        $product->variants()->delete();
-        
+        // Sync Variants
+        $existingSizes = [];
         if ($request->has('variant_data')) {
             foreach ($request->variant_data as $size => $data) {
                 if (isset($data['enabled'])) {
-                    $product->variants()->create([
-                        'size' => $size,
-                        'stock' => $data['stock'] ?? 0,
-                        'price' => $data['price'],
-                        'compare_at_price' => $data['compare_at_price'],
-                    ]);
+                    $existingSizes[] = $size;
+                    $product->variants()->updateOrCreate(
+                        ['size' => $size],
+                        [
+                            'stock' => $data['stock'] ?? 0,
+                            'price' => $data['price'],
+                            'compare_at_price' => $data['compare_at_price'],
+                        ]
+                    );
+                }
+            }
+        }
+        // Delete variants not in the submitted list
+        $product->variants()->whereNotIn('size', $existingSizes)->delete();
+
+        // Handle Deleted Media
+        if ($request->has('deleted_images')) {
+            foreach ($request->deleted_images as $imageId) {
+                $image = ProductImage::find($imageId);
+                if ($image && $image->product_id == $product->id) {
+                    Storage::disk('public')->delete($image->path);
+                    $image->delete();
                 }
             }
         }

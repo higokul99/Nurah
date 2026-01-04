@@ -21,6 +21,7 @@ class Product extends Model
         'gender',
         'olfactory_family',
         'intensity',
+        'oil_concentration',
         'notes_top',
         'notes_heart',
         'notes_base',
