@@ -76,7 +76,9 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::with(['variants', 'images'])->findOrFail($id);
+        $product = Product::with(['variants', 'images' => function($query) {
+            $query->orderBy('order', 'asc');
+        }])->findOrFail($id);
         $collections = Collection::all();
         $families = Attribute::where('type', 'family')->get();
         $notes = Attribute::where('type', 'note')->get();

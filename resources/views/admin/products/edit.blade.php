@@ -58,7 +58,8 @@
                     <div id="media_preview_grid" class="row g-3 mb-3 {{ $product->images->isEmpty() ? 'd-none' : '' }}">
                          <!-- Existing Images -->
                          @foreach($product->images as $image)
-                             <div class="col-6 col-md-3 existing-image" data-id="{{ $image->id }}">
+                             <div class="col-6 col-md-3 existing-image" data-id="{{ $image->id }}" style="cursor: move;">
+                                 <input type="hidden" name="media_order[]" value="{{ $image->id }}">
                                  <div class="ratio ratio-1x1 bg-light rounded border overflow-hidden position-relative group-hover-container d-flex align-items-center justify-content-center">
                                      <img src="{{ asset('storage/' . $image->path) }}" class="w-100 h-100 object-fit-cover">
                                      <button type="button" onclick="markImageForDeletion(this, {{ $image->id }})" class="btn btn-white btn-sm rounded-circle shadow-sm position-absolute top-0 end-0 m-1 opacity-0 group-hover-visible transition-opacity text-danger p-0 d-flex align-items-center justify-content-center" style="width: 24px; height: 24px;">
@@ -82,7 +83,23 @@
             <!-- Container for deleted image IDs -->
             <div id="deleted_images_container"></div>
 
+            <!-- SortableJS -->
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
             <script>
+                // Initialize Sortable
+                document.addEventListener('DOMContentLoaded', function() {
+                    var el = document.getElementById('media_preview_grid');
+                    var sortable = Sortable.create(el, {
+                        animation: 150,
+                        handle: '.existing-image', // Allow dragging by the whole item
+                        draggable: '.existing-image', // Only existing images are draggable for now
+                        onEnd: function (evt) {
+                            // Optional: logic to handle drop event if needed
+                        }
+                    });
+                });
+
                 /*
                 function toggleUrlInput() {
                     document.getElementById('urlInputContainer').classList.toggle('d-none');
@@ -112,14 +129,14 @@
 
                 /*
                 function addMediaFromUrl() {
-                    // ... (Logic preserved but inactive)
+                   // ...
                 }
                 */
 
                 function createPreviewItem(src, type) {
                     const previewGrid = document.getElementById('media_preview_grid');
                     const col = document.createElement('div');
-                    col.className = 'col-6 col-md-3';
+                    col.className = 'col-6 col-md-3'; // Note: New items aren't draggable yet
                     
                     const div = document.createElement('div');
                     div.className = 'ratio ratio-1x1 bg-dark rounded border overflow-hidden position-relative group-hover-container';
@@ -138,6 +155,7 @@
                         </button>
                     `;
                     col.appendChild(div);
+                    // Append new items to the grid. Note: They won't be in the media_order array until saved and reloaded.
                     previewGrid.appendChild(col);
                 }
 
