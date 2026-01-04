@@ -302,6 +302,12 @@
         gap: 10px;
     }
 
+    .filter-options.horizontal {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
     .filter-option {
         display: flex;
         align-items: center;
@@ -543,8 +549,29 @@
 
     @media (max-width: 768px) {
         .features {
-            grid-template-columns: 1fr;
-            gap: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 30px 10px;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+        .feature-text {
+            font-size: 9px;
+            line-height: 1.3;
+            padding: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     }
 
@@ -761,161 +788,49 @@
     <!-- Products Grid -->
     <div class="products-container">
         <div class="product-grid" id="productGrid">
-            <!-- Product: Inglorious -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Inglorious" data-price="929" data-date="1" data-stock="1" data-gender="him">
+            @forelse($products as $product)
+            @php
+                $sizes = $product->variants->pluck('size')->map(fn($s) => strtolower($s))->implode(',');
+                $stock = $product->variants->sum('stock') > 0 ? 1 : 0;
+                $gender = strtolower($product->gender); 
+                if($gender == 'men' || $gender == 'man') $gender = 'him';
+                if($gender == 'women' || $gender == 'woman') $gender = 'her';
+            @endphp
+            <a href="{{ route('product', ['id' => $product->id]) }}" class="product-card" 
+               data-name="{{ $product->title }}" 
+               data-price="{{ $product->starting_price }}" 
+               data-date="{{ $product->created_at->timestamp }}" 
+               data-stock="{{ $stock }}" 
+               data-gender="{{ $gender }}"
+               data-sizes="{{ $sizes }}">
+               
                 <div class="product-image-wrapper">
                     <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/prod.webp') }}" alt="Inglorious" class="product-image">
+                    
+                    @if($product->created_at->diffInDays(now()) < 7)
+                        <span class="product-badge">New</span>
+                    @endif
+                    
+                    @if($product->main_image_url)
+                        <img src="{{ $product->main_image_url }}" alt="{{ $product->title }}" class="product-image">
+                    @else
+                        <div class="d-flex align-items-center justify-content-center h-100 bg-light text-secondary">
+                            <i class="fas fa-image fa-2x opacity-25"></i>
+                        </div>
+                    @endif
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">Inglorious</h3>
-                    <p class="product-price"><span>From</span> ₹929</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
+                    <h3 class="product-name">{{ $product->title }}</h3>
+                    <p class="product-price"><span>From</span> ₹{{ number_format($product->starting_price, 0) }}</p>
+                    <button class="quick-view-btn" onclick="addToCart(event, {{ $product->id }})">Add to Cart</button>
                 </div>
+            </a>
+            @empty
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-box-open fa-3x text-muted mb-3 opacity-25"></i>
+                <p class="text-muted">No products found.</p>
             </div>
-
-            <!-- Product: Sandal Veer -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Sandal Veer" data-price="1129" data-date="2" data-stock="1" data-gender="unisex">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-sandal-veer.webp') }}" alt="Sandal Veer" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Sandal Veer</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Marshmallow Fluff -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Marshmallow Fluff" data-price="1129" data-date="3" data-stock="1" data-gender="her">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-marshmallow-fluff.webp') }}" alt="Marshmallow Fluff" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Marshmallow Fluff</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Purple Mystique -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Purple Mystique" data-price="1129" data-date="4" data-stock="1" data-gender="her">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-purple-mystique.webp') }}" alt="Purple Mystique" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Purple Mystique</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Bangalore Bloom -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Bangalore Bloom" data-price="1129" data-date="5" data-stock="1" data-gender="her">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-bangalore-bloom.webp') }}" alt="Bangalore Bloom" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Bangalore Bloom</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Fruit Punch -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Fruit Punch" data-price="1129" data-date="6" data-stock="1" data-gender="unisex">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-fruit-punch.webp') }}" alt="Fruit Punch" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Fruit Punch</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: One of a Kind -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="One of a Kind" data-price="1129" data-date="7" data-stock="1" data-gender="him">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-one-of-a-kind.webp') }}" alt="One of a Kind" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">One of a Kind</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Midnight Jasmine -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Midnight Jasmine" data-price="1129" data-date="8" data-stock="1" data-gender="her">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-midnight-jasmine.webp') }}" alt="Midnight Jasmine" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Midnight Jasmine</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Amber Elixir -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Amber Elixir" data-price="1129" data-date="9" data-stock="1" data-gender="unisex">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/product-amber-elixir.webp') }}" alt="Amber Elixir" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Amber Elixir</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Ocean Breeze (Category Fresh) -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Ocean Breeze" data-price="929" data-date="10" data-stock="1" data-gender="unisex">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/category-fresh.webp') }}" alt="Ocean Breeze" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Ocean Breeze</h3>
-                    <p class="product-price"><span>From</span> ₹929</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Midnight Wood (Category Oriental/Woody) -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Midnight Wood" data-price="1279" data-date="11" data-stock="1" data-gender="him">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Midnight Wood" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Midnight Wood</h3>
-                    <p class="product-price"><span>From</span> ₹1,279</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product: Gardenia (Category Floral) -->
-            <div onclick="window.location.href='/product'" class="product-card" data-name="Gardenia" data-price="1129" data-date="12" data-stock="1" data-gender="her">
-                <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
-                    <img src="{{ asset('Images/category-floral.webp') }}" alt="Gardenia" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Gardenia</h3>
-                    <p class="product-price"><span>From</span> ₹1,129</p>
-                    <button class="quick-view-btn" onclick="quickView(event)">Add to Cart</button>
-                </div>
-            </div>
+            @endforelse
         </div>
 
         <!-- Load More -->
@@ -986,7 +901,7 @@
             <!-- Gender -->
             <div class="filter-section">
                 <div class="filter-section-title">Gender</div>
-                <div class="filter-options">
+                <div class="filter-options horizontal">
                     <label class="filter-option">
                         <input type="checkbox" style="display: none;">
                         <div class="filter-checkbox"></div>
@@ -1011,7 +926,7 @@
             <!-- Size -->
             <div class="filter-section">
                 <div class="filter-section-title">Size</div>
-                <div class="filter-options">
+                <div class="filter-options horizontal">
                     <label class="filter-option">
                         <input type="checkbox" style="display: none;">
                         <div class="filter-checkbox"></div>

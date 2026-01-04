@@ -22,20 +22,74 @@ class PageController extends Controller
     public function collection(Request $request)
     {
         $title = 'Fresh Perfumes';
+        $query = \App\Models\Product::where('status', 'active')->with(['variants', 'images']);
 
         if ($request->has('category')) {
             $category = $request->query('category');
-            if ($category == 'fresh') $title = 'Fresh Collection';
-            elseif ($category == 'oriental-woody') $title = 'Oriental & Woody Collection';
-            elseif ($category == 'floral') $title = 'Floral Collection';
+            if ($category == 'fresh') {
+                $title = 'Fresh Collection';
+                $query->where('olfactory_family', 'LIKE', '%Fresh%');
+            }
+            elseif ($category == 'oriental-woody') {
+                $title = 'Oriental & Woody Collection';
+                $query->where(function($q) {
+                    $q->where('olfactory_family', 'LIKE', '%Oriental%')
+                      ->orWhere('olfactory_family', 'LIKE', '%Woody%');
+                });
+            }
+            elseif ($category == 'floral') {
+                $title = 'Floral Collection';
+                $query->where('olfactory_family', 'LIKE', '%Floral%');
+            }
         } elseif ($request->has('gender')) {
             $gender = $request->query('gender');
-            if ($gender == 'for-him') $title = 'Perfumes For Him';
-            elseif ($gender == 'for-her') $title = 'Perfumes For Her';
-            elseif ($gender == 'unisex') $title = 'Unisex Collection';
+            if ($gender == 'for-him') {
+                $title = 'Perfumes For Him';
+                $query->whereIn('gender', ['Men', 'Male', 'Him']);
+            }
+            elseif ($gender == 'for-her') {
+                $title = 'Perfumes For Her';
+                $query->whereIn('gender', ['Women', 'Female', 'Her']);
+            }
+            elseif ($gender == 'unisex') {
+                $title = 'Unisex Collection';
+                $query->whereIn('gender', ['Unisex', 'All']);
+            }
         }
 
-        return view('nurah.collection', ['title' => $title]);
+        $products = $query->latest()->get();
+
+        // Calculate filter counts (Scoped to current collection or global? Usually global for sidebar context, but let's scope to result for now or reuse global logic)
+        // For simplicity reusing global logic on the fetched set for now
+        $counts = [
+            'stock_in' => 0,
+            'stock_out' => 0,
+            'gender_him' => 0,
+            'gender_her' => 0,
+            'gender_unisex' => 0,
+            'size_50ml' => 0,
+            'size_100ml' => 0
+        ];
+
+        foreach($products as $product) {
+            // Stock
+            $inStock = $product->variants->sum('stock') > 0;
+            if($inStock) $counts['stock_in']++;
+            else $counts['stock_out']++;
+
+            // Gender
+            $g = strtolower($product->gender);
+            if(in_array($g, ['men', 'man', 'him', 'male'])) $counts['gender_him']++;
+            elseif(in_array($g, ['women', 'woman', 'her', 'female'])) $counts['gender_her']++;
+            else $counts['gender_unisex']++;
+
+            // Sizes
+            $sizes = $product->variants->pluck('size')->map(fn($s) => strtolower($s))->toArray();
+            if(in_array('50ml', $sizes)) $counts['size_50ml']++;
+            if(in_array('100ml', $sizes)) $counts['size_100ml']++;
+        }
+
+        return view('nurah.collection', compact('title', 'products', 'counts'));
     }
 
     public function allProducts()
