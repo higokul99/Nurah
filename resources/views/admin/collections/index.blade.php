@@ -48,6 +48,7 @@
                     </td>
                     <td class="px-4 py-3 text-end">
                         <div class="d-flex justify-content-end gap-2" onclick="event.stopPropagation()">
+                            <a href="{{ route('admin.collections.show', $collection->id) }}" class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-primary"><i class="fas fa-eye"></i></a>
                             <a href="{{ route('admin.collections.edit', $collection->id) }}" class="btn btn-sm btn-white border shadow-sm text-secondary hover-text-primary"><i class="fas fa-edit"></i></a>
                             <form action="{{ route('admin.collections.destroy', $collection->id) }}" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
                                 @csrf
