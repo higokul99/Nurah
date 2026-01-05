@@ -471,19 +471,49 @@
     }
 
     function addToCart(title) {
-        const toast = document.getElementById('toast');
-        toast.innerText = (title || 'Item') + ' Added to Bag';
-        toast.style.opacity = '1';
-        setTimeout(() => toast.style.opacity = '0', 2500);
-        
-        if(navigator.vibrate) navigator.vibrate(50);
-        
-        const cartBadge = document.querySelector('.cart-count'); 
-        if(cartBadge) {
-            let count = parseInt(cartBadge.innerText) || 0;
-            cartBadge.innerText = count + quantity;
-            cartBadge.style.display = 'flex'; // Ensure visible
-        }
+        const btn = document.querySelector('.btn-main');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '...';
+
+        fetch('{{ route("cart.add") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                id: {{ $bundle->id }}, // Bundle ID
+                quantity: quantity,
+                type: 'bundle'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                const toast = document.getElementById('toast');
+                toast.innerText = (title || 'Item') + ' Added to Bag';
+                toast.style.opacity = '1';
+                setTimeout(() => toast.style.opacity = '0', 2500);
+                
+                if(navigator.vibrate) navigator.vibrate(50);
+                
+                const cartBadge = document.querySelector('.cart-count'); 
+                if(cartBadge) {
+                    cartBadge.innerText = data.cartCount;
+                    cartBadge.style.display = 'flex'; // Ensure visible
+                }
+            } else {
+                alert(data.message || 'Error adding to cart');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        });
     }
     
     function swapMain(src) {

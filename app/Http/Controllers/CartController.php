@@ -39,12 +39,65 @@ class CartController extends Controller
         $quantity = $request->quantity ?? 1;
         $size = $request->size;
         
+        if($request->type == 'bundle') {
+            $bundle = Bundle::find($id);
+            if(!$bundle) return response()->json(['success' => false, 'message' => 'Bundle not found!'], 404);
+            
+            $cartKey = 'bundle-' . $id;
+            
+             if (Auth::check()) {
+                $cartItem = Cart::where('user_id', Auth::id())
+                    ->where('bundle_id', $id)
+                    ->first();
+                    
+                if ($cartItem) {
+                    $cartItem->quantity += $quantity;
+                    $cartItem->save();
+                } else {
+                    Cart::create([
+                        'user_id' => Auth::id(),
+                        'bundle_id' => $id,
+                        'quantity' => $quantity,
+                        'product_id' => null
+                    ]);
+                }
+                $cart = $this->getCartFromDb();
+             } else {
+                $cart = session()->get('cart', []);
+                if(isset($cart[$cartKey])) {
+                    $cart[$cartKey]['quantity'] += $quantity;
+                } else {
+                    $cart[$cartKey] = [
+                        "bundle_id" => $bundle->id,
+                        "name" => $bundle->title,
+                        "quantity" => $quantity,
+                        "price" => $bundle->total_price,
+                        "image" => $bundle->image,
+                        "size" => null,
+                        "type" => "bundle"
+                    ];
+                }
+                session()->put('cart', $cart);
+             }
+             
+            // Calculate count
+            $count = 0;
+            foreach($cart as $item) $count += $item['quantity'];
+            
+            return response()->json([
+                'success' => true, 
+                'message' => 'Bundle added to cart!',
+                'cartCount' => $count
+            ]);
+        } 
+        
+        // Product Logic
         $product = Product::find($id);
         
         if(!$product) {
             return response()->json(['success' => false, 'message' => 'Product not found!'], 404);
         }
-
+        
         // Price Logic
         $price = $product->starting_price;
         if($size) {
@@ -90,7 +143,8 @@ class CartController extends Controller
                     "quantity" => $quantity,
                     "price" => $price,
                     "image" => $product->main_image_url,
-                    "size" => $size
+                    "size" => $size,
+                    "type" => "product"
                 ];
             }
             session()->put('cart', $cart);
@@ -113,22 +167,27 @@ class CartController extends Controller
     public function update(Request $request)
     {
         if($request->id && $request->quantity) {
-            if (Auth::check()) {
-                // DB Logic - ID here is tricky. 
-                // Session uses complex key "ID-SIZE". DB uses Primary Key ID.
-                // But wait, the frontend sends the Session Key as "id". 
-                // We need to parse it OR fetch by attributes.
-                // Assuming "id" passed from frontend is the Session Key (productID-Size).
+             if (Auth::check()) {
+                // DB Logic
+                // Parsing logic to handle both Product and Bundle keys
                 
-                // PARSING LOGIC:
-                $parts = explode('-', $request->id);
-                $productId = $parts[0];
-                $size = isset($parts[1]) ? $parts[1] : null;
+                $cartItem = null;
+                
+                if (str_starts_with($request->id, 'bundle-')) {
+                    $bundleId = str_replace('bundle-', '', $request->id);
+                    $cartItem = Cart::where('user_id', Auth::id())
+                        ->where('bundle_id', $bundleId)
+                        ->first();
+                } else {
+                    $parts = explode('-', $request->id);
+                    $productId = $parts[0];
+                    $size = isset($parts[1]) ? $parts[1] : null;
 
-                $cartItem = Cart::where('user_id', Auth::id())
-                    ->where('product_id', $productId)
-                    ->where('size', $size)
-                    ->first();
+                    $cartItem = Cart::where('user_id', Auth::id())
+                        ->where('product_id', $productId)
+                        ->where('size', $size)
+                        ->first();
+                }
                 
                 if ($cartItem) {
                     $cartItem->quantity = $request->quantity;
@@ -182,16 +241,21 @@ class CartController extends Controller
         if($request->id) {
             
             if (Auth::check()) {
-                // Parsing logic again
-                $parts = explode('-', $request->id);
-                $productId = $parts[0];
-                $size = isset($parts[1]) ? $parts[1] : null;
+                 if (str_starts_with($request->id, 'bundle-')) {
+                    $bundleId = str_replace('bundle-', '', $request->id);
+                    Cart::where('user_id', Auth::id())
+                        ->where('bundle_id', $bundleId)
+                        ->delete();
+                } else {
+                    $parts = explode('-', $request->id);
+                    $productId = $parts[0];
+                    $size = isset($parts[1]) ? $parts[1] : null;
 
-                Cart::where('user_id', Auth::id())
-                    ->where('product_id', $productId)
-                    ->where('size', $size)
-                    ->delete();
-                    
+                    Cart::where('user_id', Auth::id())
+                        ->where('product_id', $productId)
+                        ->where('size', $size)
+                        ->delete();
+                }
                 $cart = $this->getCartFromDb();
 
             } else {
@@ -233,27 +297,41 @@ class CartController extends Controller
         if (empty($sessionCart)) return;
         
         foreach ($sessionCart as $key => $details) {
-            $productId = $details['product_id'];
-            $size = $details['size'];
             $quantity = $details['quantity'];
             
-            $cartItem = Cart::where('user_id', $userId)
-                ->where('product_id', $productId)
-                ->where('size', $size)
-                ->first();
-                
-            if ($cartItem) {
-                // Strategy: Add session qty to DB qty? Or overwrite? 
-                // Usually Adding is safer/expected.
-                $cartItem->quantity += $quantity;
-                $cartItem->save();
+            if (isset($details['bundle_id'])) {
+                $bundleId = $details['bundle_id'];
+                $cartItem = Cart::where('user_id', $userId)->where('bundle_id', $bundleId)->first();
+                if ($cartItem) {
+                    $cartItem->quantity += $quantity;
+                    $cartItem->save();
+                } else {
+                    Cart::create([
+                        'user_id' => $userId,
+                        'bundle_id' => $bundleId,
+                        'quantity' => $quantity
+                    ]);
+                }
             } else {
-                Cart::create([
-                    'user_id' => $userId,
-                    'product_id' => $productId,
-                    'quantity' => $quantity,
-                    'size' => $size
-                ]);
+                $productId = $details['product_id'];
+                $size = $details['size'];
+                
+                $cartItem = Cart::where('user_id', $userId)
+                    ->where('product_id', $productId)
+                    ->where('size', $size)
+                    ->first();
+                    
+                if ($cartItem) {
+                    $cartItem->quantity += $quantity;
+                    $cartItem->save();
+                } else {
+                    Cart::create([
+                        'user_id' => $userId,
+                        'product_id' => $productId,
+                        'quantity' => $quantity,
+                        'size' => $size
+                    ]);
+                }
             }
         }
         
@@ -266,29 +344,47 @@ class CartController extends Controller
      */
     private function getCartFromDb()
     {
-        $dbItems = Cart::where('user_id', Auth::id())->with('product.variants')->get();
+        $dbItems = Cart::where('user_id', Auth::id())
+            ->with(['product.variants', 'bundle'])
+            ->get();
         $cart = [];
         
         foreach ($dbItems as $item) {
-            if (!$item->product) continue;
             
-            $key = $item->product_id . ($item->size ? '-' . $item->size : '');
-            
-            // Calculate Price
-            $price = $item->product->starting_price;
-            if ($item->size) {
-                $variant = $item->product->variants->where('size', $item->size)->first();
-                if ($variant) $price = $variant->price;
+            if ($item->bundle_id && $item->bundle) {
+                // Bundle Logic
+                $key = 'bundle-' . $item->bundle_id;
+                $cart[$key] = [
+                    "bundle_id" => $item->bundle_id,
+                    "name" => $item->bundle->title,
+                    "quantity" => $item->quantity,
+                    "price" => $item->bundle->total_price,
+                    "image" => $item->bundle->image,
+                    "size" => null,
+                    "type" => "bundle"
+                ];
             }
-            
-            $cart[$key] = [
-                "product_id" => $item->product_id,
-                "name" => $item->product->title,
-                "quantity" => $item->quantity,
-                "price" => $price,
-                "image" => $item->product->main_image_url,
-                "size" => $item->size
-            ];
+            elseif ($item->product_id && $item->product) {
+                // Product Logic
+                $key = $item->product_id . ($item->size ? '-' . $item->size : '');
+                
+                // Calculate Price
+                $price = $item->product->starting_price;
+                if ($item->size) {
+                    $variant = $item->product->variants->where('size', $item->size)->first();
+                    if ($variant) $price = $variant->price;
+                }
+                
+                $cart[$key] = [
+                    "product_id" => $item->product_id,
+                    "name" => $item->product->title,
+                    "quantity" => $item->quantity,
+                    "price" => $price,
+                    "image" => $item->product->main_image_url,
+                    "size" => $item->size,
+                    "type" => "product"
+                ];
+            }
         }
         
         return $cart;

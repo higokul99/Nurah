@@ -12,6 +12,7 @@ class Cart extends Model
     protected $fillable = [
         'user_id',
         'product_id',
+        'bundle_id',
         'quantity',
         'size'
     ];
@@ -24,5 +25,10 @@ class Cart extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function bundle()
+    {
+        return $this->belongsTo(Bundle::class);
     }
 }
