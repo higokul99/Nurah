@@ -12,6 +12,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 50px;
     }
 
     .hero-content {
@@ -26,7 +27,7 @@
         font-family: 'Playfair Display', serif;
         font-size: 42px;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .hero-subtitle {
@@ -34,75 +35,101 @@
         opacity: 0.9;
         max-width: 600px;
         margin: 0 auto;
+        letter-spacing: 0.5px;
     }
 
-    .policy-section {
-        padding: 80px 20px;
-        max-width: 1000px;
-        margin: 0 auto;
+    .policy-container {
+        max-width: 1200px;
+        margin: 0 auto 80px;
+        padding: 0 20px;
     }
 
-    .policy-card {
+    .policy-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    .info-card {
         background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: 12px;
         padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-    }
-    
-    .policy-content h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 24px;
-        margin-top: 30px;
-        margin-bottom: 15px;
-        color: var(--black);
-        font-weight: 700;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 10px;
-    }
-    
-    .policy-content h2:first-child {
-        margin-top: 0;
-    }
-    
-    .policy-content p {
-        margin-bottom: 15px;
-        line-height: 1.8;
-        color: var(--text);
-        font-size: 15px;
-    }
-    
-    .policy-content ul {
-        margin-bottom: 20px;
-        padding-left: 20px;
-    }
-    
-    .policy-content li {
-        margin-bottom: 10px;
-        color: var(--text);
-        line-height: 1.6;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        display: flex;
+        flex-direction: column;
     }
 
-    .highlight-box {
+    .info-card.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .info-card.process-card {
         background: var(--bg-light);
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 4px solid var(--black);
-        margin: 20px 0;
+        border: none;
+        align-items: center;
+        text-align: center;
     }
 
-    .contact-link {
+    .card-icon {
+        font-size: 32px;
+        margin-bottom: 20px;
         color: var(--black);
-        text-decoration: underline;
-        font-weight: 600;
     }
 
-    @media(max-width: 768px) {
+    .card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: var(--black);
+    }
+
+    .card-text {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text);
+        margin-bottom: 0;
+    }
+
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .step-item {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        position: relative;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        background: var(--black);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin: 0 auto 15px;
+    }
+
+    @media (max-width: 768px) {
+        .policy-grid {
+            grid-template-columns: 1fr;
+        }
+        .steps-grid {
+            grid-template-columns: 1fr;
+        }
         .hero-title {
             font-size: 32px;
-        }
-        .policy-card {
-            padding: 25px;
         }
     }
 </style>
@@ -113,47 +140,89 @@
     <div class="page-hero">
         <div class="hero-content">
             <h1 class="hero-title">Returns & Refunds</h1>
-            <p class="hero-subtitle">Simple, transparent, and customer-friendly.</p>
+            <p class="hero-subtitle">Simple, straightforward, and no questions asked for 7 days.</p>
         </div>
     </div>
 
-    <!-- Content -->
-    <section class="policy-section">
-        <div class="policy-card">
-            <div class="policy-content">
-                <p>We want you to be completely satisfied with your purchase. If for any reason you are not happy, we have a straightforward return process in place.</p>
+    <div class="policy-container">
+        <div class="policy-grid">
 
-                <h2>Return Window</h2>
-                <p>You may initiate a return within <strong>7 days</strong> of receiving your order. We check the delivery date from our courier partner's tracking system.</p>
-
-                <h2>Eligibility Criteria</h2>
-                <ul>
-                    <li>The product must be unused and in the same condition as received.</li>
-                    <li>It must be in the original packaging with the seal intact.</li>
-                    <li>We require the receipt or proof of purchase included in the box.</li>
-                </ul>
-
-                <h2>Damaged or Defective Items</h2>
-                <p>In the unlikely event that your product arrives damaged or leaking, please take photos/videos and email us within 24 hours of delivery. We will issue a free replacement immediately.</p>
-
-                <h2>Refund Process (COD Orders)</h2>
-                <p>Since all our orders are Cash on Delivery, we cannot refund to the original source. Instead, refunds are processed securely via Bank Transfer or UPI.</p>
-                <div class="highlight-box">
-                    <strong>Steps for Refund:</strong>
-                    <ol style="margin-top: 10px; margin-left: 20px;">
-                        <li>Our team approves the return pickup.</li>
-                        <li>Courier picks up the item within 2-3 days.</li>
-                        <li>Once it reaches our warehouse and passes QC, we ask for your Bank/UPI details.</li>
-                        <li>Refund is initiated within 24 hours of QC approval.</li>
-                    </ol>
-                </div>
-
-                <h2>Return Shipping</h2>
-                <p>For damaged or defective items, reverse shipping is free. For returns due to personal preference (e.g., "changed mind"), a nominal shipping fee of ₹100 will be deducted from the refund amount.</p>
-
-                <h2>Contact Us</h2>
-                <p>To initiate a return, please write to us at <a href="mailto:support@nurahperfumes.com" class="contact-link">support@nurahperfumes.com</a> with your Order ID.</p>
+            <!-- Return Window -->
+            <div class="info-card">
+                <div class="card-icon"><i class="far fa-calendar-alt"></i></div>
+                <h3 class="card-title">7-Day Easy Returns</h3>
+                <p class="card-text">
+                    You have 7 days from the date of delivery to initiate a return. We verify this window using our delivery partner's tracking system.
+                </p>
             </div>
+
+            <!-- Eligibility -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-check-circle"></i></div>
+                <h3 class="card-title">Eligibility</h3>
+                <p class="card-text">
+                    To be eligible, the item must be unused, in its original packaging with seals intact, and accompanied by the proof of purchase.
+                </p>
+            </div>
+
+            <!-- Refund Process (Visual Step) -->
+            <div class="info-card full-width process-card">
+                <h3 class="card-title">COD Refund Process</h3>
+                <p class="card-text" style="max-width: 600px;">
+                    Since you paid via Cash on Delivery, we cannot refund to source. Here is how we process your refund securely to your bank account or UPI.
+                </p>
+
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <strong>Request Return</strong>
+                        <p style="font-size: 13px; margin-top: 5px;">Email us your Order ID</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <strong>Pickup</strong>
+                        <p style="font-size: 13px; margin-top: 5px;">Courier picks up in 2-3 days</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <strong>Inspection</strong>
+                        <p style="font-size: 13px; margin-top: 5px;">Quality Check at warehouse</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <strong>Refund</strong>
+                        <p style="font-size: 13px; margin-top: 5px;">Via Bank Transfer or UPI</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Damaged Items -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3 class="card-title">Damaged / Defective</h3>
+                <p class="card-text">
+                    Received a leaking or broken bottle? Email us with a photo within 24 hours. We will promptly send a free replacement without any hassle.
+                </p>
+            </div>
+
+            <!-- Shipping Fee -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-truck"></i></div>
+                <h3 class="card-title">Return Shipping</h3>
+                <p class="card-text">
+                    Returns for defects are free. For "change of mind" returns, a nominal shipping deduction of ₹100 applies to cover reverse logistics.
+                </p>
+            </div>
+
+            <!-- Contact (Full Width) -->
+             <div class="info-card full-width" style="text-align: center; background: var(--black); color: white;">
+                <h3 class="card-title" style="color: white;">Ready to initiate a return?</h3>
+                <p class="card-text" style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">
+                    Our support team is here to help you through every step.
+                </p>
+                <a href="mailto:support@nurahperfumes.com" style="display: inline-block; background: white; color: black; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; width: fit-content; margin: 0 auto;">Email Support</a>
+            </div>
+
         </div>
-    </section>
+    </div>
 @endsection

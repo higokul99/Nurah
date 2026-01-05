@@ -12,6 +12,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 50px;
     }
 
     .hero-content {
@@ -26,7 +27,7 @@
         font-family: 'Playfair Display', serif;
         font-size: 42px;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     .hero-subtitle {
@@ -34,74 +35,92 @@
         opacity: 0.9;
         max-width: 600px;
         margin: 0 auto;
+        letter-spacing: 0.5px;
     }
 
-    .policy-section {
-        padding: 80px 20px;
-        max-width: 1000px;
-        margin: 0 auto;
+    .policy-container {
+        max-width: 1200px;
+        margin: 0 auto 80px;
+        padding: 0 20px;
     }
 
-    .policy-card {
+    /* Grid Layout */
+    .policy-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+
+    /* Cards */
+    .info-card {
         background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: 12px;
         padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        transition: transform 0.3s ease;
     }
-    
-    .policy-content h2 {
+
+    .info-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .info-card.full-width {
+        grid-column: 1 / -1;
+        background: var(--bg-light);
+        border: none;
+    }
+
+    .info-card.highlight {
+        background: #f8f9fa;
+        border-left: 5px solid var(--black);
+    }
+
+    .card-icon {
+        font-size: 32px;
+        margin-bottom: 20px;
+        color: var(--black);
+    }
+
+    .card-title {
         font-family: 'Playfair Display', serif;
-        font-size: 24px;
-        margin-top: 30px;
+        font-size: 22px;
+        font-weight: 700;
         margin-bottom: 15px;
         color: var(--black);
-        font-weight: 700;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 10px;
-    }
-    
-    .policy-content h2:first-child {
-        margin-top: 0;
-    }
-    
-    .policy-content p {
-        margin-bottom: 15px;
-        line-height: 1.8;
-        color: var(--text);
-        font-size: 15px;
-    }
-    
-    .policy-content ul {
-        margin-bottom: 20px;
-        padding-left: 20px;
-    }
-    
-    .policy-content li {
-        margin-bottom: 10px;
-        color: var(--text);
-        line-height: 1.6;
     }
 
-    .highlight-box {
-        background: var(--bg-light);
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 4px solid var(--black);
-        margin: 20px 0;
+    .card-text {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text);
+        margin-bottom: 0;
+    }
+
+    .card-list {
+        padding-left: 20px;
+        margin-top: 15px;
+    }
+
+    .card-list li {
+        margin-bottom: 8px;
+        color: var(--text);
     }
 
     .contact-link {
         color: var(--black);
+        font-weight: 700;
         text-decoration: underline;
-        font-weight: 600;
     }
 
-    @media(max-width: 768px) {
+    @media (max-width: 768px) {
+        .policy-grid {
+            grid-template-columns: 1fr;
+        }
         .hero-title {
             font-size: 32px;
         }
-        .policy-card {
+        .info-card {
             padding: 25px;
         }
     }
@@ -113,40 +132,83 @@
     <div class="page-hero">
         <div class="hero-content">
             <h1 class="hero-title">Shipping Policy</h1>
-            <p class="hero-subtitle">Fast, reliable, and handled with care.</p>
+            <p class="hero-subtitle">Fast, secure, and reliable delivery across India.</p>
         </div>
     </div>
 
-    <!-- Content -->
-    <section class="policy-section">
-        <div class="policy-card">
-            <div class="policy-content">
-                <p>At Nurah Perfumes, we maintain the highest standards of delivery to ensure that your fragrances arrive safely and on time.</p>
-
-                <h2>Delivery Areas</h2>
-                <p>We deliver to over 10,000 pincodes across India. Whether you reside in a major metropolitan city or a remote location, our logistics partners ensure comprehensive coverage.</p>
-
-                <div class="highlight-box">
-                    <strong>Payment Method:</strong> We currently operate exclusively on <span style="font-weight: 800;">Cash on Delivery (COD)</span>. You can pay strictly upon receiving your order.
-                </div>
-
-                <h2>Shipping Charges</h2>
-                <p>We believe in transparent pricing. We offer <strong>Free Shipping</strong> on all prepaid and COD orders across India. The price you see at checkout is the final price you pay.</p>
-
-                <h2>Delivery Timelines</h2>
-                <p>We dispatch orders within 24 hours of confirmation. Delivery timelines depend on your location:</p>
-                <ul>
-                    <li><strong>Metro Cities (Mumbai, Delhi, Bangalore, etc.):</strong> 3-5 business days</li>
-                    <li><strong>Rest of India:</strong> 5-7 business days</li>
-                    <li><strong>Remote Locations:</strong> 7-10 business days</li>
-                </ul>
-
-                <h2>Tracking Your Order</h2>
-                <p>Once your order is shipped, you will receive a tracking ID via Email and SMS. You can use this ID on our logistics partner's website to track your package in real-time.</p>
-
-                <h2>Damaged or Tampered Packages</h2>
-                <p>If you suspect that the package has been tampered with or is damaged upon arrival, please refuse the delivery and contact our support team immediately at <a href="mailto:support@nurahperfumes.com" class="contact-link">support@nurahperfumes.com</a>. We will arrange a replacement at no extra cost.</p>
+    <!-- Grid Content -->
+    <div class="policy-container">
+        <div class="policy-grid">
+            
+            <!-- Intro (Full Width) -->
+            <div class="info-card full-width" style="text-align: center; background: white; border: 1px solid var(--border);">
+                <p class="card-text" style="font-size: 18px; max-width: 800px; margin: 0 auto;">
+                    At Nurah Perfumes, we understand that waiting for your favorite scent is hard. That's why we've partnered with India's best logistics services to ensure your order reaches you safely and on time.
+                </p>
             </div>
+
+            <!-- Delivery Areas -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3 class="card-title">Delivery Areas</h3>
+                <p class="card-text">
+                    We deliver to over 10,000+ pincodes across India. From bustling metro cities to quiet towns, we ensure comprehensive coverage. You can check availability at checkout.
+                </p>
+            </div>
+
+            <!-- Shipping Charges -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-shipping-fast"></i></div>
+                <h3 class="card-title">Free Shipping</h3>
+                <p class="card-text">
+                    We hate hidden fees as much as you do. Enjoy <strong>Free Shipping</strong> on every single order, regardless of the value. The price you see is the price you pay.
+                </p>
+            </div>
+
+            <!-- Payment Method (COD Highlight) -->
+            <div class="info-card full-width highlight">
+                <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <h3 class="card-title" style="font-size: 28px;">Cash on Delivery</h3>
+                        <p class="card-text">
+                            To build trust and ensure your convenience, we operate exclusively on a <strong>Cash on Delivery (COD)</strong> basis. You pay only when the package is physically in your hands.
+                        </p>
+                    </div>
+                    <div style="font-size: 50px; color: var(--text-light); opacity: 0.2;">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timelines -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-clock"></i></div>
+                <h3 class="card-title">Delivery Timelines</h3>
+                <ul class="card-list">
+                    <li><strong>Metro Cities:</strong> 3-5 business days</li>
+                    <li><strong>Rest of India:</strong> 5-7 business days</li>
+                    <li><strong>Remote Areas:</strong> 7-10 business days</li>
+                </ul>
+            </div>
+
+            <!-- Tracking -->
+            <div class="info-card">
+                <div class="card-icon"><i class="fas fa-box-open"></i></div>
+                <h3 class="card-title">Order Tracking</h3>
+                <p class="card-text">
+                    Once dispatched (within 24 hours), you'll receive a tracking link via <strong>SMS and Email</strong>. Use it to follow your package's journey in real-time.
+                </p>
+            </div>
+
+            <!-- Support (Full Width) -->
+            <div class="info-card full-width" style="display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; text-align: center;">
+                <div>
+                     <h3 class="card-title" style="margin-bottom: 5px;">Damaged Package?</h3>
+                     <p class="card-text">Do not accept tampered visual packages.</p>
+                </div>
+                <a href="mailto:support@nurahperfumes.com" style="background: var(--black); color: white; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: 600;">Contact Support</a>
+            </div>
+
         </div>
-    </section>
+    </div>
 @endsection
