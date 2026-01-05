@@ -155,6 +155,23 @@ class PageController extends Controller
         ]);
     }
 
+    public function combo(Request $request)
+    {
+        $id = $request->query('id');
+        $bundle = \App\Models\Bundle::where('status', 'active')
+            ->with(['products.images', 'products.variants'])
+            ->findOrFail($id);
+
+        // Fetch related bundles (excluding current)
+        $relatedBundles = \App\Models\Bundle::where('status', 'active')
+            ->where('id', '!=', $id)
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
+
+        return view('nurah.bundle-main', compact('bundle', 'relatedBundles'));
+    }
+
     public function product(Request $request)
     {
         $id = $request->query('id');

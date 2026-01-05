@@ -173,7 +173,7 @@
         @if($bundles->count() > 0)
         <div class="product-grid">
             @foreach($bundles as $bundle)
-            <div class="product-card">
+            <a href="{{ route('combo', ['id' => $bundle->id]) }}" class="product-card">
                 <div class="product-image-wrapper">
                     @if($bundle->discount_value > 0)
                     <span class="product-badge">
@@ -190,19 +190,9 @@
                     <div class="product-price">
                         ₹{{ number_format($bundle->total_price, 0) }}
                     </div>
-                    <!-- 
-                         Since direct bundle adding logic isn't fully clear without a cart endpoint inspection,
-                         we'll simulate the "Add to Cart" action visually or link to a contact/inquiry if needed.
-                         However, usually there's a cart push. I'll use a generic add function that mimics the product page one 
-                         but since we don't have a specific backend route confirmed for bundle addition, 
-                         I will make it a visual button for now or try to link to the first product?
-                         Actually, better to just show "View Details" if we had a detail page.
-                         Given the user request "combo page to show all bundles", display is priority.
-                         I'll add a 'Contact to Order' or just generic 'Add to Cart' that shows a toast for now to matching the requested 'design'.
-                    -->
-                     <button class="add-btn" onclick="addToCart('{{ $bundle->title }}')">Add to Cart</button>
+                     <button class="add-btn" onclick="event.preventDefault(); addToCart('{{ $bundle->title }}')">Add to Cart</button>
                 </div>
-            </div>
+            </a>
             @endforeach
         </div>
         @else
