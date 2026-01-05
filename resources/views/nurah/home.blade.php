@@ -406,54 +406,41 @@
         </div>
     </section>
 
-    <!-- Cosmopolitan -->
+    <!-- Cosmopolitan / Bundles -->
     <div class="cosmopolitan-section" id="cosmopolitan">
         <div class="cosmo-header">
-            <h2 class="cosmo-title"><em>Introducing Cosmopolitan</em></h2>
-            <p class="cosmo-subtitle">Embark On a Sensory Voyage with the All-New Cosmopolitan Collection.</p>
+            <h2 class="cosmo-title"><em>Exclusive Combo Offers</em></h2>
+            <p class="cosmo-subtitle">Discover our curated bundles and save more on your favorite scents.</p>
         </div>
         <div class="product-grid">
-            <a href="{{ route('product') }}" class="product-card">
+            @forelse($bundles as $bundle)
+            <a href="{{ route('combo', ['id' => $bundle->id]) }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-oud-de-beirut.webp') }}" alt="Oud De Beirut" class="product-image">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($bundle->image) }}" alt="{{ $bundle->title }}" class="product-image">
+                    @if($bundle->discount_value > 0)
+                    <span class="product-badge" style="background: #d32f2f;">
+                        {{ $bundle->discount_type == 'percentage' ? ' ' . number_format($bundle->discount_value) . '%' : 'SAVE ₹' . number_format($bundle->discount_value) }}
+                    </span>
+                    @endif
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">Oud De Beirut</h3>
-                    <p class="product-price"><span>From</span> ₹3,499</p>
+                    <h3 class="product-name">{{ $bundle->title }}</h3>
+                    <p class="product-price">₹{{ number_format($bundle->total_price, 0) }}</p>
                 </div>
             </a>
-
-            <a href="{{ route('product') }}" class="product-card">
+            @empty
+            <!-- Static Fallback if no bundles -->
+            <a href="{{ route('combos') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-california-sunshine.webp') }}" alt="California Sunshine" class="product-image">
+                     <div class="d-flex align-items-center justify-content-center h-100" style="background:#333; color:#fff;">No Bundles Yet</div>
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">California Sunshine</h3>
-                    <p class="product-price"><span>From</span> ₹3,499</p>
+                    <h3 class="product-name">Check Back Soon</h3>
                 </div>
             </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-moroccan-rose.webp') }}" alt="Moroccan Rose" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Moroccan Rose</h3>
-                    <p class="product-price"><span>From</span> ₹3,499</p>
-                </div>
-            </a>
-
-            <a href="{{ route('product') }}" class="product-card">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/product-parisian-night.webp') }}" alt="Parisian Night" class="product-image">
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">Parisian Night</h3>
-                    <p class="product-price"><span>From</span> ₹3,499</p>
-                </div>
-            </a>
+            @endforelse
         </div>
-        <a href="/cosmopolitan" class="view-all-btn" style="background: var(--gold);">Shop Collection</a>
+        <a href="{{ route('combos') }}" class="view-all-btn" style="background: var(--gold);">View All Combos</a>
     </div>
 
     <!-- Video Section -->

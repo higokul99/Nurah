@@ -17,8 +17,10 @@ class PageController extends Controller
             ->get();
             
         $collections = \App\Models\Collection::where('status', true)->get();
+        
+        $bundles = \App\Models\Bundle::where('status', 'active')->latest()->take(4)->get();
             
-        return view('nurah.home', compact('sliders', 'bestsellers', 'collections'));
+        return view('nurah.home', compact('sliders', 'bestsellers', 'collections', 'bundles'));
     }
 
     public function collection(Request $request)
