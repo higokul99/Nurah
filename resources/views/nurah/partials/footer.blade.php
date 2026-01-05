@@ -34,6 +34,7 @@
                 <!-- <li><a href="#">Store Locator</a></li> -->
                 <li><a href="{{ route('shipping-policy') }}">Shipping Policy</a></li>
                 <li><a href="{{ route('return-policy') }}">Returns & Exchanges</a></li>
+                <li><a href="{{ route('terms-of-service') }}">Terms of Service</a></li>
             </ul>
         </div>
 
@@ -41,9 +42,6 @@
         <div class="footer-col">
             <h3 class="footer-heading">Need Assistance?</h3>
             <p class="newsletter-text">Have questions concerning our perfumes? Chat with our support team for instant assistance.</p>
-            <!-- <a href="https://wa.me/917306900600" target="_blank" class="footer-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 12px 25px; margin-top: 10px; background-color: #25D366; color: white; border: none;">
-                <i class="fab fa-whatsapp" style="font-size: 20px;"></i> WhatsApp
-            </a> -->
         </div>
     </div>
 

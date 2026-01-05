@@ -20,6 +20,7 @@ Route::post('/cart/remove', [App\Http\Controllers\CartController::class, 'remove
 Route::view('/checkout', 'nurah.checkout')->name('checkout');
 Route::get('/shipping-policy', [PageController::class, 'shippingPolicy'])->name('shipping-policy');
 Route::get('/return-policy', [PageController::class, 'returnPolicy'])->name('return-policy');
+Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
 
 // User Auth Routes
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register');

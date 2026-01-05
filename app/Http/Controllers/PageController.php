@@ -245,4 +245,9 @@ class PageController extends Controller
     {
         return view('nurah.return-policy');
     }
+
+    public function termsOfService()
+    {
+        return view('nurah.terms-of-service');
+    }
 }
