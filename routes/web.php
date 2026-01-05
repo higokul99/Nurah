@@ -18,6 +18,8 @@ Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'add'])->n
 Route::post('/cart/update', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 Route::view('/checkout', 'nurah.checkout')->name('checkout');
+Route::get('/shipping-policy', [PageController::class, 'shippingPolicy'])->name('shipping-policy');
+Route::get('/return-policy', [PageController::class, 'returnPolicy'])->name('return-policy');
 
 // User Auth Routes
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register');

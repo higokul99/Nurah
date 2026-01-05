@@ -235,4 +235,14 @@ class PageController extends Controller
             
         return view('nurah.product-main', compact('product', 'relatedProducts', 'coupon', 'bundle'));
     }
+
+    public function shippingPolicy()
+    {
+        return view('nurah.shipping-policy');
+    }
+
+    public function returnPolicy()
+    {
+        return view('nurah.return-policy');
+    }
 }

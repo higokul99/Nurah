@@ -32,8 +32,8 @@
                 <li><a href="{{ route('about') }}">About Us</a></li>
                 <li><a href="{{ route('contact') }}">Contact Us</a></li>
                 <!-- <li><a href="#">Store Locator</a></li> -->
-                <li><a href="#">Shipping Policy</a></li>
-                <li><a href="#">Returns & Exchanges</a></li>
+                <li><a href="{{ route('shipping-policy') }}">Shipping Policy</a></li>
+                <li><a href="{{ route('return-policy') }}">Returns & Exchanges</a></li>
             </ul>
         </div>
 
