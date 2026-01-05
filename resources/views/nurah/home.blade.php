@@ -43,9 +43,41 @@
     .store-btn:hover { background: var(--white); color: var(--black); }
     .store-description { max-width: 600px; margin: 0 auto; font-size: 15px; opacity: 0.8; line-height: 1.8; position: relative; z-index: 1; }
 
-    /* Category Grid */
-    .category-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    .category-card { position: relative; border-radius: 15px; overflow: hidden; aspect-ratio: 4/5; cursor: pointer; display: block; text-decoration: none; color: inherit; }
+    /* Category Marquee */
+    .marquee-wrapper {
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+    }
+    
+    .marquee-track {
+        display: flex;
+        gap: 20px;
+        width: max-content;
+        animation: marquee-scroll 30s linear infinite;
+    }
+    
+    .marquee-track:hover {
+        animation-play-state: paused;
+    }
+    
+    .category-card {
+        flex: 0 0 300px; /* Fixed width for cards in marquee */
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        aspect-ratio: 3/4;
+        cursor: pointer;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    @keyframes marquee-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
     .category-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
     .category-card:hover img { transform: scale(1.05); }
     .category-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 50%); display: flex; align-items: flex-end; justify-content: center; color: var(--white); text-align: center; padding: 30px; }
@@ -256,47 +288,45 @@
         <div class="section-header">
             <h2 class="section-title">Our <em>Collections</em></h2>
         </div>
-        <div class="category-grid">
-            @forelse($collections as $collection)
-            <a href="{{ route('collection', ['category' => $collection->slug]) }}" class="category-card">
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}">
-                <div class="category-overlay">
-                    <div>
-                        <h3 class="category-name">{{ $collection->name }}</h3>
-                        <p class="category-desc">{{ $collection->description }}</p>
+        <div class="marquee-wrapper">
+            <div class="marquee-track">
+                <!-- Original Set -->
+                @forelse($collections as $collection)
+                <a href="{{ route('collection', ['category' => $collection->slug]) }}" class="category-card">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}">
+                    <div class="category-overlay">
+                        <div>
+                            <h3 class="category-name">{{ $collection->name }}</h3>
+                            <p class="category-desc">{{ $collection->description }}</p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            @empty
-            <!-- Fallback if no collections found (keep one or display nothing) -->
-            <a href="/collections?category=fresh" class="category-card">
-                <img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh">
-                <div class="category-overlay">
-                    <div>
-                        <h3 class="category-name">FRESH</h3>
-                        <p class="category-desc">Energize. Vitalize. Awaken.</p>
+                </a>
+                @empty
+                <!-- Fallback if empty -->
+                <a href="/collections?category=fresh" class="category-card"><img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh"><div class="category-overlay"><div><h3 class="category-name">FRESH</h3></div></div></a>
+                <a href="/collections?category=oriental-woody" class="category-card"><img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental"><div class="category-overlay"><div><h3 class="category-name">ORIENTAL/WOODY</h3></div></div></a>
+                <a href="/collections?category=floral" class="category-card"><img src="{{ asset('Images/category-floral.webp') }}" alt="Floral"><div class="category-overlay"><div><h3 class="category-name">FLORAL</h3></div></div></a>
+                <a href="/collections?category=citrus" class="category-card"><img src="{{ asset('Images/category-citrus.webp') }}" alt="Citrus"><div class="category-overlay"><div><h3 class="category-name">CITRUS</h3></div></div></a>
+                @endforelse
+
+                <!-- Duplicate Set for Seamless Loop -->
+                @forelse($collections as $collection)
+                <a href="{{ route('collection', ['category' => $collection->slug]) }}" class="category-card">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}">
+                    <div class="category-overlay">
+                        <div>
+                            <h3 class="category-name">{{ $collection->name }}</h3>
+                            <p class="category-desc">{{ $collection->description }}</p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="/collections?category=oriental-woody" class="category-card">
-                <img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental/Woody">
-                <div class="category-overlay">
-                    <div>
-                        <h3 class="category-name">ORIENTAL/WOODY</h3>
-                        <p class="category-desc">Exotic. Sensual. Subtle.</p>
-                    </div>
-                </div>
-            </a>
-            <a href="/collections?category=floral" class="category-card">
-                <img src="{{ asset('Images/category-floral.webp') }}" alt="Floral">
-                <div class="category-overlay">
-                    <div>
-                        <h3 class="category-name">FLORAL</h3>
-                        <p class="category-desc">Fruity. Bloom. Candylicious.</p>
-                    </div>
-                </div>
-            </a>
-            @endforelse
+                </a>
+                @empty
+                <a href="/collections?category=fresh" class="category-card"><img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh"><div class="category-overlay"><div><h3 class="category-name">FRESH</h3></div></div></a>
+                <a href="/collections?category=oriental-woody" class="category-card"><img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental"><div class="category-overlay"><div><h3 class="category-name">ORIENTAL/WOODY</h3></div></div></a>
+                <a href="/collections?category=floral" class="category-card"><img src="{{ asset('Images/category-floral.webp') }}" alt="Floral"><div class="category-overlay"><div><h3 class="category-name">FLORAL</h3></div></div></a>
+                <a href="/collections?category=citrus" class="category-card"><img src="{{ asset('Images/category-citrus.webp') }}" alt="Citrus"><div class="category-overlay"><div><h3 class="category-name">CITRUS</h3></div></div></a>
+                @endforelse
+            </div>
         </div>
     </section>
 
