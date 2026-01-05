@@ -40,7 +40,7 @@
         <li class="menu-item"><a href="{{ route('home') }}" class="menu-link">Home</a></li>
         <li class="menu-item"><a href="{{ route('collection') }}" class="menu-link">Shop All</a></li>
         <li class="menu-item"><a href="#" class="menu-link">All Products</a></li>
-        <li class="menu-item"><a href="#" class="menu-link">Categoies</a></li>
+        <li class="menu-item"><a href="#" class="menu-link">Categories</a></li>
         <li class="menu-item"><a href="#" class="menu-link">Combo Offers</a></li>
         <li class="menu-item"><a href="{{ route('about') }}" class="menu-link">About Us</a></li>
         <li class="menu-item"><a href="{{ route('contact') }}" class="menu-link">Contact</a></li>
