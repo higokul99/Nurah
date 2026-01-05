@@ -176,20 +176,31 @@
         padding: 12px;
     }
 
+    .product-details-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
     .product-name {
         font-family: 'Playfair Display', serif;
         font-size: 15px;
         font-weight: 700;
         color: var(--black);
-        margin-bottom: 6px;
+        margin-bottom: 0;
         line-height: 1.3;
+        flex: 1;
     }
 
     .product-price {
         font-size: 14px;
         font-weight: 700;
         color: var(--text);
-        margin-bottom: 8px;
+        margin-bottom: 0;
+        white-space: nowrap;
+        text-align: right;
     }
 
     .product-price span {
@@ -812,7 +823,7 @@
                     @endif
                     
                     @if($product->main_image_url)
-                        <img src="{{ $product->main_image_url }}" alt="{{ $product->title }}" class="product-image">
+                        <img src="{{ $product->main_image_url }}" alt="{{ $product->title }}" class="product-image" onerror="handleImageError(this)">
                     @else
                         <div class="d-flex align-items-center justify-content-center h-100 bg-light text-secondary">
                             <i class="fas fa-image fa-2x opacity-25"></i>
@@ -820,8 +831,10 @@
                     @endif
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">{{ $product->title }}</h3>
-                    <p class="product-price"><span>From</span> ₹{{ number_format($product->starting_price, 0) }}</p>
+                    <div class="product-details-row">
+                        <h3 class="product-name">{{ $product->title }}</h3>
+                        <p class="product-price"><span>From</span> ₹{{ number_format($product->starting_price, 0) }}</p>
+                    </div>
                     <button class="quick-view-btn" onclick="addToCart(event, {{ $product->id }})">Add to Cart</button>
                 </div>
             </a>
@@ -1000,6 +1013,14 @@
     </div>
 
 <script>
+    // Image Fallback
+    function handleImageError(img) {
+        if (!img.getAttribute('data-error-handled')) {
+            img.setAttribute('data-error-handled', 'true');
+            img.src = '{{ asset("images/g-load.webp") }}';
+        }
+    }
+
     // Open/Close Sheets
     function openFilters() {
         console.log('Opening filters');
