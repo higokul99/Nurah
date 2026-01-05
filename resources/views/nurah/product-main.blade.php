@@ -167,7 +167,7 @@
     .bundle-tease {
         background: #f9f9f9;
         border: 1px solid #e5e5e5;
-        border-right: 4px solid var(--color-gold);
+        border-right: 4px solid #2c2b2bff;
         padding: 20px;
         margin-bottom: 40px;
         display: flex;
