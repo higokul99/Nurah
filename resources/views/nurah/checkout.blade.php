@@ -301,7 +301,28 @@
                                 <div class="prod-meta">Qty: {{ $details['quantity'] }} @if(isset($details['size'])) | {{ $details['size'] }} @endif</div>
                             </div>
                         </div>
-                        <div class="prod-price">₹{{ number_format($details['price'] * $details['quantity']) }}</div>
+                        <div class="prod-price">
+                            @if(isset($details['coupon']) && $details['coupon'])
+                                @php
+                                    $discountVal = $details['coupon']->type == 'percentage' 
+                                        ? $details['price'] * ($details['coupon']->value / 100) 
+                                        : $details['coupon']->value;
+                                    $newPrice = max(0, $details['price'] - $discountVal);
+                                    $totalPrice = $newPrice * $details['quantity'];
+                                    $savedAmount = ($details['price'] - $newPrice) * $details['quantity'];
+                                @endphp
+                                <div style="text-align: right;">
+                                    <div style="color: #black; font-weight: 700;">₹{{ number_format($totalPrice) }}</div>
+                                    <div style="font-size: 11px; color: #999; text-decoration: line-through;">₹{{ number_format($details['price'] * $details['quantity']) }}</div>
+                                    <div style="font-size: 11px; color: #28a745; margin-top: 2px;">
+                                        {{ $details['coupon']->code }} Applied<br>
+                                        Saved ₹{{ number_format($savedAmount) }}
+                                    </div>
+                                </div>
+                            @else
+                                ₹{{ number_format($details['price'] * $details['quantity']) }}
+                            @endif
+                        </div>
                     </div>
                     @empty
                     <p>Your cart is empty.</p>

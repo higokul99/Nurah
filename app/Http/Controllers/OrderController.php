@@ -31,13 +31,28 @@ class OrderController extends Controller
         // 2. Get Cart Data
         $cart = [];
         if(Auth::check()) {
-            $items = \App\Models\Cart::where('user_id', Auth::id())->with(['product', 'bundle'])->get();
+            $items = \App\Models\Cart::where('user_id', Auth::id())
+                ->with(['product.discounts', 'product.images', 'product.variants', 'bundle'])
+                ->get();
+
             foreach($items as $item) {
                  if($item->product_id && $item->product) {
+                    $price = $item->product->starting_price;
+                    
+                    // Logic to check active coupon and apply discount
+                    $coupon = $this->getActiveCoupon($item->product);
+                    if($coupon) {
+                        $discountVal = $coupon->type == 'percentage' 
+                            ? $price * ($coupon->value / 100) 
+                            : $coupon->value;
+                        $price = max(0, $price - $discountVal);
+                    }
+
                     $cart[$item->product_id . '-' . $item->size] = [
                         "name" => $item->product->title,
                         "quantity" => $item->quantity,
-                        "price" => $item->product->starting_price,
+                        "price" => $price, // Effective Price
+                        "original_price" => $item->product->starting_price,
                         "image" => $item->product->main_image_url,
                         "product_id" => $item->product_id,
                         "bundle_id" => null,
@@ -59,6 +74,22 @@ class OrderController extends Controller
             }
         } else {
             $cart = session()->get('cart', []);
+            // Apply discounts to session cart items
+            foreach($cart as $key => &$item) {
+                if(isset($item['type']) && $item['type'] == 'product' && isset($item['product_id'])) {
+                    $product = \App\Models\Product::find($item['product_id']);
+                    if($product) {
+                        $coupon = $this->getActiveCoupon($product);
+                        if($coupon) {
+                            $basePrice = $item['price']; // Assuming session stores original price
+                            $discountVal = $coupon->type == 'percentage' 
+                                ? $basePrice * ($coupon->value / 100) 
+                                : $coupon->value;
+                            $item['price'] = max(0, $basePrice - $discountVal);
+                        }
+                    }
+                }
+            }
         }
 
         if(empty($cart)) {
@@ -131,7 +162,7 @@ class OrderController extends Controller
                 'bundle_id' => $details['bundle_id'] ?? null,
                 'name' => $details['name'],
                 'quantity' => $details['quantity'],
-                'price' => $details['price'],
+                'price' => $details['price'], // This is now the Discounted Price
                 'total' => $details['price'] * $details['quantity'],
                 'size' => $details['size'] ?? null,
                 'type' => $details['type'] ?? 'product',
@@ -194,5 +225,21 @@ class OrderController extends Controller
             'order_id' => $order->order_number,
             'redirect_url' => route('home') // Ideally a Thank You page
         ]);
+    }
+
+    private function getActiveCoupon($product)
+    {
+        if(!$product) return null;
+        
+        return $product->discounts()
+            ->where('status', 'active')
+            ->where(function($q) {
+                $q->whereNull('starts_at')->orWhere('starts_at', '<=', now());
+            })
+            ->where(function($q) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })
+            ->orderByDesc('value')
+            ->first();
     }
 }

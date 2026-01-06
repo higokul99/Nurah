@@ -267,8 +267,10 @@ class PageController extends Controller
                  $address = \App\Models\UserAddress::where('user_id', \Illuminate\Support\Facades\Auth::id())->first();
              }
 
-             $items = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->with(['product', 'bundle'])->get();
-             $items = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->with(['product', 'bundle'])->get();
+             $items = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                ->with(['product.discounts', 'product.images', 'product.variants', 'bundle'])
+                ->get();
+
              foreach($items as $item) {
                  if($item->product_id && $item->product) {
                     $cart[$item->product_id . '-' . $item->size] = [
@@ -279,7 +281,8 @@ class PageController extends Controller
                         "product_id" => $item->product_id,
                         "bundle_id" => null,
                         "size" => $item->size,
-                        "type" => "product"
+                        "type" => "product",
+                        "coupon" => $this->getActiveCoupon($item->product)
                     ];
                 } elseif ($item->bundle_id && $item->bundle) {
                     $cart['bundle-' . $item->bundle_id] = [
@@ -296,13 +299,43 @@ class PageController extends Controller
              }
         } else {
             $cart = session()->get('cart', []);
+            // Enrich session cart with coupons
+            foreach($cart as $key => &$item) {
+                if(isset($item['type']) && $item['type'] == 'product' && isset($item['product_id'])) {
+                    $product = \App\Models\Product::find($item['product_id']);
+                    $item['coupon'] = $this->getActiveCoupon($product);
+                }
+            }
         }
 
         $subtotal = 0;
         foreach($cart as $item) {
-            $subtotal += $item['price'] * $item['quantity'];
+            $price = $item['price'];
+            if(isset($item['coupon']) && $item['coupon']) {
+                $discountVal = $item['coupon']->type == 'percentage' 
+                    ? $price * ($item['coupon']->value / 100) 
+                    : $item['coupon']->value;
+                $price = max(0, $price - $discountVal);
+            }
+            $subtotal += $price * $item['quantity'];
         }
         
         return view('nurah.checkout', compact('cart', 'subtotal', 'address'));
+    }
+
+    private function getActiveCoupon($product)
+    {
+        if(!$product) return null;
+        
+        return $product->discounts()
+            ->where('status', 'active')
+            ->where(function($q) {
+                $q->whereNull('starts_at')->orWhere('starts_at', '<=', now());
+            })
+            ->where(function($q) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })
+            ->orderByDesc('value')
+            ->first();
     }
 }
