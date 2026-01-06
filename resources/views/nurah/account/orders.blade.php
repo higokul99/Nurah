@@ -22,7 +22,7 @@
                             </div>
                             @if($order->tracking_number)
                                 <div style="font-size: 13px; color: #666; margin-top: 4px;">
-                                    Tracking: <span style="font-weight: 700; color: #333;">{{ $order->tracking_number }}</span>
+                                    Tracking: <a href="https://www.dtdc.com/track-your-shipment/" target="_blank" style="font-weight: 700; color: #333; text-decoration: underline;">{{ $order->tracking_number }}</a>
                                 </div>
                             @endif
                         </div>
