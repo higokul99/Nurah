@@ -106,6 +106,8 @@ Route::get('/admin/customers', [App\Http\Controllers\Admin\CustomerController::c
 Route::view('/admin/customers/create', 'admin.customers.create')->name('admin.customers.create');
 Route::get('/admin/customers/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('admin.customers.show');
 
+Route::get('/admin/carts', [App\Http\Controllers\Admin\CartController::class, 'index'])->name('admin.carts');
+
 Route::get('/admin/analytics', [App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('admin.analytics');
 Route::get('/admin/analytics/{type}', function ($type) {
     $titles = [

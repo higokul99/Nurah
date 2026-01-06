@@ -55,6 +55,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('admin.carts') }}" class="sidebar-item {{ request()->routeIs('admin.carts') ? 'active' : '' }} d-flex align-items-center gap-3 px-3 py-2 rounded text-decoration-none text-secondary small">
+                    <i class="fas fa-shopping-basket text-center" style="width: 20px;"></i>
+                    <span>Carted Products</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('admin.analytics') }}" class="sidebar-item {{ request()->routeIs('admin.analytics') ? 'active' : '' }} d-flex align-items-center gap-3 px-3 py-2 rounded text-decoration-none text-secondary small">
                     <i class="fas fa-chart-bar text-center" style="width: 20px;"></i>
                     <span>Analytics</span>
