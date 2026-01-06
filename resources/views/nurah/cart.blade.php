@@ -36,7 +36,7 @@
     
     .cart-header {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 0.5fr;
+        grid-template-columns: 2fr 1fr 1fr 0.8fr 0.5fr;
         padding: 15px 20px;
         background: var(--bg-light);
         border-bottom: 1px solid var(--border);
@@ -48,7 +48,7 @@
     
     .cart-item {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 0.5fr;
+        grid-template-columns: 2fr 1fr 1fr 0.8fr 0.5fr;
         padding: 20px;
         border-bottom: 1px solid var(--border);
         align-items: center;
@@ -288,7 +288,13 @@
                             <h3>{{ $details['name'] }}</h3>
                         </a>
                         @if(isset($details['size']) && $details['size'])
-                            <p style="font-size: 12px; color: #666;">Size: {{ $details['size'] }}</p>
+                            <p style="font-size: 12px; color: #666; margin-bottom: 5px;">Size: {{ $details['size'] }}</p>
+                        @endif
+
+                        @if(isset($details['coupon']) && $details['coupon'])
+                            <div style="font-size: 11px; color: #8a6d3b; background: #fdf8ef; border: 1px dashed #C5A059; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                                <i class="fas fa-tag me-1"></i> <strong>{{ $details['coupon']->code }}</strong> coupon will automatically apply at checkout to get {{ $details['coupon']->type == 'percentage' ? number_format($details['coupon']->value) . '%' : '₹' . number_format($details['coupon']->value) }} OFF
+                            </div>
                         @endif
                     </div>
                 </div>

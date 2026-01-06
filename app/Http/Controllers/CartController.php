@@ -21,6 +21,14 @@ class CartController extends Controller
         } else {
             $cart = session()->get('cart', []);
             $cart = array_reverse($cart, true); // Last added first
+            
+            // Enrich session cart with coupons
+            foreach($cart as $key => &$item) {
+                if(isset($item['type']) && $item['type'] == 'product' && isset($item['product_id'])) {
+                    $product = Product::find($item['product_id']);
+                    $item['coupon'] = $this->getActiveCoupon($product);
+                }
+            }
         }
 
         $total = 0;
@@ -346,7 +354,7 @@ class CartController extends Controller
     private function getCartFromDb()
     {
         $dbItems = Cart::where('user_id', Auth::id())
-            ->with(['product.variants', 'bundle'])
+            ->with(['product.variants', 'product.images', 'product.discounts', 'bundle'])
             ->latest()
             ->get();
         $cart = [];
@@ -384,11 +392,28 @@ class CartController extends Controller
                     "price" => $price,
                     "image" => $item->product->main_image_url,
                     "size" => $item->size,
-                    "type" => "product"
+                    "type" => "product",
+                    "coupon" => $this->getActiveCoupon($item->product)
                 ];
             }
         }
         
         return $cart;
+    }
+
+    private function getActiveCoupon($product)
+    {
+        if(!$product) return null;
+        
+        return $product->discounts()
+            ->where('status', 'active')
+            ->where(function($q) {
+                $q->whereNull('starts_at')->orWhere('starts_at', '<=', now());
+            })
+            ->where(function($q) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })
+            ->orderByDesc('value')
+            ->first();
     }
 }
