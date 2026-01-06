@@ -8,9 +8,16 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('user')->withCount('items')->orderBy('created_at', 'desc')->paginate(20);
+        $query = Order::with('user')->withCount('items')->latest();
+
+        if ($request->has('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $orders = $query->paginate(20)->withQueryString();
+        
         return view('admin.orders', compact('orders'));
     }
 

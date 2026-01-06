@@ -23,5 +23,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         \Illuminate\Pagination\Paginator::useBootstrapFive();
+
+        // Share pending orders count with sidebar
+        \Illuminate\Support\Facades\View::composer('admin.partials.sidebar', function ($view) {
+            $pendingOrdersCount = \App\Models\Order::where('status', 'pending')->count();
+            $view->with('pendingOrdersCount', $pendingOrdersCount);
+        });
     }
 }

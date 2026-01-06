@@ -19,7 +19,9 @@
                 <a href="{{ route('admin.orders') }}" class="sidebar-item {{ request()->routeIs('admin.orders') ? 'active' : '' }} d-flex align-items-center gap-3 px-3 py-2 rounded text-decoration-none text-secondary small">
                     <i class="fas fa-box-open text-center" style="width: 20px;"></i>
                     <span>Orders</span>
-                    <span class="ms-auto badge bg-light text-secondary border rounded-pill">2</span>
+                    @if(isset($pendingOrdersCount) && $pendingOrdersCount > 0)
+                        <span class="ms-auto badge bg-danger text-white rounded-pill">{{ $pendingOrdersCount }}</span>
+                    @endif
                 </a>
             </li>
             <li>

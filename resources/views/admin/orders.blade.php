@@ -8,6 +8,17 @@
     <!-- <button class="btn btn-success shadow-sm">Content placeholder</button> -->
 </div>
 
+<div class="mb-4">
+    <div class="nav nav-pills gap-2">
+        <a href="{{ route('admin.orders') }}" class="nav-link {{ !request('status') || request('status') == 'all' ? 'active bg-dark' : 'bg-light text-secondary' }} border">All</a>
+        <a href="{{ route('admin.orders', ['status' => 'pending']) }}" class="nav-link {{ request('status') == 'pending' ? 'active bg-warning text-dark' : 'bg-light text-secondary' }} border">Pending</a>
+        <a href="{{ route('admin.orders', ['status' => 'processing']) }}" class="nav-link {{ request('status') == 'processing' ? 'active bg-primary' : 'bg-light text-secondary' }} border">Processing</a>
+        <a href="{{ route('admin.orders', ['status' => 'shipped']) }}" class="nav-link {{ request('status') == 'shipped' ? 'active bg-info text-white' : 'bg-light text-secondary' }} border">Shipped</a>
+        <a href="{{ route('admin.orders', ['status' => 'delivered']) }}" class="nav-link {{ request('status') == 'delivered' ? 'active bg-success' : 'bg-light text-secondary' }} border">Delivered</a>
+        <a href="{{ route('admin.orders', ['status' => 'cancelled']) }}" class="nav-link {{ request('status') == 'cancelled' ? 'active bg-danger' : 'bg-light text-secondary' }} border">Cancelled</a>
+    </div>
+</div>
+
 <div class="card border shadow-sm">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
