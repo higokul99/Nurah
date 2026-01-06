@@ -138,16 +138,20 @@
             <div class="address-title">Ship To</div>
             <div class="address-content">
                 @php
-                    $shippingAddress = is_string($order->shipping_address) ? json_decode($order->shipping_address, true) : $order->shipping_address;
+                    $shippingAddress = $order->shipping_address;
+                    // Ensure it's an array if for some reason it's not cast correctly
+                    if (is_string($shippingAddress)) {
+                        $shippingAddress = json_decode($shippingAddress, true);
+                    }
                 @endphp
-                <p><strong>{{ $shippingAddress['first_name'] ?? '' }} {{ $shippingAddress['last_name'] ?? '' }}</strong></p>
-                <p>{{ $shippingAddress['address_line1'] ?? '' }}</p>
-                @if(!empty($shippingAddress['address_line2']))
-                    <p>{{ $shippingAddress['address_line2'] }}</p>
+                <p><strong>{{ $order->customer_name }}</strong></p>
+                <p>{{ $shippingAddress['address'] ?? '' }}</p>
+                @if(!empty($shippingAddress['apartment']))
+                    <p>{{ $shippingAddress['apartment'] }}</p>
                 @endif
                 <p>{{ $shippingAddress['city'] ?? '' }}, {{ $shippingAddress['state'] ?? '' }} {{ $shippingAddress['zip'] ?? '' }}</p>
-                <p>{{ $shippingAddress['country'] ?? '' }}</p>
-                <p>Phone: {{ $shippingAddress['phone'] ?? 'N/A' }}</p>
+                <p>India</p>
+                <p>Phone: {{ $order->customer_phone ?? 'N/A' }}</p>
             </div>
         </div>
         <div class="address-box">
