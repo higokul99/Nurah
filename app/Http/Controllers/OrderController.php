@@ -113,8 +113,9 @@ class OrderController extends Controller
             }
         }
 
-        // 5. Create Order Items
+        // 5. Create Order Items & Update Stock
         foreach($cart as $key => $details) {
+            // Create Order Item
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $details['product_id'] ?? null,
@@ -126,6 +127,40 @@ class OrderController extends Controller
                 'size' => $details['size'] ?? null,
                 'type' => $details['type'] ?? 'product',
             ]);
+
+            // Update Stock
+            if (($details['type'] ?? 'product') == 'product' && !empty($details['product_id'])) {
+                // Decrement Product Variant Stock
+                if (!empty($details['size'])) {
+                    \App\Models\ProductVariant::where('product_id', $details['product_id'])
+                        ->where('size', $details['size'])
+                        ->decrement('stock', $details['quantity']);
+                } else {
+                    // Fallback: Decrement the first variant or specific logic if size is null
+                    // Assuming products always have variants in this system
+                    $variant = \App\Models\ProductVariant::where('product_id', $details['product_id'])->first();
+                    if ($variant) {
+                        $variant->decrement('stock', $details['quantity']);
+                    }
+                }
+            } elseif (($details['type'] ?? 'product') == 'bundle' && !empty($details['bundle_id'])) {
+                // Decrement Stock for each product in the bundle
+                $bundle = \App\Models\Bundle::with('products.variants')->find($details['bundle_id']);
+                if ($bundle) {
+                    foreach ($bundle->products as $bProduct) {
+                        $qtyInBundle = $bProduct->pivot->quantity ?? 1;
+                        $totalQtyToDeduct = $details['quantity'] * $qtyInBundle;
+
+                        // Identify which variant to deduct only if we can determining it. 
+                        // For bundles, typically it's the standard size or defined in pivot? 
+                        // Current system seems to assume flexible or first variant. 
+                        // specific logic: Deduct from the first variant (base variant)
+                        if ($bProduct->variants->isNotEmpty()) {
+                            $bProduct->variants->first()->decrement('stock', $totalQtyToDeduct);
+                        }
+                    }
+                }
+            }
         }
 
         // 6. Clear Cart
