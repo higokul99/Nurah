@@ -39,13 +39,19 @@ class OrderController extends Controller
                  if($item->product_id && $item->product) {
                     $price = $item->product->starting_price;
                     
-                    // Logic to check active coupon and apply discount
+                // Logic to check active coupon and apply discount
                     $coupon = $this->getActiveCoupon($item->product);
+                    $couponCode = null;
+                    $savedAmount = 0;
+                    
                     if($coupon) {
                         $discountVal = $coupon->type == 'percentage' 
                             ? $price * ($coupon->value / 100) 
                             : $coupon->value;
+                        
+                        $savedAmount = min($discountVal, $price); // Cap savings at price
                         $price = max(0, $price - $discountVal);
+                        $couponCode = $coupon->code;
                     }
 
                     $cart[$item->product_id . '-' . $item->size] = [
@@ -53,6 +59,8 @@ class OrderController extends Controller
                         "quantity" => $item->quantity,
                         "price" => $price, // Effective Price
                         "original_price" => $item->product->starting_price,
+                        "coupon_code" => $couponCode,
+                        "saved_amount" => $savedAmount,
                         "image" => $item->product->main_image_url,
                         "product_id" => $item->product_id,
                         "bundle_id" => null,
@@ -166,6 +174,11 @@ class OrderController extends Controller
                 'total' => $details['price'] * $details['quantity'],
                 'size' => $details['size'] ?? null,
                 'type' => $details['type'] ?? 'product',
+                'options' => [
+                    'coupon_code' => $details['coupon_code'] ?? null,
+                    'saved_amount' => $details['saved_amount'] ?? 0,
+                    'original_price' => $details['original_price'] ?? null
+                ]
             ]);
 
             // Update Stock

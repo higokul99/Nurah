@@ -71,6 +71,16 @@
                         <div class="text-end">
                             <p class="small text-dark mb-1">₹{{ number_format($item->price, 2) }} x {{ $item->quantity }}</p>
                             <p class="small fw-medium text-dark mb-0">₹{{ number_format($item->total, 2) }}</p>
+                            @if(isset($item->options['coupon_code']) && $item->options['coupon_code'])
+                                <div class="mt-1">
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-10" style="font-size: 0.7em;">
+                                        {{ $item->options['coupon_code'] }} Applied
+                                    </span>
+                                    <p class="small text-success mb-0" style="font-size: 0.75rem;">
+                                        Saved ₹{{ number_format($item->options['saved_amount'] * $item->quantity, 2) }}
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     @endforeach
