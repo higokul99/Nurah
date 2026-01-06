@@ -83,7 +83,7 @@
                         </div>
                     </td>
                     <td class="px-3 py-3 text-secondary">{{ $customer->email }}</td>
-                    <td class="px-3 py-3 text-secondary">{{ $customer->phone ?? 'N/A' }}</td>
+                    <td class="px-3 py-3 text-secondary">{{ $customer->phone ?? ($customer->defaultAddress->phone ?? 'N/A') }}</td>
                     <td class="px-3 py-3 text-secondary">
                         @if($customer->defaultAddress)
                             {{ $customer->defaultAddress->city }}, {{ $customer->defaultAddress->state }}
