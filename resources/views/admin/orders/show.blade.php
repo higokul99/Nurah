@@ -18,7 +18,7 @@
             <p class="text-muted small mt-1 mb-0 ms-4 ps-1">{{ $order->created_at->format('F d, Y at h:i a') }} from Online Store</p>
         </div>
         <div class="d-flex gap-2">
-            <button class="btn btn-white border shadow-sm btn-sm">Print</button>
+            <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank" class="btn btn-white border shadow-sm btn-sm">Print</a>
             <button onclick="advanceAction()" id="fulfillBtn" class="btn btn-warning text-white shadow-sm btn-sm fw-medium">Mark as Processing</button>
         </div>
     </div>

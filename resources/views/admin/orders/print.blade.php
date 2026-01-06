@@ -214,9 +214,7 @@
 
     <div class="footer">
         <p>Thank you for shopping with Nurah Perfumes!</p>
-        @if($order->tracking_number)
-            <p style="margin-top: 10px; font-weight: bold;">Tracking Number: {{ $order->tracking_number }}</p>
-        @endif
+        <!--  -->
     </div>
 
     <script>
