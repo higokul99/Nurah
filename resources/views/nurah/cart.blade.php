@@ -314,7 +314,7 @@
                         $newPrice = max(0, $details['price'] - $discountVal);
                     @endphp
                     <div style="margin-top: 15px; width: 100%; font-size: 12px; color: #8a6d3b; background: #fdf8ef; border: 1px dashed #C5A059; padding: 8px 12px; border-radius: 4px;">
-                        <i class="fas fa-tag me-1"></i> <strong>{{ $details['coupon']->code }}</strong> coupon will automatically apply at checkout to get {{ $details['coupon']->type == 'percentage' ? number_format($details['coupon']->value) . '%' : '₹' . number_format($details['coupon']->value) }} OFF. 
+                        <i class="fas fa-tag me-1"></i> <strong>{{ $details['coupon']->code }}</strong> coupon will automatically apply at checkout to get extra {{ $details['coupon']->type == 'percentage' ? number_format($details['coupon']->value) . '%' : '₹' . number_format($details['coupon']->value) }} OFF. 
                         <strong>Effective Price: ₹{{ number_format($newPrice) }}</strong>
                     </div>
                 @endif

@@ -434,8 +434,15 @@
             </div>
 
             @if(isset($coupon))
+            @php
+                $discountVal = $coupon->type == 'percentage' 
+                    ? $product->starting_price * ($coupon->value / 100) 
+                    : $coupon->value;
+                $newPrice = max(0, $product->starting_price - $discountVal);
+            @endphp
             <div class="promo-banner">
-                <i class="fas fa-tag" style="font-size: 12px; margin-right: 6px;"></i> Use code <span class="promo-code">{{ $coupon->code }}</span> for an extra {{ $coupon->type == 'percentage' ? number_format($coupon->value) . '%' : '₹' . number_format($coupon->value) }} OFF!
+                <i class="fas fa-tag" style="font-size: 12px; margin-right: 6px;"></i> <strong>{{ $coupon->code }}</strong> coupon will automatically apply at checkout to get extra {{ $coupon->type == 'percentage' ? number_format($coupon->value) . '%' : '₹' . number_format($coupon->value) }} OFF. 
+                <strong id="effectivePriceDisplay">Effective Price: ₹{{ number_format($newPrice) }}</strong>
             </div>
             @endif
 
@@ -563,6 +570,10 @@
 <script>
     let currentPrice = {{ $product->starting_price }};
     let quantity = 1;
+    
+    // Coupon Data
+    let couponType = '{{ isset($coupon) ? $coupon->type : "" }}';
+    let couponValue = {{ isset($coupon) ? $coupon->value : 0 }};
 
     function handleImageError(img) {
         img.onerror = null; // Prevent infinite loop
@@ -575,6 +586,21 @@
         
         currentPrice = price;
         document.getElementById('displayPrice').innerText = '₹' + new Intl.NumberFormat().format(price);
+        
+        // Update Effective Price if coupon exists
+        if(couponType) {
+            let discount = 0;
+            if(couponType === 'percentage') {
+                discount = price * (couponValue / 100);
+            } else {
+                discount = couponValue;
+            }
+            let newPrice = Math.max(0, price - discount);
+            let displayEl = document.getElementById('effectivePriceDisplay');
+            if(displayEl) {
+                displayEl.innerText = 'Effective Price: ₹' + new Intl.NumberFormat().format(newPrice);
+            }
+        }
     }
 
     function updateQty(change) {
