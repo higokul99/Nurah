@@ -51,7 +51,9 @@
                                         <!-- Item Image -->
                                         <div style="width: 60px; height: 60px; flex-shrink: 0; margin-right: 15px; border-radius: 6px; overflow: hidden; background-color: #f0f0f0; border: 1px solid #eee;">
                                             @php
-                                                $imgSrc = asset('images/placeholder.png'); // Fallback
+                                                $defaultImg = asset('Images/g-load.webp');
+                                                $imgSrc = $defaultImg; // Fallback
+                                                
                                                 if($item->product && $item->product->main_image_url) {
                                                     $imgSrc = $item->product->main_image_url;
                                                 } elseif($item->bundle && $item->bundle->image) {
@@ -66,7 +68,7 @@
                                                 }
                                             @endphp
                                             <a href="{{ $link }}" style="display: block; width: 100%; height: 100%;">
-                                                <img src="{{ $imgSrc }}" alt="{{ $item->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                                <img src="{{ $imgSrc }}" alt="{{ $item->name }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null;this.src='{{ $defaultImg }}';">
                                             </a>
                                         </div>
 
