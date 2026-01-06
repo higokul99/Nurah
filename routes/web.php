@@ -23,6 +23,11 @@ Route::get('/return-policy', [PageController::class, 'returnPolicy'])->name('ret
 Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
 Route::post('/order/place', [App\Http\Controllers\OrderController::class, 'store'])->name('order.place');
 
+// Account Routes
+Route::get('/account', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index')->middleware('auth');
+Route::post('/account/address', [App\Http\Controllers\AccountController::class, 'updateAddress'])->name('account.address.update')->middleware('auth');
+Route::get('/account/orders', [App\Http\Controllers\AccountController::class, 'orders'])->name('account.orders')->middleware('auth');
+
 // User Auth Routes
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');

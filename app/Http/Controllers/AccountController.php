@@ -41,4 +41,10 @@ class AccountController extends Controller
 
         return back()->with('success', 'Address updated successfully.');
     }
+
+    public function orders()
+    {
+        $orders = \App\Models\Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('nurah.account.orders', compact('orders'));
+    }
 }

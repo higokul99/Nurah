@@ -54,6 +54,10 @@
                 <h4 class="profile-name">{{ $user->name }}</h4>
                 <p class="profile-email">{{ $user->email }}</p>
                 
+                <a href="{{ route('account.orders') }}" class="logout-btn" style="margin-bottom: 15px; color: var(--black); border-color: var(--black);">
+                    <i class="fas fa-box-open"></i> My Orders
+                </a>
+
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="logout-btn">
