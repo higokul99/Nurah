@@ -112,10 +112,26 @@ class OrderController extends Controller
         $shipping = 0; // Free shipping
         $total = $subtotal + $shipping;
 
+        // 3.5 Generate Custom Order Number
+        // Format: NR-{Date 2digit}-{ProductID}-{Random 2digit 2alpha}
+        $firstItem = reset($cart);
+        $pid = $firstItem['product_id'] ?? $firstItem['bundle_id'] ?? 'X';
+        $dateCtx = now()->format('d');
+        
+        $rDigits = rand(10, 99); // 2 Digits
+        $rLetters = strtoupper(Str::random(2)); // Might be alphanumeric, let's ensure letters
+        // Strictly letters
+        $pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $rLetters = substr(str_shuffle($pool), 0, 2);
+        
+        $randomMix = str_shuffle($rDigits . $rLetters);
+        
+        $orderNumber = "NR-{$dateCtx}-{$pid}-{$randomMix}";
+
         // 4. Create Order
         $order = Order::create([
             'user_id' => Auth::id(),
-            'order_number' => 'NR-' . strtoupper(Str::random(8)),
+            'order_number' => $orderNumber,
             'status' => 'pending',
             'payment_method' => 'cod', // Hardcoded as per requirement
             'payment_status' => 'pending',
