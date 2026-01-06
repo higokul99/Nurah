@@ -219,7 +219,24 @@ class OrderController extends Controller
             }
         }
 
-        // 6. Clear Cart
+        // 6. Increment Discount Usage
+        // Check for applied coupons in the cart items we just processed
+        $usedDiscountIds = [];
+        foreach($cart as $item) {
+            if(isset($item['coupon_code']) && $item['coupon_code']) {
+                 // We need to find the ID. Since we didn't store ID in cart options, we can re-fetch or rely on the code.
+                 // Better to finding by code to be safe, or if we had stored ID. 
+                 // Since getActiveCoupon returns a Discount model, let's ideally store the ID in step 2.
+                 // But for now, let's look up by code since code is unique.
+                 $usedDiscountIds[$item['coupon_code']] = true; 
+            }
+        }
+
+        if(!empty($usedDiscountIds)) {
+            \App\Models\Discount::whereIn('code', array_keys($usedDiscountIds))->increment('uses_count');
+        }
+
+        // 7. Clear Cart
         if(Auth::check()) {
             \App\Models\Cart::where('user_id', Auth::id())->delete();
         }
