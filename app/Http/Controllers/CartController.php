@@ -22,11 +22,23 @@ class CartController extends Controller
             $cart = session()->get('cart', []);
             $cart = array_reverse($cart, true); // Last added first
             
-            // Enrich session cart with coupons
+            // Enrich session cart with coupons and stock
             foreach($cart as $key => &$item) {
+                $item['stock'] = 100; // Default
+                
                 if(isset($item['type']) && $item['type'] == 'product' && isset($item['product_id'])) {
                     $product = Product::find($item['product_id']);
-                    $item['coupon'] = $this->getActiveCoupon($product);
+                    if($product) {
+                        $item['coupon'] = $this->getActiveCoupon($product);
+                        
+                        // Stock Check
+                        if(isset($item['size']) && $item['size']) {
+                            $variant = $product->variants->where('size', $item['size'])->first();
+                            $item['stock'] = $variant ? $variant->stock : 0;
+                        } else {
+                            $item['stock'] = $product->variants->sum('stock');
+                        }
+                    }
                 }
             }
         }
@@ -371,18 +383,24 @@ class CartController extends Controller
                     "price" => $item->bundle->total_price,
                     "image" => \Illuminate\Support\Facades\Storage::url($item->bundle->image),
                     "size" => null,
-                    "type" => "bundle"
+                    "type" => "bundle",
+                    "stock" => 100 // Assume bundles always in stock for now or implement logic
                 ];
             }
             elseif ($item->product_id && $item->product) {
                 // Product Logic
                 $key = $item->product_id . ($item->size ? '-' . $item->size : '');
                 
-                // Calculate Price
+                // Calculate Price & Stock
                 $price = $item->product->starting_price;
+                $stock = $item->product->variants->sum('stock');
+
                 if ($item->size) {
                     $variant = $item->product->variants->where('size', $item->size)->first();
-                    if ($variant) $price = $variant->price;
+                    if ($variant) {
+                        $price = $variant->price;
+                        $stock = $variant->stock;
+                    }
                 }
                 
                 $cart[$key] = [
@@ -393,7 +411,8 @@ class CartController extends Controller
                     "image" => $item->product->main_image_url,
                     "size" => $item->size,
                     "type" => "product",
-                    "coupon" => $this->getActiveCoupon($item->product)
+                    "coupon" => $this->getActiveCoupon($item->product),
+                    "stock" => $stock
                 ];
             }
         }

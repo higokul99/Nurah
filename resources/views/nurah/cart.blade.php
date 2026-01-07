@@ -255,6 +255,39 @@
             content: 'Total:';
         }
     }
+    
+    .cart-item-blurred .cart-item-main {
+        opacity: 0.5;
+        filter: blur(2px);
+        pointer-events: none;
+        user-select: none;
+    }
+    
+    .cart-item-blurred .remove-btn {
+        pointer-events: all !important;
+        filter: none;
+        opacity: 1;
+        cursor: pointer;
+    }
+    
+    .cart-oos-badge {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #000;
+        color: #fff;
+        padding: 8px 15px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        z-index: 5;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+    
+    .pointer-none { pointer-events: none; }
 </style>
 @endpush
 
@@ -274,8 +307,18 @@
                 <div></div>
             </div>
             
+            @php 
+                $hasOutOfStock = false; 
+            @endphp
             @foreach($cart as $id => $details)
-            <div class="cart-item" data-id="{{ $id }}">
+            @php 
+                $isOOS = isset($details['stock']) && $details['stock'] <= 0;
+                if($isOOS) $hasOutOfStock = true;
+            @endphp
+            <div class="cart-item {{ $isOOS ? 'cart-item-blurred' : '' }}" data-id="{{ $id }}" style="position: relative;">
+                @if($isOOS)
+                    <div class="cart-oos-badge">Out of Stock</div>
+                @endif
                 <div class="cart-item-main">
                     <div class="item-info">
                         @php
@@ -284,11 +327,11 @@
                                 : route('product', ['id' => $details['product_id']]);
                         @endphp
                         
-                        <a href="{{ $itemUrl }}">
+                        <a href="{{ $itemUrl }}" class="{{ $isOOS ? 'pointer-none' : '' }}">
                             <img src="{{ $details['image'] }}" alt="{{ $details['name'] }}" class="item-image" onerror="this.src='{{ asset('images/g-load.webp') }}'">
                         </a>
                         <div class="item-details">
-                            <a href="{{ $itemUrl }}" style="text-decoration: none; color: inherit;">
+                            <a href="{{ $itemUrl }}" style="text-decoration: none; color: inherit;" class="{{ $isOOS ? 'pointer-none' : '' }}">
                                 <h3>{{ $details['name'] }}</h3>
                             </a>
                             @if(isset($details['size']) && $details['size'])
@@ -298,12 +341,12 @@
                     </div>
                     <div class="item-price">₹{{ number_format($details['price']) }}</div>
                     <div class="item-quantity">
-                        <button class="qty-btn minus" onclick="updateCart('{{ $id }}', {{ $details['quantity'] - 1 }})">-</button>
+                        <button class="qty-btn minus" onclick="updateCart('{{ $id }}', {{ $details['quantity'] - 1 }})" {{ $isOOS ? 'disabled' : '' }}>-</button>
                         <input type="text" value="{{ $details['quantity'] }}" class="qty-input" readonly>
-                        <button class="qty-btn plus" onclick="updateCart('{{ $id }}', {{ $details['quantity'] + 1 }})">+</button>
+                        <button class="qty-btn plus" onclick="updateCart('{{ $id }}', {{ $details['quantity'] + 1 }})" {{ $isOOS ? 'disabled' : '' }}>+</button>
                     </div>
                     <div class="item-total" id="total-{{ $id }}">₹{{ number_format($details['price'] * $details['quantity']) }}</div>
-                    <button class="remove-btn" onclick="removeItem('{{ $id }}')"><i class="fas fa-trash"></i></button>
+                    <button class="remove-btn" onclick="removeItem('{{ $id }}')" style="z-index: 10;"><i class="fas fa-trash"></i></button>
                 </div>
 
                 @if(isset($details['coupon']) && $details['coupon'])
@@ -337,7 +380,16 @@
                 <span>Total</span>
                 <span id="cart-total">₹{{ number_format($total) }}</span>
             </div>
-            <a href="{{ route('checkout') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">Proceed to Checkout</a>
+            
+            @if($hasOutOfStock)
+                <div style="margin-top: 20px; color: #ff3b30; font-size: 13px; font-weight: 600; text-align: center; border: 1px solid #ff3b30; padding: 10px; border-radius: 6px; background: #fff0f0;">
+                    <i class="fas fa-exclamation-circle"></i> Some items are out of stock. Please remove them to proceed.
+                </div>
+                <button class="checkout-btn" style="background: #ccc; cursor: not-allowed;" disabled>Proceed to Checkout</button>
+            @else
+                <a href="{{ route('checkout') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">Proceed to Checkout</a>
+            @endif
+            
             <a href="{{ route('collection') }}" class="continue-shopping">Continue Shopping</a>
         </div>
     </div>
