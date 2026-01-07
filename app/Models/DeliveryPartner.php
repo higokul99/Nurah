@@ -13,6 +13,7 @@ class DeliveryPartner extends Model
         'name',
         'site_url',
         'tracking_url_template',
-        'status'
+        'status',
+        'is_default'
     ];
 }

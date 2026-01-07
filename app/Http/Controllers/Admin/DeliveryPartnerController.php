@@ -72,4 +72,16 @@ class DeliveryPartnerController extends Controller
 
         return redirect()->back()->with('success', 'Delivery Partner deleted successfully!');
     }
+
+    public function setDefault($id)
+    {
+        // Unset any existing default
+        DeliveryPartner::where('is_default', true)->update(['is_default' => false]);
+        
+        // Set the new default
+        $partner = DeliveryPartner::findOrFail($id);
+        $partner->update(['is_default' => true]);
+
+        return redirect()->back()->with('success', 'Default Delivery Partner updated!');
+    }
 }

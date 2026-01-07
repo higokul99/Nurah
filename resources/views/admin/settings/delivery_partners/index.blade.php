@@ -25,6 +25,7 @@
                     <th class="px-3 py-3 w-auto">ID</th>
                     <th class="px-3 py-3 border-0 fw-medium">Name</th>
                     <th class="px-3 py-3 border-0 fw-medium">Tracking URL</th>
+                    <th class="px-3 py-3 border-0 fw-medium">Default</th>
                     <th class="px-3 py-3 border-0 fw-medium">Status</th>
                     <th class="px-3 py-3 text-end" style="width: 100px;">Actions</th>
                 </tr>

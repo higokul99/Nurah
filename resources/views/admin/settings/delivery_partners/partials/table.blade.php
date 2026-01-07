@@ -12,6 +12,14 @@
         @endif
     </td>
     <td class="px-3 py-3">
+        <form action="{{ route('admin.settings.delivery-partners.default', $partner->id) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-link p-0 text-decoration-none" title="Set as Default">
+                <i class="fas fa-star {{ $partner->is_default ? 'text-warning' : 'text-secondary opacity-25' }}"></i>
+            </button>
+        </form>
+    </td>
+    <td class="px-3 py-3">
         <span class="badge {{ $partner->status ? 'bg-success text-success' : 'bg-secondary text-secondary' }} bg-opacity-10 rounded-pill px-2 py-1 small">
             {{ $partner->status ? 'Active' : 'Inactive' }}
         </span>
@@ -31,7 +39,7 @@
 </tr>
 @empty
 <tr>
-    <td colspan="5" class="text-center py-5 text-muted">
+    <td colspan="6" class="text-center py-5 text-muted">
         <i class="fas fa-box-open fs-3 mb-3 text-secondary opacity-50"></i>
         <p class="mb-0">No delivery partners found.</p>
     </td>
