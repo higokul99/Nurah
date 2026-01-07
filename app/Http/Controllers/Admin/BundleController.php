@@ -142,7 +142,10 @@ class BundleController extends Controller
 
         $bundle->update($data);
 
-        $bundle->products()->sync($request->products);
+        // Use detach and attach to allow duplicate products (e.g. 2x Product A)
+        // sync() would remove duplicates from the input array
+        $bundle->products()->detach();
+        $bundle->products()->attach($request->products);
 
         return redirect()->route('admin.bundles')->with('success', 'Bundle updated successfully.');
     }

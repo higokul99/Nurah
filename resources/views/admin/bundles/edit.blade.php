@@ -56,8 +56,11 @@
                         </div>
                         
                         <div id="selected_products_container" class="border rounded {{ $bundle->products->isEmpty() ? 'd-none' : '' }}">
-                            @foreach($bundle->products as $product)
-                            <div class="p-3 d-flex align-items-center gap-3 border-bottom last-border-none product-item" data-price="{{ $product->variants->min('price') ?? 0 }}">
+                            @foreach($bundle->products as $index => $product)
+                                @php
+                                    $uniqueId = 'product_' . $product->id . '_existing_' . $index;
+                                @endphp
+                            <div class="p-3 d-flex align-items-center gap-3 border-bottom last-border-none product-item" id="ui_{{ $uniqueId }}" data-price="{{ $product->variants->min('price') ?? 0 }}">
                                 <div class="d-flex align-items-center justify-content-center bg-light border rounded overflow-hidden" style="width: 40px; height: 40px;">
                                     @if($product->images->first())
                                         <img src="{{ Storage::url($product->images->first()->path) }}" class="w-100 h-100 object-fit-cover">
@@ -69,14 +72,17 @@
                                     <span class="d-block small fw-medium text-dark">{{ $product->title }}</span>
                                     <p class="mb-0 small text-muted">Starts at ₹ {{ $product->variants->min('price') ?? 0 }}</p>
                                 </div>
-                                <button type="button" onclick="removeProduct(this, '{{ $product->id }}')" class="btn btn-link btn-sm p-0 text-secondary hover-text-danger"><i class="fas fa-times"></i></button>
+                                <button type="button" onclick="removeProduct('{{ $uniqueId }}')" class="btn btn-link btn-sm p-0 text-secondary hover-text-danger"><i class="fas fa-times"></i></button>
                             </div>
                             @endforeach
                         </div>
                         
                         <div id="hidden_inputs">
-                             @foreach($bundle->products as $product)
-                                <input type="hidden" name="products[]" value="{{ $product->id }}" id="input_product_{{ $product->id }}">
+                             @foreach($bundle->products as $index => $product)
+                                @php
+                                    $uniqueId = 'product_' . $product->id . '_existing_' . $index;
+                                @endphp
+                                <input type="hidden" name="products[]" value="{{ $product->id }}" id="input_{{ $uniqueId }}">
                              @endforeach
                         </div>
                     </div>
@@ -179,8 +185,8 @@
             if (matches.length > 0) {
                 resultsContainer.innerHTML = '';
                 matches.forEach(product => {
-                    // Check if already selected
-                    if (document.querySelector(`input[name="products[]"][value="${product.id}"]`)) return;
+                    // Check if already selected - REMOVED to allow multiple of same product
+                    // if (document.querySelector(`input[name="products[]"][value="${product.id}"]`)) return;
 
                     const div = document.createElement('div');
                     div.className = 'p-2 d-flex align-items-center gap-2 hover-bg-light cursor-pointer border-bottom';
@@ -217,20 +223,24 @@
                 resultsContainer.classList.add('d-none');
             }
         });
-
+        
         function addProduct(id, title, price, imagePath) {
-            // Check duplications
-            if (document.querySelector(`input[name="products[]"][value="${id}"]`)) return;
+            // Check duplications - REMOVED
+            // if (document.querySelector(`input[name="products[]"][value="${id}"]`)) return;
 
             const container = document.getElementById('selected_products_container');
             const hiddenInputs = document.getElementById('hidden_inputs');
             
             container.classList.remove('d-none');
             
+            // Generate unique ID for this instance
+            const uniqueId = 'product_' + id + '_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+
             // Add UI
             const div = document.createElement('div');
             div.className = 'p-3 d-flex align-items-center gap-3 border-bottom last-border-none product-item';
             div.dataset.price = price;
+            div.id = `ui_${uniqueId}`;
             div.innerHTML = `
                 <div class="d-flex align-items-center justify-content-center bg-light border rounded overflow-hidden" style="width: 40px; height: 40px;">
                     ${imagePath ? `<img src="/storage/${imagePath}" class="w-100 h-100 object-fit-cover">` : `<i class="fas fa-image text-secondary opacity-50"></i>`}
@@ -239,7 +249,7 @@
                     <span class="d-block small fw-medium text-dark">${title}</span>
                     <p class="mb-0 small text-muted">Starts at ₹ ${price}</p>
                 </div>
-                <button type="button" onclick="removeProduct(this, '${id}')" class="btn btn-link btn-sm p-0 text-secondary hover-text-danger"><i class="fas fa-times"></i></button>
+                <button type="button" onclick="removeProduct('${uniqueId}')" class="btn btn-link btn-sm p-0 text-secondary hover-text-danger"><i class="fas fa-times"></i></button>
             `;
             container.appendChild(div);
 
@@ -248,15 +258,19 @@
             input.type = 'hidden';
             input.name = 'products[]';
             input.value = id;
-            input.id = `input_product_${id}`;
+            input.id = `input_${uniqueId}`;
             hiddenInputs.appendChild(input);
             
             updateSummary();
         }
 
-        function removeProduct(btn, id) {
-            btn.closest('div').remove();
-            document.getElementById(`input_product_${id}`).remove();
+        function removeProduct(uniqueId) {
+            const uiEl = document.getElementById(`ui_${uniqueId}`);
+            const inputEl = document.getElementById(`input_${uniqueId}`);
+            
+            if (uiEl) uiEl.remove();
+            if (inputEl) inputEl.remove();
+
              const container = document.getElementById('selected_products_container');
              if (container.children.length === 0) container.classList.add('d-none');
              updateSummary();

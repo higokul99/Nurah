@@ -178,18 +178,22 @@
         });
 
         function addProduct(id, title, price, imagePath) {
-            // Check duplications
-            if (document.querySelector(`input[name="products[]"][value="${id}"]`)) return;
+            // Check duplications - REMOVED to allow multiple of same product
+            // if (document.querySelector(`input[name="products[]"][value="${id}"]`)) return;
 
             const container = document.getElementById('selected_products_container');
             const hiddenInputs = document.getElementById('hidden_inputs');
             
             container.classList.remove('d-none');
             
+            // Generate unique ID for this instance
+            const uniqueId = 'product_' + id + '_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+
             // Add UI
             const div = document.createElement('div');
             div.className = 'p-3 d-flex align-items-center gap-3 border-bottom last-border-none product-item';
             div.dataset.price = price; // Store price for calculation
+            div.id = `ui_${uniqueId}`;
             div.innerHTML = `
                 <div class="d-flex align-items-center justify-content-center bg-light border rounded overflow-hidden" style="width: 40px; height: 40px;">
                     ${imagePath ? `<img src="/storage/${imagePath}" class="w-100 h-100 object-fit-cover">` : `<i class="fas fa-image text-secondary opacity-50"></i>`}
@@ -198,7 +202,7 @@
                     <span class="d-block small fw-medium text-dark">${title}</span>
                     <p class="mb-0 small text-muted">Starts at ₹ ${price}</p>
                 </div>
-                <button type="button" onclick="removeProduct(this, '${id}')" class="btn btn-link btn-sm p-0 text-secondary hover-text-danger"><i class="fas fa-times"></i></button>
+                <button type="button" onclick="removeProduct('${uniqueId}')" class="btn btn-link btn-sm p-0 text-secondary hover-text-danger"><i class="fas fa-times"></i></button>
             `;
             container.appendChild(div);
 
@@ -207,15 +211,19 @@
             input.type = 'hidden';
             input.name = 'products[]';
             input.value = id;
-            input.id = `input_product_${id}`;
+            input.id = `input_${uniqueId}`;
             hiddenInputs.appendChild(input);
             
             updateSummary();
         }
 
-        function removeProduct(btn, id) {
-            btn.closest('div').remove();
-            document.getElementById(`input_product_${id}`).remove();
+        function removeProduct(uniqueId) {
+            const uiEl = document.getElementById(`ui_${uniqueId}`);
+            const inputEl = document.getElementById(`input_${uniqueId}`);
+            
+            if (uiEl) uiEl.remove();
+            if (inputEl) inputEl.remove();
+
              const container = document.getElementById('selected_products_container');
              if (container.children.length === 0) container.classList.add('d-none');
              updateSummary();
