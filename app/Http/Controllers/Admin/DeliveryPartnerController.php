@@ -11,9 +11,20 @@ class DeliveryPartnerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $partners = DeliveryPartner::latest()->get();
+        $query = DeliveryPartner::latest();
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $partners = $query->get();
+
+        if ($request->ajax()) {
+            return view('admin.settings.delivery_partners.partials.table', compact('partners'));
+        }
+
         return view('admin.settings.delivery_partners.index', compact('partners'));
     }
 
